@@ -116,6 +116,8 @@ Kohana::$log->attach(new Log_File(APPPATH.'logs'));
  */
 Kohana::$config->attach(new Config_File);
 
+Cookie::$salt = '32fji923k34y9jf0f0ds';
+
 /**
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
