@@ -40,14 +40,14 @@ class Controller_User extends Controller_Template {
 		);
 		
 		try {
-			$user = ORM::factory('user')->create_user($post, array(
+			$user = ORM::factory('User')->create_user($post, array(
 						'username',
 						'password',
 						'email'
 					));
 					
 			// Grant user login role
-			$user->add('roles', ORM::factory('role', array('name' => 'login')));
+			$user->add('roles', ORM::factory('Role', array('name' => 'login')));
 			
 			print Tools_JsonResponce::toJson(Tools_JsonResponce::$SUCCESS, null);
 		} catch (ORM_Validation_Exception $e) {
