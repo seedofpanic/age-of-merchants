@@ -48,8 +48,15 @@ class Controller_User extends Controller_Template {
 					
 			// Grant user login role
 			$user->add('roles', ORM::factory('role', array('name' => 'login')));
+			
+			print Tools_JsonResponce::toJson(Tools_JsonResponce::$SUCCESS, null);
 		} catch (ORM_Validation_Exception $e) {
-			print_r($e->errors('user'));
+			print Tools_JsonResponce::toJson(Tools_JsonResponce::$ERROR, $e->errors('user'));
 		}
+	}
+	
+	public function action_regsuccess()
+	{
+		$this->template->content = View::factory('user/regsuccess');
 	}
 }

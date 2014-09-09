@@ -15,5 +15,19 @@ function registerUser()
 	newUser.set({email: $('#inputEmail').val()});
 	newUser.set({password: $('#inputPassword').val()});
 	newUser.set({passwordc: $('#inputPasswordC').val()});
-	newUser.save();
+	newUser.save(null, {success: function(data){
+		if (data.changed.status == 'e')
+		{
+			$('#formError').html('');
+			fields = ['username', 'email', 'password'];
+			fields.forEach(function (index){
+				if (data.changed.data[index])
+				{
+					$('#formError').append('<div class="alert alert-dismissable alert-danger">' + data.changed.data[index] + '</div>');	
+				}
+			});
+		}else{
+			window.location.href = '/user/regsuccess';
+		}
+	}});
 }

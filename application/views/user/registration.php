@@ -5,6 +5,9 @@
 			<form class="form-horizontal">
 				<fieldset>
 					<legend>Main</legend>
+					<div id="formError">
+						
+					</div>
 					<div class="form-group">
 						<label for="inputEmail" class="col-lg-2 control-label">Email</label>
 						<div class="col-lg-10">
