@@ -8,6 +8,22 @@ var User = Backbone.Model.extend({
 	}
 });
 
+function loginUser(button)
+{
+	var form = $(button).parents('.login-form');
+	$.ajax({
+		url: '/user/login',
+		data: {
+			username: form.find('.username').val(),
+			password: form.find('.password').val()
+		},
+		type: 'post',
+		success: function (){
+			window.location.reload();
+		}
+	})
+}
+
 function registerUser()
 {
 	var newUser = new User();

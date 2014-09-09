@@ -27,11 +27,15 @@
 	                  <ul class="nav navbar-nav">
 	                    <li class="active"><a href="/">Main</a></li>
 	                  </ul>
-	                  <ul class="nav navbar-nav navbar-right quick-login">
-	                  	<li><a href="/user/registration">Registration</a></li>
-	                    <li><input type="text" class="form-control" placeholder="login"/></li>
-	                    <li><input type="password" class="form-control" placeholder="password"/></li>
-	                    <li><div class="btn btn-default">Log in</div></li>
+	                  <ul class="nav navbar-nav navbar-right quick-login login-form">
+	                  	<?if ($user){?>
+	                  		<li><?=$user->username?></li>
+	                  	<?}else{?>
+		                  	<li><a href="/user/registration">Registration</a></li>
+		                    <li><input type="text" class="form-control username" placeholder="login"/></li>
+		                    <li><input type="password" class="form-control password" placeholder="password"/></li>
+		                    <li><div class="btn btn-default" onclick="loginUser(this)">Log in</div></li>
+	                    <?}?>
 	                  </ul>
 	                </div>
 	              </div>
