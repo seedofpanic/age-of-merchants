@@ -25,6 +25,10 @@ function registerUser()
 				{
 					$('#formError').append('<div class="alert alert-dismissable alert-danger">' + data.changed.data[index] + '</div>');	
 				}
+				if (data.changed.data._external[index])
+				{
+					$('#formError').append('<div class="alert alert-dismissable alert-danger">' + data.changed.data._external[index] + '</div>');	
+				}
 			});
 		}else{
 			window.location.href = '/user/regsuccess';
