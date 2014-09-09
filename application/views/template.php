@@ -1,14 +1,15 @@
 <html>
 	<head>
 		<title>Age of Merchants</title>
-		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="/css/bootstrap.min.css">
 		<link rel="stylesheet" href="/css/style.css">
 
-
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-		<!-- Latest compiled and minified JavaScript -->
+		<script src="/js/external/underscore-min.js"></script>
+		<script src="/js/external/backbone-min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		
+		<script src="/js/User.js"></script>
 	</head>
 	<body>
 		<div class="container">
@@ -27,7 +28,7 @@
 	                    <li class="active"><a href="/">Main</a></li>
 	                  </ul>
 	                  <ul class="nav navbar-nav navbar-right quick-login">
-	                  	<li><a href="user/registration">Registration</a></li>
+	                  	<li><a href="/user/registration">Registration</a></li>
 	                    <li><input type="text" class="form-control" placeholder="login"/></li>
 	                    <li><input type="password" class="form-control" placeholder="password"/></li>
 	                    <li><div class="btn btn-default">Log in</div></li>

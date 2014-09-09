@@ -24,8 +24,14 @@
 						</div>
 					</div>
 					<div class="form-group">
+						<label for="inputPasswordC" class="col-lg-2 control-label">Password confirm</label>
+						<div class="col-lg-10">
+						  <input type="password" class="form-control" id="inputPasswordC" placeholder="Password confirm">
+						</div>
+					</div>
+					<div class="form-group">
 						<div class="col-lg-10 col-lg-offset-2">
-							<button type="submit" class="btn btn-primary pull-right">Register</button>
+							<button type="button" class="btn btn-primary pull-right" onclick="registerUser()">Register</button>
 						</div>
 					</div>
 				</fieldset>

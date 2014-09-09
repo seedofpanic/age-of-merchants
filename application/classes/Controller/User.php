@@ -17,5 +17,39 @@ class Controller_User extends Controller_Template {
 	{
 		$this->template->content = View::factory('user/registration');
 	}
-
+	
+	public function action_index()
+	{
+		
+	}
+	
+	/**
+	* Ajax
+	* Compleat user registration
+	* @return
+	*/
+	public function action_register()
+	{
+		$this->auto_render = false;
+		$user = json_decode(file_get_contents('php://input'));
+		$post = array(
+			'username' => $user->username,	
+			'email' => $user->email,	
+			'password' => $user->password,
+			'password_confirm' => $user->passwordc	
+		);
+		
+		try {
+			$user = ORM::factory('user')->create_user($post, array(
+						'username',
+						'password',
+						'email'
+					));
+					
+			// Grant user login role
+			$user->add('roles', ORM::factory('role', array('name' => 'login')));
+		} catch (ORM_Validation_Exception $e) {
+			print_r($e->errors('user'));
+		}
+	}
 }
