@@ -2,10 +2,20 @@
 
 class Controller_Template extends Kohana_Controller_Template {
 	private $user;
+	private $needAuth = true;
 	
 	public function before()
 	{
 		parent::before();
-		$this->template->user = $this->user = Auth::instance()->get_user();
-	} 
+		$this->template->user = $this->user;
+	}
+	
+	protected function auth()
+	{
+		if ($this->needAuth)
+		{
+			$this->user = Auth::instance()->get_user();
+			$this->needAuth = false;
+		}
+	}
 }

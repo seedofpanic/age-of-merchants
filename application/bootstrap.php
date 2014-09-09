@@ -142,6 +142,14 @@ Route::set('user', 'user(/<action>(/<id>))')
 		'controller' => 'user',
 		'action'	 => 'index'
 	));
+Route::set('admin', '<directory>/(<controller>(/<action>(/<id>)))',
+	array(
+        'directory' => '(admin)'
+    ))
+	->defaults(array(
+		'controller' => 'main',
+		'action'     => 'index',
+	));
 Route::set('default', '(<controller>(/<action>(/<id>)))')
 	->defaults(array(
 		'controller' => 'main',
