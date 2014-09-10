@@ -1,0 +1,1 @@
+<h1><?=$owner->name?>'s buildings</h1>

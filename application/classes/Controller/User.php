@@ -12,6 +12,29 @@ class Controller_User extends Controller_Template {
 		$this->auto_render = false;
 		$post = $this->request->post();
 		$success = Auth::instance()->login($post['username'], $post['password']);
+		if ($success)
+		{
+			$user = Auth::instance()->get_user();
+			if (!$user->profile->find()->loaded())
+			{
+				$profile = Model::factory('profile');
+				$profile->user_id = $user->id;
+				$profile->name = $user->username;
+				$profile->save();
+			}
+		}
+		print Tools_JsonResponce::toJson($success ? Tools_JsonResponce::$SUCCESS : Tools_JsonResponce::$ERROR, '');
+	}
+	
+	/**
+	* JSON
+	* Logount
+	* @return
+	*/
+	public function action_logout()
+	{
+		$this->auto_render = false;
+		$success = Auth::instance()->logout();
 		print Tools_JsonResponce::toJson($success ? Tools_JsonResponce::$SUCCESS : Tools_JsonResponce::$ERROR, '');
 	}
 	

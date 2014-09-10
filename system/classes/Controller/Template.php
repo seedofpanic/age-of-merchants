@@ -1,8 +1,8 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 
 class Controller_Template extends Kohana_Controller_Template {
-	private $user;
-	private $needAuth = true;
+	protected $user;
+	protected $needAuth = true;
 	
 	public function before()
 	{

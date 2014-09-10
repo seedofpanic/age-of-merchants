@@ -24,6 +24,17 @@ function loginUser(button)
 	})
 }
 
+function logoutUser(button)
+{
+	$.ajax({
+		url: '/user/logout',
+		type: 'post',
+		success: function (data){
+			window.location.reload();
+		}
+	})
+}
+
 function registerUser()
 {
 	var newUser = new User();

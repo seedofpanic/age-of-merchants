@@ -49,9 +49,10 @@ CREATE TABLE IF NOT EXISTS `user_tokens` (
   CONSTRAINT `user_tokens_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `user_profiles` (
+CREATE TABLE IF NOT EXISTS `profiles` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` int(11) UNSIGNED NOT NULL,
+  `name` varchar(32) NOT NULL DEFAULT 'undef',
   PRIMARY KEY  (`id`),
   KEY `fk_user_id` (`user_id`),
   CONSTRAINT `user_profiles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
@@ -72,6 +73,15 @@ CREATE TABLE IF NOT EXISTS `map_fields` (
   `y` bit(6),
   PRIMARY KEY  (`id`),
   KEY `fk_region_id` (`region_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `buildings` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `profile_id` int(11) UNSIGNED NOT NULL,
+  `field_id` int(11) UNSIGNED NOT NULL,
+  `name` varchar(32) NOT NULL DEFAULT 'building',
+  PRIMARY KEY  (`id`),
+  KEY `fk_field_id` (`field_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS = 1;

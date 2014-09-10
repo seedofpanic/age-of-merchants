@@ -26,10 +26,14 @@
 	                <div class="navbar-collapse collapse navbar-responsive-collapse">
 	                  <ul class="nav navbar-nav">
 	                    <li class="active"><a href="/">Main</a></li>
+	                    <?if (isset($user)){?>
+	                    	<li class="active"><a href="/own">Buildings</a></li>
+	                   	<?}?>
 	                  </ul>
 	                  <ul class="nav navbar-nav navbar-right quick-login login-form">
 	                  	<?if ($user){?>
 	                  		<li><?=$user->username?></li>
+	                  		<li><div class="btn btn-default" onclick="logoutUser(this)">Log out</div></li>
 	                  	<?}else{?>
 		                  	<li><a href="/user/registration">Registration</a></li>
 		                    <li><input type="text" class="form-control username" placeholder="login"/></li>
