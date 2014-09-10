@@ -8,11 +8,11 @@ class Admin_Controller extends Controller_Template {
 		$this->auth();
 		if (isset($this->user))
 		{
-			$this->isAdmin = $this->user->has('role', 'admin');
+			$this->isAdmin = Auth::instance()->logged_in('admin');
 		}
-		if ($this->isAdmin)
+		if ($this->isAdmin > 0)
 		{
-			parent::execute();
+			return parent::execute();
 		}else{
 			$this->redirect('admin/login');
 		}

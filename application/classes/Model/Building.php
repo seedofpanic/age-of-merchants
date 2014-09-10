@@ -2,7 +2,7 @@
 
 class Model_Building extends ORM {
 	
-	protected $_belongs_to = array('field' => array('model' => 'field', 'foreign_key' => 'field_id'));
+	protected $_belongs_to = array('field' => array('model' => 'map_field', 'foreign_key' => 'field_id'));
 
 
 }

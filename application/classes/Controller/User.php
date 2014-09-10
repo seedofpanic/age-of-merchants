@@ -15,7 +15,7 @@ class Controller_User extends Controller_Template {
 		if ($success)
 		{
 			$user = Auth::instance()->get_user();
-			if (!$user->profile->find()->loaded())
+			if (!$user->profile->loaded())
 			{
 				$profile = Model::factory('profile');
 				$profile->user_id = $user->id;
