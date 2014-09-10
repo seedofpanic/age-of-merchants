@@ -7,6 +7,7 @@ class Controller_Template extends Kohana_Controller_Template {
 	public function before()
 	{
 		parent::before();
+		$this->auth();
 		$this->template->user = $this->user;
 	}
 	

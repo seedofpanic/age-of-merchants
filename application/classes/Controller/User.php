@@ -12,7 +12,7 @@ class Controller_User extends Controller_Template {
 		$this->auto_render = false;
 		$post = $this->request->post();
 		$success = Auth::instance()->login($post['username'], $post['password']);
-		return Tools_JsonResponce::toJson($success ? Tools_JsonResponce::$SUCCESS : Tools_JsonResponce::$ERROR, '');
+		print Tools_JsonResponce::toJson($success ? Tools_JsonResponce::$SUCCESS : Tools_JsonResponce::$ERROR, '');
 	}
 	
 	public function action_registration()

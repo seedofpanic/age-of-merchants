@@ -18,7 +18,7 @@ function loginUser(button)
 			password: form.find('.password').val()
 		},
 		type: 'post',
-		success: function (){
+		success: function (data){
 			window.location.reload();
 		}
 	})
