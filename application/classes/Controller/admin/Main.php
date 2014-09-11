@@ -4,7 +4,7 @@ class Controller_Admin_Main extends Admin_Controller {
 
 	public function action_index()
 	{
-		$this->template->content = 'Admin';
+		$this->template->content = View::factory('admin/statistic');
 	}
 
 }

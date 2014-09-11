@@ -11,7 +11,7 @@
     </thead>
     <tbody>
     	<?foreach ($buildings as $building){?>
-	      <tr id="Building<?=$building->id?>" class="building_row">
+	      <tr id="Building<?=$building->id?>" class="building-row">
 	        <td><?=$building->id?></td>
 	        <td><?=$building->name?></td>
 	        <td><?=$building->field->region->name?></td>

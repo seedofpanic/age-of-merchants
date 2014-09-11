@@ -5,6 +5,7 @@ class Admin_Controller extends Controller_Template {
 	
 	public function execute()
 	{
+		$this->templateTopMenu = 'admin/topmenu';
 		$this->auth();
 		if (isset($this->user))
 		{
@@ -14,7 +15,7 @@ class Admin_Controller extends Controller_Template {
 		{
 			return parent::execute();
 		}else{
-			$this->redirect('admin/login');
+			$this->redirect('/');
 		}
 	}
 	
