@@ -1,4 +1,13 @@
+.main-content{
+	margin-top: 6em;
+}
 .quick-login li
 {
 	margin: 1px 5px 0 0;
+}
+.btn-disabled{
+	cursor: default;
+}
+.step{
+	display: none;
 }

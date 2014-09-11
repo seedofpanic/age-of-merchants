@@ -1,3 +1,4 @@
+<a href="/game/project" class="pull-right btn btn-primary">Build</a>
 <h1><?=$owner->name?>'s buildings</h1>
 <div class="bs-component">
   <table class="table table-striped table-hover ">
@@ -20,5 +21,4 @@
       	<?}?>
     </tbody>
   </table> 
-    <div id="source-button" class="btn btn-primary btn-xs" style="display: none;">&lt; &gt;</div>
  </div>

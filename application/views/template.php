@@ -15,7 +15,9 @@
 	<body>
 		<div class="container">
 			<?=$topmenu?>
-			<?=$content?>
+			<div class="main-content">
+				<?=$content?>
+			</div>
 		</div>
 	</body>
 </html>
