@@ -6,6 +6,8 @@
       <tr>
         <th>#</th>
         <th>Name</th>
+        <th>Type</th>
+        <th>Status</th>
         <th>Region</th>
         <th>X/Y</th>
       </tr>
@@ -15,6 +17,8 @@
 	      <tr id="Building<?=$building->id?>" class="building-row">
 	        <td><?=$building->id?></td>
 	        <td><?=$building->name?></td>
+	        <td><?=$building->type?></td>
+	        <td><?=$building->status?><?if ($building->status === 'building'){?>(<?=$building->buildtime?>)<?}?></td>
 	        <td><?=$building->field->region->name?></td>
 	        <td><?=$building->field->x?>/<?=$building->field->y?></td>
 	      </tr>

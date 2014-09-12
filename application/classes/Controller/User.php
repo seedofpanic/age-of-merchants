@@ -20,6 +20,7 @@ class Controller_User extends Controller_Template {
 				$profile = Model::factory('profile');
 				$profile->user_id = $user->id;
 				$profile->name = $user->username;
+                $profile->gold = 1000;
 				$profile->save();
 			}
 		}

@@ -16,7 +16,13 @@
 		<div class="container">
 			<?=$topmenu?>
 			<div class="main-content">
-				<?=$content?>
+                <?
+                    $profmin = View::factory('frames/profmin');
+                    $profmin->profile = $user->profile;
+                ?>
+                <?=$profmin?>
+				<?$content->user = $user;?>
+                <?=$content?>
 			</div>
 		</div>
 	</body>

@@ -4,7 +4,7 @@
         <p>
             Buy o conquer the whole world.
         </p>
-        <a href="/user/registration" class="btn btn-primary btn-lg">Start playing</a>
+        <a href="<?if (isset($user)){?>/own<?}else{?>/user/registration<?}?>" class="btn btn-primary btn-lg">Start playing</a>
         <h2>Be involved</h2>
         <p>Take a part in development.</p>
         <a href="https://github.com/seedofpanic/age-of-merchants" class="btn btn-warning btn-lg">Github</a>

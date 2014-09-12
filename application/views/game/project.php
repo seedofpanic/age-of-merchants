@@ -39,7 +39,7 @@
 	<h1>Project building</h1>
 </div>
 <div class="well bs-component">
-  <form class="form-horizontal" id="ProjectWizard">
+  <form class="form-horizontal" action="/game/save_project" method="post" id="ProjectWizard">
     <fieldset id="step1" class="step">
       <legend>What to build</legend>
       <div class="form-group">
@@ -88,7 +88,9 @@
     </fieldset>
     <fieldset id="step3" class="step">
       <legend>Confirm</legend>
-      
+      <div>
+        Gold: 100
+      </div>
       <div class="form-group">
         <div class="col-lg-12">
           <div class="btn btn-default" onclick="projectWizard.back()">Back</div>

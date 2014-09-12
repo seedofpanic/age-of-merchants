@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` int(11) UNSIGNED NOT NULL,
   `name` varchar(32) NOT NULL DEFAULT 'undef',
+  `gold` double(15, 2) UNSIGNED DEFAULT 0,
   PRIMARY KEY  (`id`),
   KEY `fk_user_id` (`user_id`),
   CONSTRAINT `user_profiles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
@@ -80,6 +81,9 @@ CREATE TABLE IF NOT EXISTS `buildings` (
   `profile_id` int(11) UNSIGNED NOT NULL,
   `field_id` int(11) UNSIGNED NOT NULL,
   `name` varchar(32) NOT NULL DEFAULT 'building',
+  `buildtime` tinyint(3) UNSIGNED DEFAULT NULL,
+  `status` enum ('building', 'active') DEFAULT NULL,
+  `type` enum ('sawmill', 'hunting') DEFAULT NULL,
   PRIMARY KEY  (`id`),
   KEY `fk_field_id` (`field_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
