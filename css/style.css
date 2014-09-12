@@ -11,3 +11,9 @@
 .step{
 	display: none;
 }
+.post .title h3{
+    margin-top: 0;
+}
+.news.page-header{
+    margin-top: 0;
+}

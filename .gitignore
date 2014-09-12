@@ -1,2 +1,3 @@
 *.clpprj
 application/logs/
+.idea/
