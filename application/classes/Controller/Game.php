@@ -12,6 +12,7 @@ class Controller_Game extends Controller_Template {
 		$types = array('hunting' => 'Hunting hut', 'sawmill' => 'Sawmill');
 		$view = View::factory('game/project');
 		$view->types = $types;
+		$view->regions = Model::factory('map_region')->find_all();
 		$this->template->content = $view;
 	}
 

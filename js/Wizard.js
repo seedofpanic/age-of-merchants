@@ -3,20 +3,25 @@ var Wizard = Backbone.Model.extend({
 	steps: null,
 	currentStep: 1,
 	initialize: function (){
+		var container = this.get('container');
 		if (!(container && container.length > 0))
 		{
 			console.log('Error: Bad wizard container');
 		}
-		set({steps: container.find('.step')});
+		this.set('steps', container.find('.step'));
+		this.set('currentStep', 1);
+		this.showStep();
+	},
+	showStep: function (){
+		this.get('steps').hide();
+		this.get('container').find('#step' + this.get('currentStep')).show();
 	},
 	next: function (){
-		set({currentStep: get('currentStep') + 1});
-		steps.hide();
-		steps.find('step' + get('currentStep')).show();
+		this.set('currentStep', this.get('currentStep') + 1);
+		this.showStep();
 	},
 	back: function (){
-		set({currentStep: get('currentStep') + 1});
-		steps.hide();
-		steps.find('step' + get('currentStep')).show();
+		this.set('currentStep', this.get('currentStep') - 1);
+		this.showStep();
 	}
 })
