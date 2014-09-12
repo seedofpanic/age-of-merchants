@@ -18,9 +18,12 @@
 			<div class="main-content">
                 <?
                     $profmin = View::factory('frames/profmin');
-                    $profmin->profile = $user->profile;
+                    if (isset($user->profile))
+                    {
+                        $profmin->profile = $user->profile;
+                        print $profmin;
+                    }
                 ?>
-                <?=$profmin?>
 				<?$content->user = $user;?>
                 <?=$content?>
 			</div>
