@@ -7,7 +7,7 @@ class Model_Building extends ORM {
 
     public function addGoods($product_id, $count, $quality)
     {
-        $goods = Model::factory('goods')->where('building_id', '=', $this->id)->where('product_id', '=', $product_id)->find();
+        $goods = ORM::factory('goods')->where('building_id', '=', $this->id)->where('product_id', '=', $product_id)->find();
         if (!$goods->loaded())
         {
             $goods->building_id = $this->id;

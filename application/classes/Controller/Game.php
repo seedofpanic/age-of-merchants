@@ -22,7 +22,7 @@ class Controller_Game extends Controller_Template {
 		$view = View::factory('game/project');
 		$view->types = $types['en'];
         $view->params = $params;
-		$view->regions = Model::factory('map_region')->find_all();
+		$view->regions = ORM::factory('map_region')->find_all();
 		$this->template->content = $view;
 	}
 
@@ -34,7 +34,7 @@ class Controller_Game extends Controller_Template {
         {
             if ($project->check())
             {
-                $building = Model::factory('building');
+                $building = ORM::factory('building');
                 $building->name = $this->getParam('name', 'building');
                 $building->type = $project['type'];
                 $building->field_id = $this->tmp_field_id;
@@ -68,7 +68,7 @@ class Controller_Game extends Controller_Template {
 
     public function checkCoords($array, $back)
     {
-        $this->tmp_field_id = Model::factory('map_region', $array['region_id'])->find()->fields->where('x', '=', $array['x'])->where('y', '=', $array['y'])->find()->id;
+        $this->tmp_field_id = ORM::factory('map_region', $array['region_id'])->find()->fields->where('x', '=', $array['x'])->where('y', '=', $array['y'])->find()->id;
         return $this->tmp_field_id > 0;
     }
 

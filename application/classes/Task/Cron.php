@@ -14,7 +14,7 @@ class Task_Cron extends Minion_Task {
         $building_types = $config->types;
         $building_props = $config->params;
 
-        $buildings = Model::factory('building')->find_all();
+        $buildings = ORM::factory('building')->find_all();
 
 
         foreach ($buildings as $building)

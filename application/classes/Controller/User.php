@@ -17,7 +17,7 @@ class Controller_User extends Controller_Template {
 			$user = Auth::instance()->get_user();
 			if (!$user->profile->loaded())
 			{
-				$profile = Model::factory('profile');
+				$profile = ORM::factory('profile');
 				$profile->user_id = $user->id;
 				$profile->name = $user->username;
                 $profile->gold = 1000;
@@ -75,7 +75,7 @@ class Controller_User extends Controller_Template {
 			// Grant user login role
 			$user->add('roles', ORM::factory('Role', array('name' => 'login')));
 
-            $profile = Model::factory('profile');
+            $profile = ORM::factory('profile');
             $profile->user_id = $user->id;
             $profile->name = $user->username;
             $profile->gold = 1000;

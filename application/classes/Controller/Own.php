@@ -12,7 +12,7 @@ class Controller_Own extends Controller_Template {
 		if (isset($param['owner']))
 		{
 			$ownerName = $param['owner'];
-			$owner = Model::factory('profile')->where('name', 'like', $ownerName)->find();	
+			$owner = ORM::factory('profile')->where('name', 'like', $ownerName)->find();
 		}else{
 			if (!isset($this->user))
 			{

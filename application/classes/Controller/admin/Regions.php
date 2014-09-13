@@ -5,12 +5,12 @@ class Controller_Admin_Regions extends Admin_Controller {
 	public function action_index()
 	{
 		$this->template->content = View::factory('admin/regionsList');
-		$this->template->content->regions = Model::factory('map_region')->find_all();
+		$this->template->content->regions = ORM::factory('map_region')->find_all();
 	}
 
 	public function action_add()
 	{
-		$region = Model::factory('map_region');
+		$region = ORM::factory('map_region');
 		$region->name = $this->getParam('name');
 		$region->x = $this->getParam('x');
 		$region->y = $this->getParam('y');
