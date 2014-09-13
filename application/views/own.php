@@ -1,4 +1,4 @@
-<?if($user->profile->id === $owner->id){?><a href="/game/project" class="pull-right btn btn-primary">Build</a><?}?>
+<?if(isset($user) && ($user->profile->id === $owner->id)){?><a href="/game/project" class="pull-right btn btn-primary">Build</a><?}?>
 <h1><?=$owner->name?>'s buildings</h1>
 <div class="bs-component">
   <table class="table table-striped table-hover ">
