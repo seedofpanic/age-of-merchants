@@ -10,8 +10,10 @@
 	})
 	function step1Validate()
 	{
-		if ($('#step1 .type:checked', wizardContainer).length > 0)
+        var selectedType = $('#step1 .type:checked', wizardContainer)
+		if (selectedType.length > 0)
 		{
+            $('#TimeToBuild').html(selectedType.attr('data-time'));
 			$('#step1 .next', wizardContainer).removeClass('disabled');
 		}else{
 			$('#step1 .next', wizardContainer).addClass('disabled');
@@ -47,7 +49,7 @@
         	<?foreach (array_keys($types) as $key){?>
 	          <div class="radio">
 	            <label>
-	              <input type="radio" class="type" name="type" value="<?=$key?>">
+	              <input type="radio" class="type" name="type" value="<?=$key?>"data-time="<?=$params[$key]['build_time']?>">
 	              <?=$types[$key]?>
 	            </label>
 	          </div>
@@ -88,8 +90,11 @@
     </fieldset>
     <fieldset id="step3" class="step">
       <legend>Confirm</legend>
-      <div>
-        Gold: 100
+      <div class="form-group">
+        <div class="col-lg-12">
+          <div>Gold: 100</div>
+          <div>Time to build: <span id="TimeToBuild"></span></div>
+        </div>
       </div>
       <div class="form-group">
         <div class="col-lg-12">

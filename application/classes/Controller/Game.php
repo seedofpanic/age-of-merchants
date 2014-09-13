@@ -16,9 +16,12 @@ class Controller_Game extends Controller_Template {
 
 	public function action_project()
 	{
-		$types = array('hunting' => 'Hunting hut', 'sawmill' => 'Sawmill');
+        $config = Kohana::$config->load('buildings_types');
+        $types = $config['names'];
+        $params = $config['params'];
 		$view = View::factory('game/project');
-		$view->types = $types;
+		$view->types = $types['en'];
+        $view->params = $params;
 		$view->regions = Model::factory('map_region')->find_all();
 		$this->template->content = $view;
 	}

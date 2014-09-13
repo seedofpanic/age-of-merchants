@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `buildings` (
   `name` varchar(32) NOT NULL DEFAULT 'building',
   `buildtime` tinyint(3) UNSIGNED DEFAULT NULL,
   `status` enum ('building', 'active') DEFAULT NULL,
-  `type` enum ('sawmill', 'hunting') DEFAULT NULL,
+  `type` enum ('sawmill', 'hunting','shop') DEFAULT NULL,
   PRIMARY KEY  (`id`),
   KEY `fk_field_id` (`field_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
