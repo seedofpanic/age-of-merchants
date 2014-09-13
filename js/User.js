@@ -11,15 +11,25 @@ var User = Backbone.Model.extend({
 function loginUser(button)
 {
 	var form = $(button).parents('.login-form');
+    var redirect = $(button).attr('data-redirect')
 	$.ajax({
 		url: '/user/login',
 		data: {
 			username: form.find('.username').val(),
 			password: form.find('.password').val()
 		},
+        dataType: 'json',
 		type: 'post',
 		success: function (data){
-			window.location.reload();
+            if (data.status == 's')
+            {
+                if (redirect)
+                {
+                    window.location.href = redirect;
+                }else{
+                    window.location.reload()
+                }
+            }
 		}
 	})
 }

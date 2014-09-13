@@ -9,6 +9,7 @@
 		<script src="/js/external/underscore-min.js"></script>
 		<script src="/js/external/backbone-min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script src="/js/Tools.js"></script>
         <script src="/js/jquery_ext.js"></script>
 		
 		<script src="/js/User.js"></script>

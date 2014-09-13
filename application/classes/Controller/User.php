@@ -11,7 +11,7 @@ class Controller_User extends Controller_Template {
 	{
 		$this->auto_render = false;
 		$post = $this->request->post();
-		$success = Auth::instance()->login($post['username'], $post['password']);
+		$success = Auth::instance()->login($this->getParam('username'), $this->getParam('password'));
 		if ($success)
 		{
 			$user = Auth::instance()->get_user();

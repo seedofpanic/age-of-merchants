@@ -16,17 +16,21 @@
         	<li class="active"><a href="/own">Buildings</a></li>
        	<?}?>
       </ul>
-      <ul class="nav navbar-nav navbar-right quick-login login-form">
       	<?if ($user){?>
-      		<li><?=$user->username?></li>
-      		<li><div class="btn btn-default" onclick="logoutUser(this)">Log out</div></li>
+            <ul class="nav navbar-nav navbar-right quick-login login-form">
+                <li><?=$user->username?></li>
+                <li><div class="btn btn-default" onclick="logoutUser(this)">Log out</div></li>
+            </ul>
       	<?}else{?>
-          	<li><a href="/user/registration">Registration</a></li>
-            <li><input type="text" class="form-control username" placeholder="login"/></li>
-            <li><input type="password" class="form-control password" placeholder="password"/></li>
-            <li><div class="btn btn-primary" onclick="loginUser(this)">Log in</div></li>
+            <form>
+                <ul class="nav navbar-nav navbar-right quick-login login-form">
+                    <li><a href="/user/registration">Registration</a></li>
+                    <li><input type="text" class="form-control username" placeholder="login"/></li>
+                    <li><input type="password" class="form-control password" placeholder="password"/></li>
+                    <li><button type="submit" class="btn btn-primary" onclick="loginUser(this);return false;">Log in</button></li>
+                </ul>
+            </form>
         <?}?>
-      </ul>
     </div>
     </div>
   </div>

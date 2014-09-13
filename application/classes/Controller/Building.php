@@ -15,6 +15,7 @@ class Controller_Building extends Controller_Template {
         {
             $this->template->content = View::factory('building');
             $this->template->content->building = ORM::factory('building', $this->id);
+            $this->template->content->products = ORM::factory('product')->find_all();
         }else{
             $this->template->content = View::factory('errors/404');
         }
