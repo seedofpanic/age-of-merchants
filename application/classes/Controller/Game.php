@@ -68,7 +68,7 @@ class Controller_Game extends Controller_Template {
 
     public function checkCoords($array, $back)
     {
-        $this->tmp_field_id = ORM::factory('map_region', $array['region_id'])->find()->fields->where('x', '=', $array['x'])->where('y', '=', $array['y'])->find()->id;
+        $this->tmp_field_id = ORM::factory('map_region', $array['region_id'])->fields->where('x', '=', $array['x'])->where('y', '=', $array['y'])->find()->id;
         return $this->tmp_field_id > 0;
     }
 
