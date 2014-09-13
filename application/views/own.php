@@ -16,7 +16,7 @@
     	<?foreach ($buildings as $building){?>
 	      <tr id="Building<?=$building->id?>" class="building-row">
 	        <td><?=$building->id?></td>
-	        <td><?=$building->name?></td>
+	        <td><a href="/building/<?=$building->id?>"><?=$building->name?></a></td>
 	        <td><?=$building->type?></td>
 	        <td><?=$building->status?><?if ($building->status === 'building'){?>(<?=$building->buildtime?>)<?}?></td>
 	        <td><?=$building->field->region->name?></td>

@@ -137,6 +137,12 @@ Kohana::modules(array(
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
+
+Route::set('building', 'building/(<id>(/<action>))')
+    ->defaults(array(
+        'controller' => 'building',
+        'action'     => 'index'
+    ));
 Route::set('own', 'own(/<owner>)')
 	->defaults(array(
 		'controller' => 'own',
