@@ -61,8 +61,8 @@ CREATE TABLE IF NOT EXISTS `profiles` (
 
 CREATE TABLE IF NOT EXISTS `map_regions` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `x` int(11) UNSIGNED NOT NULL,
-  `y` int(11) UNSIGNED NOT NULL,
+  `x` tinyint UNSIGNED NOT NULL,
+  `y` tinyint UNSIGNED NOT NULL,
   `name` varchar(32) NOT NULL DEFAULT 'region',
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
@@ -70,8 +70,8 @@ CREATE TABLE IF NOT EXISTS `map_regions` (
 CREATE TABLE IF NOT EXISTS `map_fields` (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `region_id` int(11) UNSIGNED NOT NULL,
-  `x` bit(6),
-  `y` bit(6),
+  `x` tinyint,
+  `y` tinyint,
   PRIMARY KEY  (`id`),
   KEY `fk_region_id` (`region_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
