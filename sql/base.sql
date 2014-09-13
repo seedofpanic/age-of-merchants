@@ -88,4 +88,26 @@ CREATE TABLE IF NOT EXISTS `buildings` (
   KEY `fk_field_id` (`field_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `goods` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `building_id` int(11) UNSIGNED NOT NULL,
+  `product_id` int(11) UNSIGNED NOT NULL,
+  `count` int(11) UNSIGNED NOT NULL,
+  `quality` float UNSIGNED NOT NULL,
+  `reserved` int(11) UNSIGNED NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `fk_building_id` (`building_id`),
+  KEY `fk_product_id` (`product_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `products` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL DEFAULT 'product',
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+TRUNCATE products;
+
+INSERT INTO products(id, name) VALUE(1, 'meat'), (2, 'wood');
+
 SET FOREIGN_KEY_CHECKS = 1;
