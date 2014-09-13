@@ -15,7 +15,8 @@ return array(
                         ),
                       'shop'    =>
                         array(
-                            'build_time' => 3
+                            'build_time' => 3,
+                            'resources_out' => array()
                         )
     )
 );

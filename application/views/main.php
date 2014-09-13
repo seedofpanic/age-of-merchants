@@ -12,7 +12,7 @@
     <div class="col-lg-8">
         <div class="page-header news"><h2>News</h2></div>
         <div>
-            <div class="row post text">
+            <div class="row post text well">
 
                 <div class="col-lg-3">
 

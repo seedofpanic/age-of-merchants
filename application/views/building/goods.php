@@ -11,7 +11,7 @@
         <?foreach ($goods as $item){?>
             <tr>
                 <td><?=$item->id?></td>
-                <td><?=$item->product?></td>
+                <td><?=$item->product->name?></td>
                 <td><?=$item->count?></td>
                 <td><?=$item->quality?></td>
             </tr>
