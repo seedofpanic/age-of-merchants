@@ -5,7 +5,7 @@ class Controller_Search extends Controller_Template {
     public function action_goods()
     {
         $this->auto_render = false;
-        print json_encode(DB::query(Database::SELECT, 'SELECT goods.*,r.name as region,p.name as owner FROM goods
+        print json_encode(DB::query(Database::SELECT, 'SELECT goods.*,r.name as region,p.name as owner,f.x as x,f.y as y FROM goods
                                                                 INNER JOIN buildings b on b.id=goods.building_id
                                                                 INNER JOIN map_fields f on f.id=b.field_id
                                                                 INNER JOIN map_regions r on r.id=f.region_id

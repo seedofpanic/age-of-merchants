@@ -24,7 +24,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-lg-10 col-lg-offset-2">
-                            <button type="button" class="btn btn-primary pull-right" data-redirect="/own" onclick="loginUser(this);return false">Log in</button>
+                            <button type="submit" class="btn btn-primary pull-right" data-redirect="/own" onclick="loginUser(this);return false">Log in</button>
                         </div>
                     </div>
                 </fieldset>

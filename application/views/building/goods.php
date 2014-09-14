@@ -5,6 +5,7 @@
             <th>Type</th>
             <th>count</th>
             <th>quality</th>
+            <th>Export</th>
         </tr>
     </thead>
     <tbody>
@@ -14,6 +15,9 @@
                 <td><?=$item->product->name?></td>
                 <td><?=$item->count?></td>
                 <td><?=$item->quality?></td>
+                <td>
+                    <div class="checkbox"><label><input type="checkbox" name="itemExport[]" value="<?=$item->id?>"/> Allow</label></div>
+                </td>
             </tr>
         <?}?>
     </tbody>

@@ -2,7 +2,7 @@
 <script>
     var template = '<tr>\
         <th>{owner}</th>\
-        <th>{region}</th>\
+        <th>{region}({x}/{y})</th>\
         <th>{count}</th>\
         <th>{quality}</th>\
     </tr>';

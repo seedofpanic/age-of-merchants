@@ -5,6 +5,7 @@
         tabs.on('show.bs.tab', function (event){
             var target = $(event.target);
             var panel = $(target.attr('href'));
+            window.location.hash = target.attr('href');
             if (!panel.attr('data-url')){return;}
             panel.html('<div class="progress progress-striped active" style="margin: 50px auto;width: 50%">\
                             <div class="progress-bar" style="width: 100%"></div>\
@@ -18,10 +19,16 @@
                 },
                 error: function (){
                     //TODO add error message
-                    //panel.html('');
+                    panel.html('');
                 }
-            })
+            });
         });
-        tabs.first().trigger('click');
+        var location = tabs.filter('[href="' + window.location.hash + '"]');
+        if (location.length > 0)
+        {
+            location.trigger('click');
+        }else{
+            tabs.first().trigger('click');
+        }
     };
 })(jQuery);
