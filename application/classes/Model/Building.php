@@ -2,7 +2,8 @@
 
 class Model_Building extends ORM {
 	
-	protected $_belongs_to = array('field' => array('model' => 'map_field', 'foreign_key' => 'field_id'));
+	protected $_belongs_to = array('field' => array('model' => 'map_field', 'foreign_key' => 'field_id'),
+                                    'owner' => array('model' => 'profile', 'foreign_key' => 'profile_id'));
     protected $_has_many = array( 'goods' => array('model' => 'goods', 'foreign_key' => 'building_id'));
 
     public function addGoods($product_id, $count, $quality)

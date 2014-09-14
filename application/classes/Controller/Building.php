@@ -35,4 +35,20 @@ class Controller_Building extends Controller_Template {
         print $view->render();
     }
 
+    public function action_save_goods()
+    {
+        $this->auto_render = false;
+        $data = json_decode($this->getParam('data'));
+        foreach ($data as $item)
+        {
+            $goods = ORM::factory('goods', $item->id);
+            if ($goods->building->owner->id != $this->user->profile->id) // TODO anything but not this!!!
+            {
+                continue;
+            }
+            $goods->price = $item->price;
+            $goods->export = $item->export;
+            $goods->save();
+        }
+    }
 }

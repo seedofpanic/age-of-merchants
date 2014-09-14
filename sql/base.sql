@@ -95,6 +95,8 @@ CREATE TABLE IF NOT EXISTS `goods` (
   `count` int(11) UNSIGNED NOT NULL,
   `quality` float UNSIGNED NOT NULL,
   `reserved` int(11) UNSIGNED NOT NULL,
+  `price` float UNSIGNED DEFAULT 0.01,
+  `export` tinyint(1) DEFAULT 0,
   PRIMARY KEY  (`id`),
   KEY `fk_building_id` (`building_id`),
   KEY `fk_product_id` (`product_id`)

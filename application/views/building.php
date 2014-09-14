@@ -1,10 +1,11 @@
 <script src="/js/Search.js"></script>
 <script>
     var template = '<tr>\
-        <th>{owner}</th>\
-        <th>{region}({x}/{y})</th>\
-        <th>{count}</th>\
-        <th>{quality}</th>\
+        <td>{owner}</td>\
+        <td>{region}({x}/{y})</td>\
+        <td>{count}</td>\
+        <td>{quality}</td>\
+        <td>{price}(+{shipping})</td>\
     </tr>';
     var search;
     $(function (){
@@ -30,6 +31,7 @@
     <div class="tab-pane fade" id="import">
         <div class="well" style="margin-top: 1em">
             <form class="form-inline" id="ImportSearch">
+                <input type="hidden" name="dest_id" value="<?=$building->id?>"/>
                 <fieldset>
                     <ul class="nav navbar-nav">
                         <li>
@@ -52,6 +54,7 @@
                     <th>Raion</th>
                     <th>Count</th>
                     <th>Quality</th>
+                    <th>Price(shipping)</th>
                 </tr>
                 <tbody id="ImportTable">
 

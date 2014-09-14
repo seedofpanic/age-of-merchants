@@ -8,7 +8,6 @@ class Task_Cron extends Minion_Task {
 
     public function _execute(array $array)
     {
-        Database::instance('default')->connect();
         $config = Kohana::$config->load('buildings_types');
 
         $building_types = $config->types;
