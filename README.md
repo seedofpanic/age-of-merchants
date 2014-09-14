@@ -6,9 +6,8 @@ http://aom.mobmind.ru/
 
 ## Install
 1. Pull repo to your website root directory
-2. Configure db access in /modules/database/config/database.php (the database must be named 'aom' for now)
-3. Run /sql/base.sql (this step will be depricated soon)
-4. Exec 'php index.php --task=updatedb' in your web root directory
+2. Configure db access in /modules/database/config/database.php
+3. Execute 'php index.php --task=updatedb' in your web root directory
 
 That's all!
 
