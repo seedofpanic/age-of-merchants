@@ -22,8 +22,6 @@ class Task_Updatedb extends Minion_Task {
 
         $this->safeCreateTable('roles_users', array('user_id', 'role_id'));
         $this->safeAddKey('roles_users', 'KEY', 'fk_role_id', array('role_id'));
-        $this->safeAddConstraint('roles_users', 'roles_users_ibfk_1', 'FOREIGN KEY', '(`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE');
-        $this->safeAddConstraint('roles_users', 'roles_users_ibfk_2', 'FOREIGN KEY', '(`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCAD');
 
         $this->safeCreateTable('users');
         $this->safeAddField('users', 'email', 'varchar(254) NOT NULL');
@@ -43,7 +41,7 @@ class Task_Updatedb extends Minion_Task {
         $this->safeAddKey('user_tokens', 'UNIQUE KEY', 'uniq_token', array('token'));
         $this->safeAddKey('user_tokens', 'KEY', 'fk_user_id', array('user_id'));
         $this->safeAddKey('user_tokens', 'KEY', 'expires', array('expires'));
-        $this->safeAddConstraint('user_tokens', 'user_tokens_ibfk_1', 'FOREIGN KEY', '(user_id) REFERENCES users (id) ON DELETE CASCADE');
+
 
         $this->safeCreateTable('profiles');
         $this->safeAddField('profiles', 'user_id', 'int(11) UNSIGNED NOT NULL');
@@ -92,9 +90,14 @@ class Task_Updatedb extends Minion_Task {
         $this->safeAddKey('contracts', 'KEY', 'fk_goods_id', array('goods_id'));
         $this->safeAddKey('contracts', 'KEY', 'fk_dest_id', array('dest_id'));
 
+        //Constraints
+        $this->safeAddConstraint('roles_users', 'roles_users_ibfk_1', 'FOREIGN KEY', '(`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE');
+        $this->safeAddConstraint('roles_users', 'roles_users_ibfk_2', 'FOREIGN KEY', '(`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE');
+        $this->safeAddConstraint('user_tokens', 'user_tokens_ibfk_1', 'FOREIGN KEY', '(user_id) REFERENCES users (id) ON DELETE CASCADE');
+
     }
 
-    protected function safeCreateTable($tableName, $pkeys = array('`id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT'))
+    protected function safeCreateTable($tableName, $pkeys = array('id'))
     {
         $key = DB::select('*')->from('information_schema.TABLES')->where('TABLE_SCHEMA', '=', $this->dbname)->where('TABLE_NAME', 'like', $tableName)->execute();
         if ($key->count() == 0)
@@ -106,7 +109,7 @@ class Task_Updatedb extends Minion_Task {
                 $pkeys[$i] = '`' . $pkeys[$i] . '`';
             }
             DB::query(NULL, 'CREATE Table `' . $tableName . '` (
-                        ' . join(',', $pfields) . '
+                        ' . join(',', $pfields) . ',
                         PRIMARY KEY  (' . join(',', $pkeys) . '))ENGINE=InnoDB  DEFAULT CHARSET=utf8;')->execute();
         }
     }
@@ -159,7 +162,7 @@ class Task_Updatedb extends Minion_Task {
             ->execute();
         if ($key->count() == 0)
         {
-            DB::query(NULL, 'ALTER TABLE `' . $tableName . '` CONSTRAINT `' . $name . '` ' . $type . ' ' . $query)->execute();
+            DB::query(NULL, 'ALTER TABLE `' . $tableName . '` ADD CONSTRAINT `' . $name . '` ' . $type . ' ' . $query)->execute();
         }
     }
 }
