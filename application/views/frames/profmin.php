@@ -1,1 +1,0 @@
-<div class="pull-right">Gold: <?=$profile->gold?></div>

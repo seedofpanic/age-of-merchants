@@ -1,3 +1,2 @@
-*.clpprj
-application/logs/
 .idea/
+node_modules/
