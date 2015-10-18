@@ -3,7 +3,7 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
-  form(action='/login' method='post')
+  form.ui.form(action='/login' method='post')
     input(type='text' name='username')
     input(type='text' name='password')
     input(type='submit' value='go')

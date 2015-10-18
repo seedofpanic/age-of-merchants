@@ -5,8 +5,9 @@ Age of Merchants is a free opensource online game progect. It is a economic stra
 http://aom.mobmind.ru/
 
 ## Install
-1. Pull repo to your website root directory
-2. Configure db access in /modules/database/config/database.php
-3. Execute 'php index.php --task=updatedb' in your web root directory
+1. git init https://github.com/tejasmanohar/node-schedule.wiki.git aom
+2. cd aom
+3. npm install
+4. node node_modules\db-migrate\bin\db-migrate up init
 
-That's all!
+That's it!
