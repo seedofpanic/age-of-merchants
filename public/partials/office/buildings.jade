@@ -1,0 +1,4 @@
+div(ng-controller='BuildingsCtrl as blds')
+   table.ui.table
+      tr(ng-repeat='building in blds.buildings')
+         td {{building.name}}

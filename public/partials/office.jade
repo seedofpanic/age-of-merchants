@@ -1,0 +1,28 @@
+.ui.container
+   .ui.large.inverted.menu
+      a.toc.item
+         i.sidebar.icon
+      a.active.item Home
+      a.active.item World
+      a.active.item Profile
+      .right.item
+         a.ui.inverted.button(ng-href='#login') Sign in
+         a.ui.inverted.button(ng-href='#register') Sign up
+.ui.container
+   .ui.segment(ng-show='office.loaded && !office.profile_name')
+      h1 Create your first profile to get your own office
+      form.ui.form(action='/api/profile/new' method='post')
+         .field
+            input(type='text' placeholder='New profile name' ng-model='office.new_profile_name')
+         a.ui.button(ng-click='office.newProfile()') Create
+      table.ui.table(ng-show='office.profiles.length > 0')
+         tr(ng-repeat='profile in office.profiles')
+            td
+               a(href='javascript:' ng-click='office.selectProfile(profile)') {{profile.name}}
+   .ui.segment(ng-show='office.loaded && office.profile_name')
+      h1 {{office.profile_name}}'s office
+      .tabs(ng-controller='TabsCtrl as tabs' ng-init='tabs.open("status", "/partials/office/status.html")')
+         .ui.top.attached.tabular.menu
+            a.item(ng-class='{active: tabs.currentTab == "status"}' ng-click='tabs.open("status", "/partials/office/status.html")') Stats
+            a.item(ng-class='{active: tabs.currentTab == "buildings"}' ng-click='tabs.open("buildings", "/partials/office/buildings.html")') Buildings
+         .ui.bottom.attached.active.tab.segment(ng-include="tabs.url")

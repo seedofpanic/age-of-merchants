@@ -17,9 +17,9 @@
          h1.ui.inverted.header Age of Merchants
          h2 Do whatever you want when you want to.
          p
-            .ui.huge.primary.button(ng-show='user.id > 0') To your office
+            a.ui.huge.primary.button(ng-href='#office' ng-show='user.id > 0') To your office
                i.right.arrow.icon
-            .ui.huge.primary.button(ng-hide='user.id > 0') Log in
+            a.ui.huge.primary.button(ng-href='#auth' ng-hide='user.id > 0') Log in
          p
             button.ui.button.purple.large.disabled Github
          p Welcome to the ...

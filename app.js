@@ -9,7 +9,7 @@ var session = require('client-sessions');
 var orm = require('orm');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
+var api = require('./routes/api');
 var registration = require('./routes/registration')
 
 // local libs
@@ -48,7 +48,7 @@ app.use('/libs', express.static(path.join(__dirname, 'bower_components')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/api', api);
 app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/#/auth'}));
 app.get('/logout', function(req, res){
   req.logout();
