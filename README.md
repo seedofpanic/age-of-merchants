@@ -1,5 +1,5 @@
 # Age of Merchants
-Age of Merchants is a free opensource online game progect. It is a economic strategy in medival age. Build your empire as a king and fight other players for the territory and resources control. Or play as a merchant how build factories to provide the kings with all thay needed (weapon, armor, food and technology)
+Age of Merchants is a free opensource online game progect. It is a economic strategy in medival age. Build your empire as a king and fight other players for the territory and resources control. Or play as a merchant, who builds factories to provide kings with all they need (weapon, armor, food and technology)
 
 # LAST CHANGES
 I'm up to fully rewrite core on node.js. I need some time to get old functionality back on feet...
