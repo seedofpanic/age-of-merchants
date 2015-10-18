@@ -1,3 +1,7 @@
+body,body>.view {
+  min-height: 100%;
+}
+
 .hidden.menu {
   display: none;
 }

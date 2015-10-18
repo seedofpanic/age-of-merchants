@@ -1,0 +1,52 @@
+.ui.container
+   .ui.large.inverted.menu
+      a.toc.item
+         i.sidebar.icon
+      a.active.item Home
+      a.active.item World
+      a.active.item Profile
+      .right.item
+         a.ui.inverted.button(ng-href='#login') Sign in
+         a.ui.inverted.button(ng-href='#register') Sign up
+.ui.container
+   .ui.segment
+      .ui.grid
+         .eight.wide.column
+            .ui.teal.image.header
+               .content Log-in to your account
+            form.ui.large.form(action="/login" method="post")
+               ui.stacked.segment
+                  .field
+                     .ui.left.icon.input
+                        i.user.icon
+                        input(type="text" name="username" placeholder="E-mail address")
+                  .field
+                     .ui.left.icon.input
+                        i.lock.icon
+                        input(type="password" name="password" placeholder="Password")
+                  button.ui.fluid.large.teal.submit.button Login
+               .ui.error.message
+         .eight.wide.column
+            .ui.teal.image.header
+               .content Registration
+            form.ui.large.form(action="/registration" method="post")
+               ui.stacked.segment
+                  .field
+                     .ui.left.icon.input
+                        i.user.icon
+                        input(type="text" name="reg_email" placeholder="E-mail address")
+                  .field
+                     .ui.left.icon.input
+                        i.user.icon
+                        input(type="text" name="reg_username" placeholder="Username")
+                  .field
+                     .ui.left.icon.input
+                        i.lock.icon
+                        input(type="password" name="reg_password" placeholder="Password")
+                        .field
+                  .field
+                     .ui.left.icon.input
+                        i.lock.icon
+                        input(type="password" placeholder="Repeat Password")
+                  button.ui.fluid.large.teal.submit.button Register
+               .ui.error.message

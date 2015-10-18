@@ -1,0 +1,25 @@
+{
+  "name": "aom",
+  "description": "",
+  "main": "",
+  "authors": [
+    "seedofpanic <seedofpanic@mail.ru>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/seedofpanic/age-of-merchants",
+  "moduleType": [
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-route": "~1.4.7",
+    "angular": "~1.4.7",
+    "jquery": "~2.1.4"
+  }
+}

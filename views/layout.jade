@@ -2,39 +2,30 @@ doctype html
 html
   head
     title= title
-    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
+    script(src='/libs/jquery/dist/jquery.min.js')
     script(src='/javascripts/semantic.min.js')
+    script(src='/libs/angular/angular.min.js')
+    script(src='/libs/angular-route/angular-route.min.js')
+    script(src='/javascripts/modules/auth.min.js')
+    script(src='/javascripts/app.min.js')
     link(rel='stylesheet', href='/stylesheets/semantic.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
-  body.pushable
+  body.pushable(ng-app='App' ng-init='user=#{JSON.stringify(user)}')
     .ui.large.top.fixed.menu.transition.hidden
       .ui.container
         a.active.item Home
         a.item World
         a.item Profile
         .right.menu
-          .item
-            a.ui.button Log in
-          .item
-            a.ui.primary.button Sign Up
+          .item(ng-hide='user.id > 0')
+            a.ui.button(ng-href='#auth') Log in
+          .item(ng-hide='user.id > 0')
+            a.ui.primary.button(ng-href='#auth') Sign Up
 
     .ui.vertical.inverted.sidebar.menu.left
       a.active.item Home
       a.active.item World
       a.active.item Profile
-      a.active.item Log in
-      a.active.item Sign Up
-
-    .pusher
-      .ui.inverted.vertical.masthead.center.aligned.segment
-        .ui.container
-          .ui.large.secondary.inverted.pointing.menu
-            a.toc.item
-              i.sidebar.icon
-            a.active.item Home
-            a.active.item World
-            a.active.item Profile
-            .right.item
-              a.ui.inverted.button Log in
-              a.ui.inverted.button Sign Up
-        block content
+      a.active.item(ng-href='#auth' ng-hide='user.id > 0') Log in
+      a.active.item(ng-href='#auth' ng-hide='user.id > 0') Sign Up
+  div.view(ng-view)

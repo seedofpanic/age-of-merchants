@@ -10,6 +10,7 @@ var orm = require('orm');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var registration = require('./routes/registration')
 
 // local libs
 var game = require('./lib/game');
@@ -43,13 +44,17 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use('/libs', express.static(path.join(__dirname, 'bower_components')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/login', require('./routes/login'));
-app.post('/login', passport.authenticate('local', { successRedirect: '/',
-  failureRedirect: '/login' }));
+app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/#/auth'}));
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+app.use('/registration', registration);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

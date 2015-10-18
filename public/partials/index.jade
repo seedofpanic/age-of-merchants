@@ -1,0 +1,25 @@
+.pusher
+   .ui.inverted.vertical.masthead.center.aligned.segment
+      .ui.container
+         .ui.large.secondary.inverted.pointing.menu
+            a.toc.item
+               i.sidebar.icon
+            a.active.item Home
+            a.active.item World
+            a.active.item Profile
+            .right.item(ng-hide='user.id > 0')
+               a.ui.inverted.button(ng-href='#auth') Sign in
+               a.ui.inverted.button(ng-href='#auth') Sign up
+            .right.item(ng-show='user.id > 0')
+               div Welcome {{user.username}}
+               a.ui.inverted.button(href='/logout') Sign out
+      .ui.text.container
+         h1.ui.inverted.header Age of Merchants
+         h2 Do whatever you want when you want to.
+         p
+            .ui.huge.primary.button(ng-show='user.id > 0') To your office
+               i.right.arrow.icon
+            .ui.huge.primary.button(ng-hide='user.id > 0') Log in
+         p
+            button.ui.button.purple.large.disabled Github
+         p Welcome to the ...
