@@ -8,6 +8,7 @@ I'm up to fully rewrite core on node.js. I need some time to get old functionali
 1. git init https://github.com/tejasmanohar/node-schedule.wiki.git aom
 2. cd aom
 3. npm install
-4. node node_modules\db-migrate\bin\db-migrate up init
+4. bower install
+5. node node_modules\db-migrate\bin\db-migrate up init
 
 That's it!
