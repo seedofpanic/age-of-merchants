@@ -4,7 +4,7 @@ var models = require('../lib/models');
 
 router.get('/buildings', function(req, res, next) {
   models.profiles.one({name: req.query.profile_name}, function (err, profile) {
-    if (err) {
+    if (err || !profile.id) {
       return
     }
     models.buildings.find({profile_id: profile.id}, function (err, buildings) {
@@ -73,5 +73,12 @@ router.get('/regions', function(req, res, next){
     res.send(regions);
   });
 });
+
+router.get('/goods', function(req, res, next){
+  models.goods.find({building_id: req.query.building_id}, function (err, goods) {
+    res.send(goods);
+  });
+});
+
 
 module.exports = router;

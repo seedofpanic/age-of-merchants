@@ -13,7 +13,8 @@
          a.ui.inverted.button(href='/logout') Sign out
 .ui.container(ng-show='user.id')
    .ui.segment(ng-show='office.loaded && !office.profile_name')
-      h1 Create your first profile to get your own office
+      h1(ng-hide='office.profiles.length > 0') Create your first profile to get your own office
+      h1(ng-show='office.profiles.length > 0') Create new profile
       form.ui.form(action='/api/profile/new' method='post')
          .field
             input(type='text' placeholder='New profile name' ng-model='office.new_profile_name')
@@ -23,6 +24,8 @@
             td
                a(href='javascript:' ng-click='office.selectProfile(profile)') {{profile.name}}
    .ui.segment(ng-show='office.loaded && office.profile_name')
+      .ui.button.icon.right.floated(ng-click='office.deselect()')
+         i.icon.close
       h1 {{office.profile_name}}'s office
       .tabs
          .ui.top.attached.tabular.menu

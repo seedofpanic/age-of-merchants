@@ -37,6 +37,19 @@ angular.module('Buildings', [])
   $http.get('/api/buildings?profile_name=' + $route.current.params.profile_name).then( (res) ->
     that.buildings = res.data
   )
+  that.selected = undefined
+  that.select = (building) ->
+    that.loading = true
+    that.selected = building
+    $http.get('/api/goods?building_id=' + building.id).then(
+      (res) ->
+        building.goods = res.data
+        that.loading = true
+      () ->
+        that.loading = true
+    )
+  that.deselect = () ->
+    that.selected = undefined
   that.openNewBuilding = () ->
     unless $nbm
       $http.get('/partials/modals/new_building.html').then((res) ->
