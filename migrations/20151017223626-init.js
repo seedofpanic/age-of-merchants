@@ -139,12 +139,25 @@ exports.up = function(db, callback) {
             notNull: true,
             length: 10
           },
+          'price': {
+            type: 'decimal',
+            unsigned: true,
+            notNull: true,
+            length: '10,2'
+          },
           'quality': {
             type: 'decimal',
             unsigned: true,
-            notNull: true
+            notNull: true,
+            length: '10,2'
           },
           'export': {
+            type: 'smallint',
+            unsigned: true,
+            notNull: true,
+            length: 1
+          },
+          'reserved': {
             type: 'smallint',
             unsigned: true,
             notNull: true,
@@ -255,7 +268,8 @@ exports.up = function(db, callback) {
           'gold': {
             type: 'decimal',
             unsigned: true,
-            notNull: true
+            notNull: true,
+            length: '10,2'
           }
         }, createUsers
     );
