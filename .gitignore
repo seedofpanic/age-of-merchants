@@ -3,5 +3,5 @@ node_modules/
 *.log
 bower_components/
 public/partials/*.html
-public/javascripts/*.js
-public/javascripts/*.map
+public/javascripts/**/*.js
+public/javascripts/**/*.map
