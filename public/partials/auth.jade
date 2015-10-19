@@ -1,13 +1,16 @@
-.ui.container
-   .ui.large.inverted.menu
+.ui.container.masthead
+   .ui.large.inverted.menu.top.attached
       a.toc.item
          i.sidebar.icon
       a.active.item Home
       a.active.item World
       a.active.item Profile
-      .right.item
+      .right.item(ng-hide='user.id')
          a.ui.inverted.button(ng-href='#login') Sign in
          a.ui.inverted.button(ng-href='#register') Sign up
+      .right.item(ng-show='user.id')
+         div Welcome {{user.username}}
+         a.ui.inverted.button(href='/logout') Sign out
 .ui.container
    .ui.segment
       .ui.grid

@@ -1,14 +1,17 @@
-.ui.container
-   .ui.large.inverted.menu
+.ui.container.masthead
+   .ui.large.inverted.menu.bottom.attached
       a.toc.item
          i.sidebar.icon
       a.active.item Home
       a.active.item World
       a.active.item Profile
-      .right.item
+      .right.item(ng-hide='user.id')
          a.ui.inverted.button(ng-href='#login') Sign in
          a.ui.inverted.button(ng-href='#register') Sign up
-.ui.container
+      .right.item(ng-show='user.id')
+         div Welcome {{user.username}}
+         a.ui.inverted.button(href='/logout') Sign out
+.ui.container(ng-show='user.id')
    .ui.segment(ng-show='office.loaded && !office.profile_name')
       h1 Create your first profile to get your own office
       form.ui.form(action='/api/profile/new' method='post')
