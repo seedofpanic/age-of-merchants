@@ -1,0 +1,27 @@
+.ui.modal.small(ng-controller='NewBuildingCtrl as nbc')
+   i.close.icon
+   .header Construct new building
+   .content
+      form.ui.form
+         .field
+            label Name
+            input(type='text' ng-model='nbc.name')
+         .field
+            label Type
+            select(ng-model='nbc.type')
+               option(ng-repeat='(id,type) in nbc.types' value='{{id}}') {{type}}
+         .field
+            label Region
+            select(ng-model='nbc.region')
+               option(ng-repeat='region in nbc.regions' value='{{region.id}}') {{region.name}}
+         .fields.two
+            .field
+               label X
+               input(ng-model='nbc.x')
+            .field
+               label Y
+               input(ng-model='nbc.y')
+   .actions
+      .ui.black.deny.button Nope
+      .ui.positive.right.labeled.icon.button(ng-click='nbc.create()') Yep, that's me
+         i.checkmark.icon

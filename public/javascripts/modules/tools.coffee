@@ -1,8 +1,9 @@
-angular.module('Tools', [])
-.controller('TabsCtrl', ($scope) ->
-  that = @
-  that.open = (tab, url) ->
-    that.currentTab = tab
-    that.url = url
-  return
-)
+angular.module('Tools', ['ngRoute'])
+.directive('tabs', ['$route', ($route) ->
+  restrict: 'C'
+  link: (scope) ->
+    scope.tab = $route.current.params.tab
+    scope.openTab = (tab) ->
+      $route.updateParams(tab: tab)
+      return
+])

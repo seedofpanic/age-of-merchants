@@ -5,14 +5,47 @@ var models = require('../lib/models');
 router.get('/buildings', function(req, res, next) {
   models.buildings.find({}, function (err, buildings) {
     res.send(buildings);
-    next();
   })
+});
+
+router.post('/buildings/new', function(req, res, next){
+  if (!req.user) {return;}
+  models.fields.one({region_id: req.body.region, x: req.body.x, y: req.body.y}, function (err, field) {
+    if (err) {
+      console.log(err);
+      console.log(req.body);
+      return;
+    }
+    models.profiles.one({name: req.body.profile_name, user_id: req.user.id}, function(err, profile) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      var new_building = {
+        profile_id: profile.id,
+        type: req.body.type,
+        name: req.body.name,
+        field_id: field.id,
+        buildtime: models.buildings.types.params[models.buildings.types.types[req.body.type]].build_time,
+        status: 0
+      };
+      models.buildings.create(new_building, function (err, building) {
+        if (err) {
+          console.log(err);
+        }
+        res.send(building);
+      });
+    });
+  });
+});
+
+router.get('/buildings/types', function(req, res, next) {
+  res.send(models.buildings.types.types);
 });
 
 router.get('/profiles', function(req, res, next){
   models.profiles.find({user_id: req.user.id}, function (err, profile) {
     res.send(profile);
-    next();
   });
 });
 
@@ -27,7 +60,12 @@ router.post('/profile/new', function(req, res, next){
       console.log(err);
     }
     res.send(profile);
-    next();
+  });
+});
+
+router.get('/regions', function(req, res, next){
+  models.regions.find({}, function (err, regions) {
+    res.send(regions);
   });
 });
 
