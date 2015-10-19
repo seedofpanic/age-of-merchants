@@ -3,9 +3,14 @@ var router = express.Router();
 var models = require('../lib/models');
 
 router.get('/buildings', function(req, res, next) {
-  models.buildings.find({}, function (err, buildings) {
-    res.send(buildings);
-  })
+  models.profiles.one({name: req.query.profile_name}, function (err, profile) {
+    if (err) {
+      return
+    }
+    models.buildings.find({profile_id: profile.id}, function (err, buildings) {
+      res.send(buildings);
+    })
+  });
 });
 
 router.post('/buildings/new', function(req, res, next){

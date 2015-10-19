@@ -31,11 +31,11 @@ angular.module('Buildings', [])
     return
   return
 )
-.controller('BuildingsCtrl', ($scope, $http, $compile) ->
+.controller('BuildingsCtrl', ($scope, $http, $compile, $route) ->
   that = @
   $nbm = null
-  $http.get('/api/buildings', (buildings) ->
-    that.buildings = buildings
+  $http.get('/api/buildings?profile_name=' + $route.current.params.profile_name).then( (res) ->
+    that.buildings = res.data
   )
   that.openNewBuilding = () ->
     unless $nbm

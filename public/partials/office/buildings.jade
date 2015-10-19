@@ -1,7 +1,15 @@
-div(ng-controller='BuildingsCtrl as blds')
-   button.ui.button.blue(ng-click='blds.openNewBuilding()') Construct new building
-   table.ui.table(ng-show='blds.buildings.length > 0')
-      tr(ng-repeat='building in blds.buildings')
-         td {{building.name}}
-   .ui.message.info(ng-hide='blds.buildings.length > 0')
+div(ng-controller='BuildingsCtrl as bc')
+   button.ui.button.blue(ng-click='bc.openNewBuilding()') Construct new building
+   table.ui.table(ng-show='bc.buildings.length > 0')
+      thead
+         tr
+            th Name
+            th Type
+            th Status
+      tbody
+         tr(ng-repeat='building in bc.buildings')
+            td {{building.name}}
+            td {{{0: 'sawmill', 1: 'hunting', 2: 'shop'}[building.type]}}
+            td.collapsing {{['building', 'active'][building.status]}}
+   .ui.message.info(ng-hide='bc.buildings.length > 0')
       .header No buildings to show, try to construct one
