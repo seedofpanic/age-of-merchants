@@ -7,7 +7,7 @@ router.get('/buildings', function(req, res, next) {
     if (err || !profile.id) {
       return
     }
-    models.buildings.find({profile_id: profile.id}, function (err, buildings) {
+    models.buildings.find({profile_id: profile.id}, function (err, buildings){
       res.send(buildings);
     })
   });

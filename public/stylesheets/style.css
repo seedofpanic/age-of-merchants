@@ -86,3 +86,7 @@ body,body>.view {
     font-size: 1.5em;
   }
 }
+
+.clickable {
+  cursor: pointer;
+}
