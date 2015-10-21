@@ -10,6 +10,7 @@ var orm = require('orm');
 
 var routes = require('./routes/index');
 var api = require('./routes/api');
+var locales = require('./routes/locales');
 var registration = require('./routes/registration')
 
 // local libs
@@ -49,6 +50,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/api', api);
+app.use('/locales', locales);
 app.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/#/auth'}));
 app.get('/logout', function(req, res){
   req.logout();

@@ -20,6 +20,7 @@
   "dependencies": {
     "angular-route": "~1.4.7",
     "angular": "~1.4.7",
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "angular-cookies": "~1.4.7"
   }
 }

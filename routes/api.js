@@ -31,7 +31,7 @@ router.post('/buildings/new', function(req, res, next){
         type: req.body.type,
         name: req.body.name,
         field_id: field.id,
-        buildtime: models.buildings.types.params[models.buildings.types.types[req.body.type]].build_time,
+        buildtime: models.buildings.types.params[req.body.type].build_time,
         status: 0
       };
       models.buildings.create(new_building, function (err, building) {
@@ -44,9 +44,9 @@ router.post('/buildings/new', function(req, res, next){
   });
 });
 
-router.get('/buildings/types', function(req, res, next) {
+/*router.get('/buildings/types', function(req, res, next) {
   res.send(models.buildings.types.types);
-});
+});*/
 
 router.get('/profiles', function(req, res, next){
   models.profiles.find({user_id: req.user.id}, function (err, profile) {
