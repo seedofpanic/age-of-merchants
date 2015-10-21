@@ -13,7 +13,7 @@ div(ng-controller='BuildingsCtrl as bsc')
             tr.clickable(ng-repeat='building in bsc.buildings' ng-click='bsc.select(building)')
                td {{building.name}}
                td {{building.field.region.name}}({{building.field.x}},{{building.field.y}})
-               td {{{0: 'sawmill', 1: 'hunting', 2: 'shop'}[building.type]}}
+               td {{loc.buildings[building.type]}}
                td.collapsing {{['building(' + building.buildtime + ')', 'active'][building.status]}}
       .ui.message.info(ng-hide='bsc.buildings.length > 0')
          .header No buildings to show, try to construct one

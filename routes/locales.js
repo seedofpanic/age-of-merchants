@@ -15,7 +15,11 @@ var locales = {
                 login_btn: 'Login',
                 registration: 'Registration',
                 register_btn: 'Register'
-            }
+            },
+            welcome: 'Welcome',
+            signin: 'Sign in',
+            signup: 'Sign up',
+            signout: 'Sign out'
         }
     },
     'ru': {
@@ -31,8 +35,12 @@ var locales = {
                 login_btn: 'Войти',
                 registration: 'Регистрация',
                 register_btn: 'Зарегистрироваться'
-            }
-        },
+            },
+            welcome: 'Добро пожаловать',
+            signin: 'Войти',
+            signup: 'Зарегистроваться',
+            signout: 'Выйти'
+        }
     }
 };
 

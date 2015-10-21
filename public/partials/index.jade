@@ -8,11 +8,11 @@
             a.active.item World
             a.active.item Profile
             .right.item(ng-hide='user.id > 0')
-               a.ui.inverted.button(ng-href='#auth') Sign in
-               a.ui.inverted.button(ng-href='#auth') Sign up
+               a.ui.inverted.button(ng-href='#auth') {{loc.site.signin}}
+               a.ui.inverted.button(ng-href='#auth') {{loc.site.signup}}
             .right.item(ng-show='user.id > 0')
-               div Welcome {{user.username}}
-               a.ui.inverted.button(href='/logout') Sign out
+               span {{loc.site.welcome}} {{user.username}}
+               a.ui.inverted.button(href='/logout') {{loc.site.signout}}
       .ui.text.container
          h1.ui.inverted.header Age of Merchants
          h2 Do whatever you want when you want to.

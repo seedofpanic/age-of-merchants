@@ -13,6 +13,7 @@ body,body>.view {
 .masthead .logo.item img {
   margin-right: 1em;
 }
+.masthead .ui.menu span,
 .masthead .ui.menu .ui.button {
   margin-left: 0.5em;
 }

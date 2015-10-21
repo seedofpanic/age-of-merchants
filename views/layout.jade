@@ -22,14 +22,14 @@ html
         a.item Profile
         .right.menu
           .item(ng-hide='user.id > 0')
-            a.ui.button(ng-href='#auth') Log in
+            a.ui.button(ng-href='#auth') {{loc.site.signin}}
           .item(ng-hide='user.id > 0')
-            a.ui.primary.button(ng-href='#auth') Sign Up
+            a.ui.primary.button(ng-href='#auth') {{loc.site.signup}}
 
     .ui.vertical.inverted.sidebar.menu.left
       a.active.item Home
       a.active.item World
       a.active.item Profile
-      a.active.item(ng-href='#auth' ng-hide='user.id > 0') Log in
-      a.active.item(ng-href='#auth' ng-hide='user.id > 0') Sign Up
+      a.active.item(ng-href='#auth' ng-hide='user.id > 0') {{loc.site.signin}}
+      a.active.item(ng-href='#auth' ng-hide='user.id > 0') {{loc.site.signup}}
   div.view(ng-view)

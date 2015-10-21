@@ -1,0 +1,19 @@
+.ui.container.masthead
+   .ui.large.inverted.menu.bottom.attached
+      a.toc.item
+         i.sidebar.icon
+      a.active.item Home
+      a.active.item World
+      a.active.item Profile
+      .right.item
+         div.ui.form
+            .field
+               select.language(ng-model='lang')
+                  option(value='en') English
+                  option(value='ru') Русский
+         div(ng-hide='user.id')
+            a.ui.inverted.button(ng-href='#login') {{loc.site.signin}}
+            a.ui.inverted.button(ng-href='#register') {{loc.site.signup}}
+         div(ng-show='user.id')
+            span {{loc.site.welcome}} {{user.username}}
+            a.ui.inverted.button(href='/logout') {{loc.site.signout}}
