@@ -44,12 +44,17 @@ angular.module('Buildings', [])
     $http.get('/api/goods?building_id=' + building.id).then(
       (res) ->
         building.goods = res.data
-        that.loading = true
+        that.loading = false
       () ->
-        that.loading = true
+        that.loading = false
     )
   that.deselect = () ->
     that.selected = undefined
+  that.onExportChanges = (goods) ->
+    if (confirm('Are you sure?'))
+      $http.post('api/goods/update', goods).then((res) ->
+        goods = res.data
+      )
   that.openNewBuilding = () ->
     unless $nbm
       $http.get('/partials/modals/new_building.html').then((res) ->

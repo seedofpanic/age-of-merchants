@@ -31,8 +31,8 @@ div(ng-controller='BuildingsCtrl as bsc')
          tbody
             tr(ng-repeat='goods in bsc.selected.goods')
                td {{goods.product_type}}
-               td {{goods.count}}
+               td {{goods.count}}({{goods.reserved}})
                td {{goods.quality}}
                td.ui.toggle.checkbox
-                  input(type='checkbox' ng-model='goods.export')
+                  input(type='checkbox' ng-model='goods.export' ng-change='bsc.onExportChanges(goods)')
                   label

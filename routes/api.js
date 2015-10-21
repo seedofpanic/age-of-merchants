@@ -80,5 +80,14 @@ router.get('/goods', function(req, res, next){
   });
 });
 
+router.post('/goods/update', function(req, res, next){
+  //TODO: check profile access
+  models.goods.get(req.body.id, function (err, goods) {
+    goods.export = req.body.export;
+    goods.save();
+    res.send(goods);
+  });
+});
+
 
 module.exports = router;
