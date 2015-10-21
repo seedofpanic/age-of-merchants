@@ -30,3 +30,19 @@ angular.module('Tools', ['ngRoute'])
       Loc.set(ngModel.$viewValue)
     )
 )
+.factory('Modals', ($http, $compile) ->
+  modals = {}
+  show: (id, scope)->
+    unless modals[id]
+      $http.get('/partials/modals/' + id + '.html').then((res) ->
+        modals[id] = $(res.data).appendTo('body')
+        modals[id].modal(
+          selector:
+            close: '.close'
+            approve: '.approve'
+        ).modal('show')
+        $compile(modals[id])(scope)
+      )
+    else
+      modals[id].modal('show')
+)

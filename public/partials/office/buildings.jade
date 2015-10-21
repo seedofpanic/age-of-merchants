@@ -21,7 +21,8 @@ div(ng-controller='BuildingsCtrl as bsc')
    .building(ng-show='bsc.selected.id')
       .ui.button.icon.right.floated(ng-click='bsc.deselect()')
          i.icon.close
-      h2 {{bsc.selected.name}}
+      h2 {{bsc.selected.name}} - {{bsc.selected.field.region.name}}({{bsc.selected.field.x}},{{bsc.selected.field.y}})
+      button.ui.button.purple {{loc.office.import}}
       table.goods.ui.table.form
          thead
             tr

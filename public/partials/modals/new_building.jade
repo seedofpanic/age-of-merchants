@@ -9,7 +9,7 @@
          .field
             label Type
             select(ng-model='nbc.type')
-               option(ng-repeat='(id,type) in loc.buildings' value='{{id}}') {{type}}
+               option(ng-repeat='(id,type) in loc.buildings.types' value='{{id}}') {{type}}
          .field
             label Region
             select(ng-model='nbc.region')

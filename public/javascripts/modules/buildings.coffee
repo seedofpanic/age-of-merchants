@@ -1,4 +1,4 @@
-angular.module('Buildings', [])
+angular.module('Buildings', ['Tools'])
 .controller('NewBuildingCtrl', ($element, $http, $route) ->
   that = @
   that.types = {}
@@ -31,9 +31,8 @@ angular.module('Buildings', [])
     return
   return
 )
-.controller('BuildingsCtrl', ($scope, $http, $compile, $route) ->
+.controller('BuildingsCtrl', ($scope, $http, $compile, $route, Modals) ->
   that = @
-  $nbm = null
   $http.get('/api/buildings?profile_name=' + $route.current.params.profile_name).then( (res) ->
     that.buildings = res.data
   )
@@ -56,18 +55,7 @@ angular.module('Buildings', [])
         goods = res.data
       )
   that.openNewBuilding = () ->
-    unless $nbm
-      $http.get('/partials/modals/new_building.html').then((res) ->
-        $nbm = $(res.data).appendTo('body')
-        $nbm.modal(
-          selector:
-            close: '.close'
-            approve: '.approve'
-        ).modal('show')
-        $compile($nbm)($scope)
-      )
-    else
-      $nbm.modal('show')
+    Modals.show('new_building', $scope)
     return
   return
 )

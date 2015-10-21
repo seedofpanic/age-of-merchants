@@ -27,7 +27,8 @@ var locales = {
             'no_buildings': 'No buildings to show, try to construct one',
             'count': 'Count',
             'quality': 'Quality',
-            'export': 'Export'
+            'export': 'Export',
+            'import': 'Import'
         },
         site: {
             language: 'Language',
@@ -76,7 +77,8 @@ var locales = {
             'no_buildings': 'У вас еще нет предприятий, может попробовать создать одно?',
             'count': 'Количество',
             'quality': 'Качество',
-            'export': 'Экспорт'
+            'export': 'Экспорт',
+            'import': 'Импорт'
         },
         site: {
             language: 'Язык',
