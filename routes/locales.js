@@ -3,7 +3,8 @@ var router = express.Router();
 
 var locales = {
     'en': {
-        buildings: {0: 'Hunting hut', 1: 'Sawmill', 2: 'Shop'},
+        goods: {1: 'meat', 2: 'wood'},
+        buildings: {0: 'Hunting hut', 1: 'woodcutter hut', 2: 'Shop'},
         site: {
             language: 'Language',
             auth: {
@@ -19,11 +20,15 @@ var locales = {
             welcome: 'Welcome',
             signin: 'Sign in',
             signup: 'Sign up',
-            signout: 'Sign out'
+            signout: 'Sign out',
+            home: 'Home',
+            world: 'World',
+            profile: 'Profile'
         }
     },
     'ru': {
-        buildings: {0: 'Охотничья избушка', 1: 'Лесопилка', 2: 'Магазин'},
+        goods: {1: 'Мясо', 2: 'Дерево'},
+        buildings: {0: 'Охотничья избушка', 1: 'Избушка лесника', 2: 'Магазин'},
         site: {
             language: 'Язык',
             auth: {
@@ -39,7 +44,10 @@ var locales = {
             welcome: 'Добро пожаловать',
             signin: 'Войти',
             signup: 'Зарегистроваться',
-            signout: 'Выйти'
+            signout: 'Выйти',
+            home: 'Главная',
+            world: 'Мир',
+            profile: 'Профиль'
         }
     }
 };

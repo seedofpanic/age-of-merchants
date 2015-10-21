@@ -9,7 +9,7 @@
          .field
             label Type
             select(ng-model='nbc.type')
-               option(ng-repeat='(id,type) in nbc.types' value='{{id}}') {{type}}
+               option(ng-repeat='(id,type) in loc.buildings' value='{{id}}') {{type}}
          .field
             label Region
             select(ng-model='nbc.region')
@@ -22,6 +22,6 @@
                label Y
                input(ng-model='nbc.y')
    .actions
-      .ui.black.deny.button Nope
-      .ui.positive.right.labeled.icon.button(ng-click='nbc.create()') Yep, that's me
+      .ui.black.deny.button Cancel
+      .ui.positive.right.labeled.icon.button(ng-click='nbc.create()') Construct
          i.checkmark.icon
