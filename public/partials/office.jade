@@ -1,12 +1,12 @@
 include inc/header
 .ui.container(ng-show='user.id')
    .ui.segment(ng-show='office.loaded && !office.profile_name')
-      h1(ng-hide='office.profiles.length > 0') Create your first profile to get your own office
-      h1(ng-show='office.profiles.length > 0') Create new profile
+      h1(ng-hide='office.profiles.length > 0') {{loc.office.create_first_profile}}
+      h1(ng-show='office.profiles.length > 0') {{loc.office.create_new_profile}}
       form.ui.form(action='/api/profile/new' method='post')
          .field
-            input(type='text' placeholder='New profile name' ng-model='office.new_profile_name')
-         a.ui.button(ng-click='office.newProfile()') Create
+            input(type='text' placeholder='{{loc.office.new_profile_name}}' ng-model='office.new_profile_name')
+         a.ui.button(ng-click='office.newProfile()') {{loc.office.create_btn}}
       table.ui.table(ng-show='office.profiles.length > 0')
          tr(ng-repeat='profile in office.profiles')
             td
@@ -14,9 +14,9 @@ include inc/header
    .ui.segment(ng-show='office.loaded && office.profile_name')
       .ui.button.icon.right.floated(ng-click='office.deselect()')
          i.icon.close
-      h1 {{office.profile_name}}'s office
+      h1 {{$eval(loc.office.header)}}
       .tabs
          .ui.top.attached.tabular.menu
-            a.item(ng-class='{active: !tab || tab == "stats"}' ng-click='openTab("stats")') Stats
-            a.item(ng-class='{active: tab == "buildings"}' ng-click='openTab("buildings")') Buildings
+            a.item(ng-class='{active: !tab || tab == "stats"}' ng-click='openTab("stats")') {{loc.office.stats}}
+            a.item(ng-class='{active: tab == "buildings"}' ng-click='openTab("buildings")') {{loc.office.buildings}}
          .ui.bottom.attached.active.tab.segment(ng-include="'/partials/office/' + (tab || 'stats') + '.html'")

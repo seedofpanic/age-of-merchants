@@ -14,12 +14,11 @@
                span {{loc.site.welcome}} {{user.username}}
                a.ui.inverted.button(href='/logout') {{loc.site.signout}}
       .ui.text.container
-         h1.ui.inverted.header Age of Merchants
-         h2 Do whatever you want when you want to.
+         h1.ui.inverted.header {{loc.age_of_merchants}}
+         h2 {{loc.site.welcome}}
          p
-            a.ui.huge.primary.button(ng-href='#office' ng-show='user.id > 0') To your office
+            a.ui.huge.primary.button(ng-href='#office' ng-show='user.id > 0') {{loc.site.to_your_office}}
                i.right.arrow.icon
-            a.ui.huge.primary.button(ng-href='#auth' ng-hide='user.id > 0') Log in
+            a.ui.huge.primary.button(ng-href='#auth' ng-hide='user.id > 0') {{loc.site.signin}}
          p
             button.ui.button.purple.large.disabled Github
-         p Welcome to the ...

@@ -1,20 +1,21 @@
 div(ng-controller='BuildingsCtrl as bsc')
    .buildings(ng-hide='bsc.selected.id')
-      h2 Buildings
-      button.ui.button.blue(ng-click='bsc.openNewBuilding()') Construct new building
+      h2 {{loc.office.buildings}}
+      button.ui.button.blue(ng-click='bsc.openNewBuilding()') {{loc.office.construct_building}}
       table.ui.table(ng-show='bsc.buildings.length > 0')
          thead
             tr
-               th Name
-               th Region
-               th Type
-               th Status
+               th {{loc.office.name}}
+               th {{loc.office.region}}
+               th {{loc.office.type}}
+               th {{loc.office.status}}
          tbody
             tr.clickable(ng-repeat='building in bsc.buildings' ng-click='bsc.select(building)')
                td {{building.name}}
                td {{building.field.region.name}}({{building.field.x}},{{building.field.y}})
-                  td {{loc.buildings[building.type]}}
-               td.collapsing {{['building(' + building.buildtime + ')', 'active'][building.status]}}
+                  td {{loc.buildings.types[building.type]}}
+               td.collapsing {{loc.buildings.statuses[building.status]}}
+                  span(ng-show='building.buildtime > 0') ({{' + building.buildtime + '}})
       .ui.message.info(ng-hide='bsc.buildings.length > 0')
          .header No buildings to show, try to construct one
    .building(ng-show='bsc.selected.id')
@@ -24,13 +25,13 @@ div(ng-controller='BuildingsCtrl as bsc')
       table.goods.ui.table.form
          thead
             tr
-               th Type
-               th Count
-               th Quality
-               th.collapsing Export
+               th {{loc.office.type}}
+               th {{loc.office.count}}
+               th {{loc.office.quality}}
+               th.collapsing {{loc.office.export}}
          tbody
             tr(ng-repeat='goods in bsc.selected.goods')
-               td {{loc.goods[goods.product_type]}}
+               td {{loc.goods.types[goods.product_type]}}
                td {{goods.count}}({{goods.reserved}})
                td {{goods.quality}}
                td.ui.toggle.checkbox
