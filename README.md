@@ -10,8 +10,7 @@ I'm up to fully rewrite core on node.js. I need some time to get old functionali
 3. $ npm install
 4. $ bower install
 5. $ node node_modules\db-migrate\bin\db-migrate up init
-6. compile /public/javascripts/*.coffee recursively to .min.js
-7. compile /public/partials/*.jade recursively to .html (/views don't need compilation!)
-8. $ node bin/www (runs the server)
+6. $ node compile
+7. $ node bin/www (runs the server)
 
 That's it! I hope I didn't forget something, if I did, plz let me know in issues!

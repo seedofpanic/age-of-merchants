@@ -3,5 +3,3 @@
   angular.module('Auth', []).controller('AuthCtrl', function() {});
 
 }).call(this);
-
-//# sourceMappingURL=auth.js.map
