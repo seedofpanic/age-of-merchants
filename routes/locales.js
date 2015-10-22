@@ -27,8 +27,19 @@ var locales = {
             'no_buildings': 'No buildings to show, try to construct one',
             'count': 'Count',
             'quality': 'Quality',
+            'price': 'Price',
             'export': 'Export',
-            'import': 'Import'
+            'import': 'Import',
+            'import_modal_title': 'Select product to import',
+            'new_b_modal_title': 'Construct new building',
+            'cancel': 'Cancel',
+            'construct': 'Construct',
+            'order': 'Order',
+            'export_btn': 'Start export',
+            'export_s_btn': 'Stop export',
+            'stop_export_title': 'Stop export',
+            'confirm_stop_export': 'All offers with this product will be canceled! Do you want to stop exporting?',
+            'ok': 'OK'
         },
         site: {
             language: 'Language',
@@ -77,8 +88,19 @@ var locales = {
             'no_buildings': 'У вас еще нет предприятий, может попробовать создать одно?',
             'count': 'Количество',
             'quality': 'Качество',
+            'price': 'Цена',
             'export': 'Экспорт',
-            'import': 'Импорт'
+            'import': 'Импорт',
+            'import_modal_title': 'Выберите продукт для импорта',
+            'new_b_modal_title': 'Создать новое предприятие',
+            'cancel': 'Отменить',
+            'construct': 'Построить',
+            'order': 'Заказать',
+            'export_btn': 'Начать экспорт',
+            'export_s_btn': 'Остановить экспорт',
+            'stop_export_title': 'Остановить экспорт',
+            'confirm_stop_export': 'Все сделки с участием этого продукта будут отменены! Вы действительно хотите остановить экспорт?',
+            'ok': 'OK'
         },
         site: {
             language: 'Язык',

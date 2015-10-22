@@ -32,11 +32,12 @@ angular.module('Tools', ['ngRoute'])
 )
 .factory('Modals', ($http, $compile) ->
   modals = {}
-  show: (id, scope)->
+  show: (id, scope, onApprove)->
     unless modals[id]
       $http.get('/partials/modals/' + id + '.html').then((res) ->
         modals[id] = $(res.data).appendTo('body')
         modals[id].modal(
+          onApprove: onApprove
           selector:
             close: '.close'
             approve: '.approve'

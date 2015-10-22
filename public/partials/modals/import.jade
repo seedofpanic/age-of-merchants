@@ -1,0 +1,19 @@
+.ui.modal.fullscreen(ng-controller='ImportCtrl as ic')
+   i.close.icon
+   .header {{loc.office.import_modal_title}}
+   .content
+      table.ui.table
+         thead
+            th {{loc.office.type}}
+               th {{loc.office.count}}
+               th {{loc.office.quality}}
+               th {{loc.office.price}}
+               th.collapsing
+         tbody
+            tr(ng-repeat='goods in ic.goods')
+               td {{loc.goods.types[goods.product_type]}}
+               td {{goods.count}}({{goods.reserved}})
+               td {{goods.quality}}
+               td {{goods.price}}
+               td
+                  .ui.button.orange {{loc.office.order}}

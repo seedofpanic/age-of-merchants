@@ -4,9 +4,6 @@ angular.module('Buildings', ['Tools'])
   that.types = {}
   that.regions = {}
   that.profile_name = $route.current.params.profile_name
-  $http.get('/api/buildings/types').then((res) ->
-    that.types = res.data
-  )
   $http.get('/api/regions').then((res) ->
     that.regions = res.data
   )
@@ -49,13 +46,34 @@ angular.module('Buildings', ['Tools'])
     )
   that.deselect = () ->
     that.selected = undefined
-  that.onExportChanges = (goods) ->
-    if (confirm('Are you sure?'))
-      $http.post('api/goods/update', goods).then((res) ->
-        goods = res.data
-      )
   that.openNewBuilding = () ->
     Modals.show('new_building', $scope)
     return
+  that.openImport = () ->
+    Modals.show('import', $scope)
+    return
+  that.export = (goods) ->
+    if goods.export
+      Modals.show('stop_export', $scope, () ->
+        goods.export = false
+        $http.post('api/goods/update', goods).then((res) ->
+          goods = res.data
+        )
+      )
+    else
+      Modals.show('start_export', $scope,  () ->
+        goods.export = false
+        $http.post('api/goods/update', goods).then((res) ->
+          goods = res.data
+        )
+      )
+  return
+)
+.controller('ImportCtrl', ($http) ->
+  that = @
+  that.goods = {}
+  $http.get('/api/goods').then((res) ->
+    that.goods = res.data
+  )
   return
 )

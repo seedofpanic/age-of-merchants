@@ -75,9 +75,15 @@ router.get('/regions', function(req, res, next){
 });
 
 router.get('/goods', function(req, res, next){
-  models.goods.find({building_id: req.query.building_id}, function (err, goods) {
-    res.send(goods);
-  });
+  if (req.query.building_id) {
+    models.goods.find({building_id: req.query.building_id}, function (err, goods) {
+      res.send(goods);
+    });
+  } else {
+    models.goods.find({'export': true}, function (err, goods) {
+      res.send(goods);
+    });
+  }
 });
 
 router.post('/goods/update', function(req, res, next){
