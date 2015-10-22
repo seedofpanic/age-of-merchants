@@ -1,5 +1,5 @@
 angular.module('App', ['ngRoute', 'Auth', 'Office', 'Tools', 'Buildings', 'ngCookies'])
-.run(($location, $rootScope) ->
+.run(($location, $rootScope ) ->
   $rootScope.$on('$routeChangeStart', (next, current) ->
     if ($location.path() != '') && ($location.path() != '/') && !$rootScope.user.id
       $location.path('auth')

@@ -28,7 +28,7 @@ angular.module('Buildings', ['Tools'])
     return
   return
 )
-.controller('BuildingsCtrl', ($scope, $http, $compile, $route, Modals) ->
+.controller('BuildingsCtrl', ($scope, $http, $compile, $route, Modals, ExportData) ->
   that = @
   $http.get('/api/buildings?profile_name=' + $route.current.params.profile_name).then( (res) ->
     that.buildings = res.data
@@ -55,25 +55,34 @@ angular.module('Buildings', ['Tools'])
   that.export = (goods) ->
     if goods.export
       Modals.show('stop_export', $scope, () ->
-        goods.export = false
-        $http.post('api/goods/update', goods).then((res) ->
+        $http.post('api/goods/stop_export', goods).then((res) ->
           goods = res.data
         )
       )
     else
+      angular.copy(goods, ExportData.goods)
+      ExportData.goods.export = 1;
+      ExportData.goods.export_count = 100;
       Modals.show('start_export', $scope,  () ->
-        goods.export = false
-        $http.post('api/goods/update', goods).then((res) ->
-          goods = res.data
+        $http.post('api/goods/start_export', ExportData.goods).then((res) ->
+          angular.copy(res.data, goods)
         )
       )
   return
+)
+.factory('ExportData', () ->
+  goods: {}
 )
 .controller('ImportCtrl', ($http) ->
   that = @
   that.goods = {}
   $http.get('/api/goods').then((res) ->
-    that.goods = res.data
+    angular.copy(res.data, that.goods)
   )
+  return
+)
+.controller('ExportCtrl', (ExportData) ->
+  that = @
+  that.ed = ExportData
   return
 )

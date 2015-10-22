@@ -46,4 +46,5 @@ angular.module('Tools', ['ngRoute'])
       )
     else
       modals[id].modal('show')
+    return
 )

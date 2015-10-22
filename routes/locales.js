@@ -10,6 +10,9 @@ var locales = {
             types: {0: 'Hunting hut', 1: 'woodcutter hut', 2: 'Shop'},
             'statuses': {0: 'constructing', 1: 'active'}
         },
+        'export': {
+            types: {1: 'Once'}
+        },
         age_of_merchants: 'Age of Merchants',
         office: {
             'create_new_profile': 'Create new profile',
@@ -39,7 +42,10 @@ var locales = {
             'export_s_btn': 'Stop export',
             'stop_export_title': 'Stop export',
             'confirm_stop_export': 'All offers with this product will be canceled! Do you want to stop exporting?',
-            'ok': 'OK'
+            'ok': 'OK',
+            'export_result': "You will get:",
+            'export_type': 'Export type',
+            'start_export_title': 'Start product export'
         },
         site: {
             language: 'Language',
@@ -71,6 +77,9 @@ var locales = {
             types: {0: 'Охотничья избушка', 1: 'Избушка лесника', 2: 'Магазин'},
             'statuses': {0: 'строится', 1: 'активно'}
         },
+        'export': {
+            types: {1: 'Один раз'}
+        },
         age_of_merchants: 'Век торговли',
         office: {
             'create_new_profile': 'Создать новый профиль',
@@ -100,7 +109,10 @@ var locales = {
             'export_s_btn': 'Остановить экспорт',
             'stop_export_title': 'Остановить экспорт',
             'confirm_stop_export': 'Все сделки с участием этого продукта будут отменены! Вы действительно хотите остановить экспорт?',
-            'ok': 'OK'
+            'ok': 'OK',
+            'export_result': "Вы получите:",
+            'export_type': 'Тип экспорта',
+            'start_export_title': 'Начать экспорт товара'
         },
         site: {
             language: 'Язык',

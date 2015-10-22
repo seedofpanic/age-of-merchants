@@ -86,10 +86,21 @@ router.get('/goods', function(req, res, next){
   }
 });
 
-router.post('/goods/update', function(req, res, next){
+router.post('/goods/start_export', function(req, res, next){
   //TODO: check profile access
   models.goods.get(req.body.id, function (err, goods) {
     goods.export = req.body.export;
+    goods.export_count = req.body.export_count;
+    goods.price = req.body.price;
+    goods.save();
+    res.send(goods);
+  });
+});
+
+router.post('/goods/stop_export', function(req, res, next){
+  //TODO: check profile access
+  models.goods.get(req.body.id, function (err, goods) {
+    goods.export = 0;
     goods.save();
     res.send(goods);
   });

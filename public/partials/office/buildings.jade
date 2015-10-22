@@ -36,4 +36,4 @@ div(ng-controller='BuildingsCtrl as bsc')
                td {{goods.count}}({{goods.reserved}})
                td {{goods.quality}}
                td.ui.toggle.checkbox
-                  button.ui.button(ng-click='bsc.export(goods)' ng-class='{red: goods.export, green: !goods.export}') {{goods.export ? loc.office.export_s_btn : loc.office.export_btn}}
+                  button.ui.button(ng-click='bsc.export(goods)' ng-class='{red: goods.export > 0, green: goods.export == 0}') {{goods.export > 0 ? loc.office.export_s_btn : loc.office.export_btn}}
