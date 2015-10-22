@@ -32,7 +32,6 @@ angular.module('Buildings', ['Tools'])
   that = @
   that.selected = undefined
   that.select = (building) ->
-    console.log('ok')
     that.loading = true
     that.selected = building
     $route.updateParams('building_id': building.id)
@@ -45,11 +44,10 @@ angular.module('Buildings', ['Tools'])
     )
   $http.get('/api/buildings?profile_name=' + $route.current.params.profile_name).then( (res) ->
     that.buildings = res.data
-    building_id = $route.current.params.building_id
+    building_id = parseInt($route.current.params.building_id)
     if building_id > 0
       that.buildings.forEach((a) ->
         if a.id == building_id
-          console.log('ok')
           that.select(a)
       )
   )
