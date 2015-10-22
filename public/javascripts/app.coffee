@@ -17,5 +17,6 @@ angular.module('App', ['ngRoute', 'Auth', 'Office', 'Tools', 'Buildings', 'ngCoo
     $routeProvider.when('/office/:profile_name?/:tab?',
       templateUrl: 'partials/office.html'
       controller: 'OfficeCtrl as office'
+      reloadOnSearch: false
     )
 ])

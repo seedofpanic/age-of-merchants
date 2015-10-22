@@ -28,15 +28,14 @@ angular.module('Buildings', ['Tools'])
     return
   return
 )
-.controller('BuildingsCtrl', ($scope, $http, $compile, $route, Modals, ExportData) ->
+.controller('BuildingsCtrl', ($scope, $http, $compile, $route, Modals, ExportData, $location) ->
   that = @
-  $http.get('/api/buildings?profile_name=' + $route.current.params.profile_name).then( (res) ->
-    that.buildings = res.data
-  )
   that.selected = undefined
   that.select = (building) ->
+    console.log('ok')
     that.loading = true
     that.selected = building
+    $route.updateParams('building_id': building.id)
     $http.get('/api/goods?building_id=' + building.id).then(
       (res) ->
         building.goods = res.data
@@ -44,6 +43,16 @@ angular.module('Buildings', ['Tools'])
       () ->
         that.loading = false
     )
+  $http.get('/api/buildings?profile_name=' + $route.current.params.profile_name).then( (res) ->
+    that.buildings = res.data
+    building_id = $route.current.params.building_id
+    if building_id > 0
+      that.buildings.forEach((a) ->
+        if a.id == building_id
+          console.log('ok')
+          that.select(a)
+      )
+  )
   that.deselect = () ->
     that.selected = undefined
   that.openNewBuilding = () ->
@@ -56,7 +65,7 @@ angular.module('Buildings', ['Tools'])
     if goods.export
       Modals.show('stop_export', $scope, () ->
         $http.post('api/goods/stop_export', goods).then((res) ->
-          goods = res.data
+          angular.copy(res.data, goods)
         )
       )
     else
@@ -73,16 +82,31 @@ angular.module('Buildings', ['Tools'])
 .factory('ExportData', () ->
   goods: {}
 )
-.controller('ImportCtrl', ($http) ->
+.controller('ImportCtrl', ($http, Modals, $scope, OrderData, $route) ->
   that = @
-  that.goods = {}
+  that.goods = []
   $http.get('/api/goods').then((res) ->
-    angular.copy(res.data, that.goods)
+    that.goods = res.data
   )
+  that.order = (goods) ->
+    angular.copy(goods, OrderData.goods)
+    Modals.show('order_goods', $scope, () ->
+      OrderData.building_id = $route.current.params.building_id
+      $http.post('api/contracts/new', OrderData).then((res) ->
+      )
+    )
   return
 )
 .controller('ExportCtrl', (ExportData) ->
   that = @
   that.ed = ExportData
+  return
+)
+.factory('OrderData', () ->
+  goods: {}
+)
+.controller('GoodsOrderCtrl', (OrderData) ->
+  that = @
+  that.od = OrderData
   return
 )

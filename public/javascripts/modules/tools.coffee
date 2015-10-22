@@ -41,6 +41,7 @@ angular.module('Tools', ['ngRoute'])
           selector:
             close: '.close'
             approve: '.approve'
+          allowMultiple: true
         ).modal('show')
         $compile(modals[id])(scope)
       )

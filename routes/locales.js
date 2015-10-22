@@ -13,6 +13,9 @@ var locales = {
         'export': {
             types: {1: 'Once'}
         },
+        'order': {
+          types: {1: 'Once', 2: 'Every day'}
+        },
         age_of_merchants: 'Age of Merchants',
         office: {
             'create_new_profile': 'Create new profile',
@@ -45,7 +48,9 @@ var locales = {
             'ok': 'OK',
             'export_result': "You will get:",
             'export_type': 'Export type',
-            'start_export_title': 'Start product export'
+            'start_export_title': 'Start product export',
+            'order_goods_title': 'Order goods',
+            'order_quantity': 'Order quantity'
         },
         site: {
             language: 'Language',
@@ -80,6 +85,9 @@ var locales = {
         'export': {
             types: {1: 'Один раз'}
         },
+        'order': {
+            types: {1: 'Один раз', 2: 'Каждый день'}
+        },
         age_of_merchants: 'Век торговли',
         office: {
             'create_new_profile': 'Создать новый профиль',
@@ -112,7 +120,9 @@ var locales = {
             'ok': 'OK',
             'export_result': "Вы получите:",
             'export_type': 'Тип экспорта',
-            'start_export_title': 'Начать экспорт товара'
+            'start_export_title': 'Начать экспорт товара',
+            'order_goods_title': 'Заказ товаров',
+            'order_quantity': 'Объем заказа'
         },
         site: {
             language: 'Язык',

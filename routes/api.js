@@ -106,5 +106,17 @@ router.post('/goods/stop_export', function(req, res, next){
   });
 });
 
+router.post('/contracts/new', function(req, res, next){
+  //TODO: check profile access
+  var new_contract = {
+    goods_id: req.body.goods.id,
+    dest_id: req.body.building_id,
+    count: req.body.count,
+    type: req.body.type
+  };
+  models.contracts.create(new_contract, function (err, contract) {
+    res.send(contract);
+  });
+});
 
 module.exports = router;
