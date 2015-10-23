@@ -9,7 +9,7 @@ I'm up to fully rewrite core on node.js. I need some time to get old functionali
 2. $ cd aom
 3. $ npm install
 4. $ bower install
-5. Configure database connection in app.js
+5. Configure database connection in database.json
 6. $ node node_modules\db-migrate\bin\db-migrate up init
 7. $ node compile
 8. $ node bin/www (runs the server)

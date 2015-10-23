@@ -20,8 +20,8 @@ var models = require('./lib/models');
 
 
 var app = express();
-
-app.use(orm.express("mysql://root:root@localhost/aom", {define: models.__init}));
+var db_config = require('./database.json');
+app.use(orm.express(db_config['dev'].driver + '://' + db_config['dev'].user + ':' + db_config['dev'].password + '@' + db_config['dev'].host + '/' + db_config['dev'].database, {define: models.__init}));
 
 game.init();
 
