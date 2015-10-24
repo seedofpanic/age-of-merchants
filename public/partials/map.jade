@@ -7,8 +7,9 @@ include inc/header
                .ui.inverted.relaxed.divided.list
                   a.item(ng-click='mc.open(region)' ng-repeat='region in mc.regions') {{region.name}}
          .twelve.wide.column
+            h1 {{mc.selected.name}}
             table.map
                tr(ng-repeat='fields in mc.map')
-                  td(ng-repeat='field in fields' style='background: rgb({{mc.getR(field.resources.forest_c)}},{{mc.getB(field.resources.forest_c)}}, 0)')
+                  td.popup(ng-repeat='field in fields' data-content="{{field.x}}x{{field.y}} count: {{field.resources.forest_c}}" data-variation="inverted" style='background: rgb({{mc.getR(field.resources.forest_c)}},{{mc.getG(field.resources.forest_c)}}, 0)')
 
 
