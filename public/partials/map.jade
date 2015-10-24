@@ -7,9 +7,15 @@ include inc/header
                .ui.inverted.relaxed.divided.list
                   a.item(ng-click='mc.open(region)' ng-repeat='region in mc.regions') {{region.name}}
          .twelve.wide.column
+            .ui.dimmer(ng-class='{active: mc.loading}')
+               .ui.text.loader {{loc.site.loading}}
             h1 {{mc.selected.name}}
+            .ui.segment(ng-show='mc.selected.id > 0') {{loc.map.resource_type}}:&nbsp;
+               select(ng-model='mc.res_type')
+                  option
+                  option(ng-repeat='(id,type) in loc.resources.types' value='{{id}}') {{type}}
             table.map
                tr(ng-repeat='fields in mc.map')
-                  td.popup(ng-repeat='field in fields' data-content="{{field.x}}x{{field.y}} count: {{field.resources.forest_c}}" data-variation="inverted" style='background: rgb({{mc.getR(field.resources.forest_c)}},{{mc.getG(field.resources.forest_c)}}, 0)')
+                  td.popup(ng-repeat='field in fields' data-html="{{field.x}}x{{field.y}}<br/>{{loc.map.count}}: {{field.c}}<br/>{{loc.map.quality}}: {{field.q}}<br/>{{loc.map.growth}}: {{field.a}}" data-variation="inverted" style='background: rgb({{mc.getR(field.c)}},{{mc.getG(field.c)}}, 0)')
 
 

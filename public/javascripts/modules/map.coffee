@@ -1,5 +1,5 @@
 angular.module('Map', [])
-.controller('MapCtrl', ($http) ->
+.controller('MapCtrl', ($http, $scope) ->
   that = @
   that.regions = []
   $http.get('/api/regions').then((res) ->
@@ -17,12 +17,23 @@ angular.module('Map', [])
       return 255
   that.open = (region) ->
     that.selected = region
-    $http.get('/api/map?id=' + region.id).then((res) ->
+  $scope.$watch(() ->
+    that.res_type
+  ,
+  (type) ->
+    unless type > 0
+      return
+    if that.loading
+      return
+    that.loading = true;
+    $http.get('/api/map?region_id=' + that.selected.id + '&type=' + type).then((res) ->
       that.map = res.data
+      that.loading = false;
       setTimeout(() ->
         $('.popup').popup()
       , 1
       )
     )
+  )
   return
 )

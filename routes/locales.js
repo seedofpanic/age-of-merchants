@@ -16,6 +16,9 @@ var locales = {
         'order': {
           types: {1: 'Once', 2: 'Every day'}
         },
+        'resources': {
+            types: {1: 'Forest', 2: 'Animals', 3: 'Soil'}
+        },
         age_of_merchants: 'Age of Merchants',
         office: {
             'create_new_profile': 'Create new profile',
@@ -71,7 +74,14 @@ var locales = {
             home: 'Home',
             world: 'World',
             profile: 'Profile',
-            to_your_office: 'To your office'
+            to_your_office: 'To your office',
+            loading: 'Loading'
+        },
+        map: {
+            resource_type: 'Resource type',
+            count: 'Count',
+            quality: 'Quality',
+            growth: 'Growth'
         }
     },
     'ru': {
@@ -81,6 +91,9 @@ var locales = {
         buildings: {
             types: {0: 'Охотничья избушка', 1: 'Избушка лесника', 2: 'Магазин'},
             'statuses': {0: 'строится', 1: 'активно'}
+        },
+        'resources': {
+            types: {1: 'Лес', 2: 'Животные', 3: 'Почва'}
         },
         'export': {
             types: {1: 'Один раз'}
@@ -143,7 +156,14 @@ var locales = {
             home: 'Главная',
             world: 'Мир',
             profile: 'Профиль',
-            to_your_office: 'В Ваш офис'
+            to_your_office: 'В Ваш офис',
+            loading: 'Загрузка'
+        },
+        map: {
+            resource_type: 'Тип ресурса',
+            count: 'Количество',
+            quality: 'Качество',
+            growth: 'Прирост'
         }
     }
 };

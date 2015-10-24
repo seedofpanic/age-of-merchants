@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var models = require('../lib/models');
 
+
 router.get('/buildings', function(req, res, next) {
   models.profiles.one({name: req.query.profile_name}, function (err, profile) {
     if (err || !profile.id) {
@@ -121,12 +122,15 @@ router.post('/contracts/new', function(req, res, next){
 
 router.get('/map', function (req, res, next) {
   var map = [];
-  models.map_fields.find({region_id: req.query.id}).each(function (field) {
-    if (!map[field.x]) {
-      map[field.x] = [];
+  var type = models.resources.types[req.query.type];
+  req.db.driver.execQuery('SELECT id,x,y,' + type + '_c as c,' + type + '_q as q,' + type + '_a as a FROM map_fields inner join map_fields_resources on id=map_fields_id WHERE region_id=?'
+      , [req.query.region_id], function (err, fields) {
+    for (var i = 0; i < fields.length; i++) {
+      if (!map[fields[i].x]) {
+        map[fields[i].x] = [];
+      }
+      map[fields[i].x][fields[i].y] = fields[i];
     }
-    map[field.x][field.y] = field;
-  }).get(function (fields) {
     res.send(map);
   });
 });
