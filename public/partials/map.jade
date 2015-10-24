@@ -1,0 +1,14 @@
+include inc/header
+.ui.container
+   .ui.segment
+      .ui.grid
+         .four.wide.column
+            .ui.segment.inverted
+               .ui.inverted.relaxed.divided.list
+                  a.item(ng-click='mc.open(region)' ng-repeat='region in mc.regions') {{region.name}}
+         .twelve.wide.column
+            table.map
+               tr(ng-repeat='fields in mc.map')
+                  td(ng-repeat='field in fields' style='background: rgb({{mc.parseInt(255*((1000000 - field.resources.forest_c)/1000000))}},{{mc.parseInt(255*(field.resources.forest_c/1000000))}}, 0)')
+
+

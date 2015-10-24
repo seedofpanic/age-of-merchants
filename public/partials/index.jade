@@ -5,7 +5,7 @@
             a.toc.item
                i.sidebar.icon
             a.active.item {{loc.site.home}}
-            a.active.item {{loc.site.world}}
+            a.active.item(ng-href='#map') {{loc.site.world}}
             a.active.item {{loc.site.profile}}
             .right.item(ng-hide='user.id > 0')
                a.ui.inverted.button(ng-href='#auth') {{loc.site.signin}}

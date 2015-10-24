@@ -91,3 +91,8 @@ body,body>.view {
 .clickable {
   cursor: pointer;
 }
+
+table.map td{
+  width: 5px;
+  height: 5px;
+}

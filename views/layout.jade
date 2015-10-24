@@ -24,7 +24,7 @@ html
 
     .ui.vertical.inverted.sidebar.menu.left
       a.active.item Home
-      a.active.item World
+      a.active.item(ng-href='#map') World
       a.active.item Profile
       a.active.item(ng-href='#auth' ng-hide='user.id > 0') {{loc.site.signin}}
       a.active.item(ng-href='#auth' ng-hide='user.id > 0') {{loc.site.signup}}

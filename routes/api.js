@@ -119,4 +119,15 @@ router.post('/contracts/new', function(req, res, next){
   });
 });
 
+router.get('/map', function (req, res, next) {
+  var map = [];
+  models.map_fields.find({region_id: req.query.id}).each(function (field) {
+    if (!map[field.x]) {
+      map[field.x] = [];
+    }
+    map[field.x][field.y] = field;
+  }).get(function (fields) {
+    res.send(map);
+  });
+});
 module.exports = router;
