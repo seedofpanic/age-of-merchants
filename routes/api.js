@@ -2,10 +2,18 @@ var express = require('express');
 var router = express.Router();
 var models = require('../lib/models');
 
+router.get('/profile', function(req, res, next) {
+  models.profiles.one({name: req.query.name}, function (err, profile) {
+    if (err || !profile) {
+      return
+    }
+    res.send(profile);
+  });
+});
 
 router.get('/buildings', function(req, res, next) {
   models.profiles.one({name: req.query.profile_name}, function (err, profile) {
-    if (err || !profile.id) {
+    if (err || !profile) {
       return
     }
     models.buildings.find({profile_id: profile.id}, function (err, buildings){

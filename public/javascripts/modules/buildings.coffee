@@ -53,6 +53,7 @@ angular.module('Buildings', ['Tools'])
   )
   that.deselect = () ->
     that.selected = undefined
+    $route.updateParams('building_id': undefined )
   that.openNewBuilding = () ->
     Modals.show('new_building', $scope)
     return
@@ -84,7 +85,7 @@ angular.module('Buildings', ['Tools'])
   that = @
   that.goods = []
   $http.get('/api/goods').then((res) ->
-    that.goods = res.data
+    that  .goods = res.data
   )
   that.order = (goods) ->
     angular.copy(goods, OrderData.goods)

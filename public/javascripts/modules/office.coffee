@@ -9,6 +9,10 @@ angular.module('Office', ['ngRoute'])
     $http.get('/api/profiles').then((res) ->
       that.profiles = res.data
     )
+  else
+    $http.get('/api/profile?name=' + that.profile_name).then((res) ->
+      that.profile = res.data
+    )
   that.deselect = () ->
     $location.path('office')
   that.newProfile = () ->

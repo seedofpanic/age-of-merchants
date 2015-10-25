@@ -53,7 +53,8 @@ var locales = {
             'export_type': 'Export type',
             'start_export_title': 'Start product export',
             'order_goods_title': 'Order goods',
-            'order_quantity': 'Order quantity'
+            'order_quantity': 'Order quantity',
+            'ballance': 'Ballance'
         },
         site: {
             language: 'Language',
@@ -135,7 +136,8 @@ var locales = {
             'export_type': 'Тип экспорта',
             'start_export_title': 'Начать экспорт товара',
             'order_goods_title': 'Заказ товаров',
-            'order_quantity': 'Объем заказа'
+            'order_quantity': 'Объем заказа',
+            'ballance': 'Балланс'
         },
         site: {
             language: 'Язык',
