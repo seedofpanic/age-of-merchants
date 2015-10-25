@@ -14,8 +14,13 @@ include inc/header
                select(ng-model='mc.res_type')
                   option
                   option(ng-repeat='(id,type) in loc.resources.types' value='{{id}}') {{type}}
-            table.map
-               tr(ng-repeat='fields in mc.map')
-                  td.popup(ng-repeat='field in fields' data-html="{{field.x}}x{{field.y}}<br/>{{loc.map.count}}: {{field.c}}<br/>{{loc.map.quality}}: {{field.q}}<br/>{{loc.map.growth}}: {{field.a}}" data-variation="inverted" style='background: rgb({{mc.getR(field.c)}},{{mc.getG(field.c)}}, 0)')
-
+            div(ng-show='mc.map')
+               h2 {{loc.map.count}}
+               table.map
+                  tr(ng-repeat='fields in mc.map')
+                     td.popup(ng-repeat='field in fields' data-html="{{field.x}}x{{field.y}}<br/>{{loc.map.count}}: {{field.c}}<br/>{{loc.map.quality}}: {{field.q}}<br/>{{loc.map.growth}}: {{field.a}}" data-variation="inverted" style='background: rgb({{mc.getR(field.c)}},{{mc.getG(field.c)}}, 0)')
+               h2 {{loc.map.quality}}
+               table.map
+                  tr(ng-repeat='fields in mc.map')
+                     td.popup(ng-repeat='field in fields' data-html="{{field.x}}x{{field.y}}<br/>{{loc.map.count}}: {{field.c}}<br/>{{loc.map.quality}}: {{field.q}}<br/>{{loc.map.growth}}: {{field.a}}" data-variation="inverted" style='background: rgb({{mc.getRQ(field.q)}},{{mc.getGQ(field.q)}}, 0)')
 

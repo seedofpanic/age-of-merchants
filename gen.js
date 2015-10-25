@@ -17,7 +17,10 @@ orm.connect(db_config['dev'].driver + '://' + db_config['dev'].user + ':' + db_c
     }
 );
 
-function randomArray(length, range) {
+function randomArray(length, range, min) {
+    if (!min) {
+        min = 0;
+    }
     var arr = [];
     for (var x = 0; x < length; x++ ){
         for (var y = 0; y < length; y++) {
@@ -33,8 +36,8 @@ function randomArray(length, range) {
             } else {
                 arr[x][y] = ((arr[x][y - 1] + arr[x - 1][y]) >> 1) + randomAdd(range);
             }
-            if (arr[x][y] < 0) {
-                arr[x][y] = 0;
+            if (arr[x][y] < min) {
+                arr[x][y] = min;
             }
         }
     }
@@ -83,13 +86,13 @@ function gen () {
                    }
                     console.log('Generating forest...');
                     var forest_c_arr = randomArray(LENGTH, 1000000);
-                    var forest_q_arr = randomArray(LENGTH, 10);
+                    var forest_q_arr = randomArray(LENGTH, 1000, 1);
                     console.log('Generating animals...');
                     var animals_c_arr = randomArray(LENGTH, 1000000);
-                    var animals_q_arr = randomArray(LENGTH, 10);
+                    var animals_q_arr = randomArray(LENGTH, 1000, 1);
                     console.log('Generating soil...');
                     var soil_c_arr = randomArray(LENGTH, 1000000);
-                    var soil_q_arr = randomArray(LENGTH, 10);
+                    var soil_q_arr = randomArray(LENGTH, 1000, 1);
                     for (var i = 0; i < LENGTH; i++) {
                         for (var j = 0; j < LENGTH; j++) {
                             var new_field = {
@@ -132,13 +135,13 @@ function gen () {
             models.resources.create({
                 map_fields_id: field.id,
                 forest_c: Math.round(forest_c),
-                forest_q: forest_q.toFixed(2),
+                forest_q: Math.round(forest_q) / 100,
                 forest_a: forest_c >> 10,
                 animals_c: Math.round(animals_c),
-                animals_q: animals_q.toFixed(2),
+                animals_q: Math.round(animals_q.toFixed(2)) / 100,
                 animals_a: animals_c >> 10,
                 soil_c: Math.round(soil_c),
-                soil_q: soil_q.toFixed(2),
+                soil_q: Math.round(soil_q) / 100,
                 soil_a: soil_c >> 10
             }, function () {
                 count_fields++;
