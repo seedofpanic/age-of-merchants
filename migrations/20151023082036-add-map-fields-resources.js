@@ -72,10 +72,10 @@ exports.up = function(db) {
         length: '10,2'
       },
       'soil_a': {
-        type: 'decimal',
+        type: 'int',
         unsigned: false,
         notNull: true,
-        length: '10,2'
+        length: 6
       }
     });
   return null;

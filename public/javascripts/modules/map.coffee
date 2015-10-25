@@ -15,16 +15,12 @@ angular.module('Map', [])
       return if (int > 500000) then 255 else parseInt(255*(int/500000));
     else
       return 255
-  that.open = (region) ->
-    that.selected = region
-  $scope.$watch(() ->
-    that.res_type
-  ,
-  (type) ->
+  that.load_map = (type) ->
     unless type > 0
       return
     if that.loading
       return
+    that.selected_type = type
     that.loading = true;
     $http.get('/api/map?region_id=' + that.selected.id + '&type=' + type).then((res) ->
       that.map = res.data
@@ -34,6 +30,13 @@ angular.module('Map', [])
       , 1
       )
     )
+  that.open = (region) ->
+    that.selected = region
+    that.load_map(that.selected_type)
+  $scope.$watch(() ->
+    that.res_type
+  ,
+    that.load_map
   )
   return
 )
