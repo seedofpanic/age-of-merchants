@@ -20,6 +20,10 @@ I'm up to fully rewrite core on node.js. I need some time to get old functionali
 5. Configure database connection in database.json
 6. $ node node_modules\db-migrate\bin\db-migrate up
 7. $ node compile
-8. $ node bin/www (runs the server)
+8. (optional)  $ gen raion "Region name" "X" "Y"
+```
+    Example:   $ gen region MyRegion 0 0
+```
+9. $ node bin/www (runs the server)
 
 That's it! I hope I didn't forget something, if I did, plz let me know in issues!
