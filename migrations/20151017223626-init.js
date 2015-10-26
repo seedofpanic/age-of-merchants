@@ -3,64 +3,56 @@ var type = dbm.dataType;
 
 exports.up = function(db, callback) {
   console.log('buildings');
-  db.createTable('buildings', {
-        'id': {
-          type: 'int',
-          unsigned: true,
-          notNull: true,
-          primaryKey: true,
-          autoIncrement: true,
-          length: 10
-        },
-        'profile_id': {
-          type: 'int',
-          unsigned: true,
-          length: 10,
-          notNull: true,
-          foreignKey: {
-            name: 'building_profile_id_fk',
-            table: 'profiles',
-            mapping: 'id',
-            rules: {}
-          }
-        },
-        'field_id': {
-          type: 'int',
-          unsigned: true,
-          length: 10,
-          notNull: true,
-          foreignKey: {
-            name: 'building_field_id_fk',
-            table: 'map_fields',
-            mapping: 'id',
-            rules: {}
-          }
-        },
-        'name': {
-          type: 'string',
-          notNull: true,
-          length: '64'
-        },
-        'buildtime': {
-          type: 'smallint',
-          notNull: true,
-          length: 3
-        },
-        'status': {
-          type: 'smallint',
-          notNull: true,
-          length: 3
-        },
-        'type': {
-          type: 'smallint',
-          notNull: true,
-          length: 3
-        }
-      }, createContracts);
-
+  createBuildings();
+  function createBuildings() {
+    db.createTable('buildings', {
+      'id': {
+        type: 'int',
+        unsigned: true,
+        notNull: true,
+        primaryKey: true,
+        autoIncrement: true,
+        length: 10
+      },
+      'profile_id': {
+        type: 'int',
+        unsigned: true,
+        length: 10,
+        notNull: true
+      },
+      'field_id': {
+        type: 'int',
+        unsigned: true,
+        length: 10,
+        notNull: true
+      },
+      'name': {
+        type: 'string',
+        notNull: true,
+        length: '64'
+      },
+      'buildtime': {
+        type: 'smallint',
+        notNull: true,
+        length: 3
+      },
+      'status': {
+        type: 'smallint',
+        notNull: true,
+        length: 3
+      },
+      'type': {
+        type: 'smallint',
+        notNull: true,
+        length: 3
+      }
+    }, createContracts);
+  }
 
   function createContracts(err) {
-    console.log(err);
+    if (err) {
+      console.log(err);
+    }
     console.log('contracts');
     db.createTable('contracts', {
       'id': {
@@ -75,25 +67,13 @@ exports.up = function(db, callback) {
         type: 'int',
         unsigned: true,
         length: 10,
-        notNull: true,
-        foreignKey: {
-          name: 'contracts_goods_id_fk',
-          table: 'goods',
-          mapping: 'id',
-          rules: {}
-        }
+        notNull: true
       },
       'dest_id': {
         type: 'int',
         unsigned: true,
         length: 10,
-        notNull: true,
-        foreignKey: {
-          name: 'contracts_dest_id_fk',
-          table: 'buildings',
-          mapping: 'id',
-          rules: {}
-        }
+        notNull: true
       },
       'count': {
         type: 'int',
@@ -104,7 +84,9 @@ exports.up = function(db, callback) {
     }, createGoods);
   }
   function createGoods(err) {
-    console.log(err);
+    if (err) {
+      console.log(err);
+    }
     console.log('goods');
     db.createTable('goods', {
           'id': {
@@ -119,13 +101,7 @@ exports.up = function(db, callback) {
             type: 'int',
             unsigned: true,
             length: 10,
-            notNull: true,
-            foreignKey: {
-              name: 'goods_building_id_fk',
-              table: 'buildings',
-              mapping: 'id',
-              rules: {}
-            }
+            notNull: true
           },
           'product_type': {
             type: 'int',
@@ -167,7 +143,9 @@ exports.up = function(db, callback) {
     );
   }
   function createMapFields(err) {
-    console.log(err);
+    if (err) {
+      console.log(err);
+    }
     console.log('map_fields');
     db.createTable('map_fields', {
           'id': {
@@ -182,13 +160,7 @@ exports.up = function(db, callback) {
             type: 'int',
             unsigned: true,
             length: 10,
-            notNull: true,
-            foreignKey: {
-              name: 'map_fields_region_id_fk',
-              table: 'map_regions',
-              mapping: 'id',
-              rules: {}
-            }
+            notNull: true
           },
           'x': {
             type: 'smallint',
@@ -206,7 +178,9 @@ exports.up = function(db, callback) {
     );
   }
   function createMapRegions(err) {
-    console.log(err);
+    if (err) {
+      console.log(err);
+    }
     console.log('map_regions');
     db.createTable('map_regions', {
       'id': {
@@ -237,7 +211,9 @@ exports.up = function(db, callback) {
     }, createProfiles);
   }
   function createProfiles(err) {
-    console.log(err);
+    if (err) {
+      console.log(err);
+    }
     console.log('profiles');
     db.createTable('profiles', {
           'id': {
@@ -252,13 +228,7 @@ exports.up = function(db, callback) {
             type: 'int',
             unsigned: true,
             length: 10,
-            notNull: true,
-            foreignKey: {
-              name: 'profile_user_id_fk',
-              table: 'users',
-              mapping: 'id',
-              rules: {}
-            }
+            notNull: true
           },
           'name': {
             type: 'string',
@@ -275,7 +245,9 @@ exports.up = function(db, callback) {
     );
   }
   function createUsers(err) {
-    console.log(err);
+    if (err) {
+      console.log(err);
+    }
     console.log('users');
     db.createTable('users', {
           'id': {
@@ -314,9 +286,47 @@ exports.up = function(db, callback) {
             length: 10
           }
         },
-        callback
+        addKeys
     );
   }
+
+  function addKeys (err) {
+    db.addForeignKey( 'buildings', 'profiles', 'building_profile_id_fk',
+        { profile_id: 'id'},
+        {}, function () {
+          db.addForeignKey( 'buildings', 'map_fields', 'building_field_id_fk',
+              { field_id: 'id'},
+              {}, function () {
+                db.addForeignKey( 'contracts', 'goods', 'contracts_goods_id_fk',
+                    { goods_id: 'id'},
+                    {}, function () {
+                      db.addForeignKey( 'contracts', 'buildings', 'contracts_dest_id_fk',
+                          { dest_id: 'id'},
+                          {}, function () {
+                            db.addForeignKey( 'goods', 'buildings', 'goods_building_id_fk',
+                                { building_id: 'id'},
+                                {}, function () {
+                                  db.addForeignKey( 'map_fields', 'map_regions', 'map_fields_region_id_fk',
+                                      { region_id: 'id'},
+                                      {}, function () {
+                                        db.addForeignKey( 'profiles', 'users', 'profile_user_id_fk',
+                                            { user_id: 'id'},
+                                            {}, callback
+                                        );
+                                      }
+                                  );
+                                }
+                            );
+                          }
+                      );
+                    }
+                );
+              }
+          );
+        }
+    );
+  }
+
 };
 
 exports.down = function(db, callback) {
