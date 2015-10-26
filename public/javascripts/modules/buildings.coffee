@@ -1,12 +1,9 @@
-angular.module('Buildings', ['Tools'])
-.controller('NewBuildingCtrl', ($element, $http, $route) ->
+angular.module('Buildings', ['Tools', 'DB'])
+.controller('NewBuildingCtrl', ($element, $http, $route, Regions) ->
   that = @
   that.types = {}
-  that.regions = {}
+  that.regions = Regions
   that.profile_name = $route.current.params.profile_name
-  $http.get('/api/regions').then((res) ->
-    that.regions = res.data
-  )
   that.create = () ->
     if (
       that.name.length > 0 &&
@@ -28,8 +25,9 @@ angular.module('Buildings', ['Tools'])
     return
   return
 )
-.controller('BuildingsCtrl', ($scope, $http, $compile, $route, Modals, ExportData, $location) ->
+.controller('BuildingsCtrl', ($scope, $http, $compile, $route, Modals, ExportData, Regions) ->
   that = @
+  that.regions = Regions
   that.selected = undefined
   that.select = (building) ->
     that.loading = true

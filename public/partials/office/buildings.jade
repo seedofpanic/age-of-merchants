@@ -12,16 +12,16 @@ div(ng-controller='BuildingsCtrl as bsc')
          tbody
             tr.clickable(ng-repeat='building in bsc.buildings' ng-click='bsc.select(building)')
                td {{building.name}}
-               td {{building.field.region.name}}({{building.field.x}},{{building.field.y}})
+               td {{bsc.regions[building.field.region_id].name}} ({{building.field.x}},{{building.field.y}})
                   td {{loc.buildings.types[building.type]}}
                td.collapsing {{loc.buildings.statuses[building.status]}}
-                  span(ng-show='building.buildtime > 0') ({{' + building.buildtime + '}})
+                  span(ng-show='building.buildtime > 0') ({{building.buildtime}})
       .ui.message.info(ng-hide='bsc.buildings.length > 0')
          .header No buildings to show, try to construct one
    .building(ng-show='bsc.selected.id')
       .ui.button.icon.right.floated(ng-click='bsc.deselect()')
          i.icon.close
-      h2 {{bsc.selected.name}} - {{bsc.selected.field.region.name}}({{bsc.selected.field.x}},{{bsc.selected.field.y}})
+      h2 {{bsc.selected.name}} - {{bsc.regions[bsc.selected.field.region_id].name}} ({{bsc.selected.field.x}},{{bsc.selected.field.y}})
       button.ui.button.purple(ng-click='bsc.openImport()') {{loc.office.import}}
       table.goods.ui.table.form
          thead

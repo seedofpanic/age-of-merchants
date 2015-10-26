@@ -16,7 +16,7 @@ angular.module('Office', ['ngRoute'])
   that.deselect = () ->
     $location.path('office')
   that.newProfile = () ->
-    if that.profile_name.length > 0
+    if that.new_profile_name.length > 0
       $http.post('/api/profile/new', name: that.new_profile_name)
       .then( (res) ->
         that.profiles.push(res.data)
