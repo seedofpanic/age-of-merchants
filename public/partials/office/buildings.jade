@@ -10,7 +10,7 @@ div(ng-controller='BuildingsCtrl as bsc')
                th {{loc.office.type}}
                th {{loc.office.status}}
          tbody
-            tr.clickable(ng-repeat='building in bsc.buildings' ng-click='bsc.select(building)')
+            tr.clickable(ng-repeat='building in bsc.buildings.arr' ng-click='bsc.select(building)')
                td {{building.name}}
                td {{bsc.regions[building.field.region_id].name}} ({{building.field.x}},{{building.field.y}})
                   td {{loc.buildings.types[building.type]}}

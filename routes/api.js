@@ -24,38 +24,23 @@ router.get('/buildings', function(req, res, next) {
 
 router.post('/buildings/new', function(req, res, next){
   if (!req.user) {return;}
-  models.fields.one({region_id: req.body.region, x: req.body.x, y: req.body.y}, function (err, field) {
+  models.profiles.one({name: req.body.profile_name, user_id: req.user.id}, function(err, profile) {
     if (err) {
       console.log(err);
-      console.log(req.body);
       return;
     }
-    models.profiles.one({name: req.body.profile_name, user_id: req.user.id}, function(err, profile) {
+    models.buildings.static.new(profile, req.body.region, req.body.x, req.body.y, req.body.type, req.body.name, function (err, building) {
       if (err) {
-        console.log(err);
+        res.send(err, 500);
         return;
       }
-      var new_building = {
-        profile_id: profile.id,
-        type: req.body.type,
-        name: req.body.name,
-        field_id: field.id,
-        buildtime: models.buildings.types.params[req.body.type].build_time,
-        status: 0
-      };
-      models.buildings.create(new_building, function (err, building) {
-        if (err) {
-          console.log(err);
-        }
+      building.getField(function (err, field) {
+        building.field = field;
         res.send(building);
       });
     });
   });
 });
-
-/*router.get('/buildings/types', function(req, res, next) {
-  res.send(models.buildings.types.types);
-});*/
 
 router.get('/profiles', function(req, res, next){
   models.profiles.find({user_id: req.user.id}, function (err, profile) {

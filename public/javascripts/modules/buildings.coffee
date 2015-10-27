@@ -1,5 +1,5 @@
 angular.module('Buildings', ['Tools', 'DB'])
-.controller('NewBuildingCtrl', ($element, $http, $route, Regions) ->
+.controller('NewBuildingCtrl', ($element, $http, $route, Regions, ProfileBuildings, Profile) ->
   that = @
   that.types = {}
   that.regions = Regions
@@ -20,16 +20,20 @@ angular.module('Buildings', ['Tools', 'DB'])
         y: that.y
         profile_name: that.profile_name
       ).then((res) ->
+        ProfileBuildings.push(res.data)
+        Profile.update()
         $element.modal('hide')
       )
     return
   return
 )
-.controller('BuildingsCtrl', ($scope, $http, $compile, $route, Modals, ExportData, Regions) ->
+.controller('BuildingsCtrl', ($scope, $http, $compile, $route, Modals, ExportData, Regions, ProfileBuildings) ->
   that = @
   that.regions = Regions
   that.selected = undefined
   that.select = (building) ->
+    unless (building)
+      return
     that.loading = true
     that.selected = building
     $route.updateParams('building_id': building.id)
@@ -40,14 +44,12 @@ angular.module('Buildings', ['Tools', 'DB'])
       () ->
         that.loading = false
     )
-  $http.get('/api/buildings?profile_name=' + $route.current.params.profile_name).then( (res) ->
-    that.buildings = res.data
-    building_id = parseInt($route.current.params.building_id)
-    if building_id > 0
-      that.buildings.forEach((a) ->
-        if a.id == building_id
-          that.select(a)
-      )
+  that.buildings = ProfileBuildings
+  building_id = $route.current.params.building_id
+  $scope.$watch(() ->
+    ProfileBuildings[building_id]
+  , () ->
+    that.select(ProfileBuildings[building_id])
   )
   that.deselect = () ->
     that.selected = undefined

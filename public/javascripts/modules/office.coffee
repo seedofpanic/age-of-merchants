@@ -1,5 +1,5 @@
 angular.module('Office', ['ngRoute'])
-.controller('OfficeCtrl', ['$http', '$route', '$location', ($http, $route, $location) ->
+.controller('OfficeCtrl', ($http, $route, $location, Profile) ->
   that = @
   that.loaded = true
   that.new_profile_name = ''
@@ -9,10 +9,7 @@ angular.module('Office', ['ngRoute'])
     $http.get('/api/profiles').then((res) ->
       that.profiles = res.data
     )
-  else
-    $http.get('/api/profile?name=' + that.profile_name).then((res) ->
-      that.profile = res.data
-    )
+  that.profile = Profile
   that.deselect = () ->
     $location.path('office')
   that.newProfile = () ->
@@ -26,4 +23,4 @@ angular.module('Office', ['ngRoute'])
   that.selectProfile = (profile) ->
     $route.updateParams(profile_name: profile.name);
   return
-])
+)
