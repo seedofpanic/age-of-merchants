@@ -65,7 +65,7 @@ module.exports = function (db, DataTypes) {
                 1: {//hunting
                     'build_time': 2,
                     'resources_out': [{
-                        type: 2,
+                        type: 1,
                         count: 10,
                         mode: 1
                     }],
@@ -94,10 +94,12 @@ module.exports = function (db, DataTypes) {
                     resources_out: [
                         {
                             type: 4,
+                            count: 1,
                             need: [{type: 3, count: 1}],
                             mode: 3
                         }
-                    ]
+                    ],
+                    price: 100
                 }
             }
         },

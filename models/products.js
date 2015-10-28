@@ -23,8 +23,8 @@ module.exports = function (db, DataTypes) {
         instanceMethods: {
             add: function (count, quality) {
                 var product = this;
-                var old_count = product.count;
-                var old_quality = product.quality;
+                var old_count = product.count || 0;
+                var old_quality = product.quality || 0;
                 product.quality = (old_quality * old_count + quality * count) / (old_count + count) || 0;
                 product.count = (old_count + count);
                 product.save();

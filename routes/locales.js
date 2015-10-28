@@ -4,7 +4,7 @@ var router = express.Router();
 var locales = {
     'en': {
         products: {
-            types: {1: 'meat', 2: 'wood'}
+            types: {1: 'meat', 2: 'wood', 3: 'Human', 4: 'Hunter'}
         },
         buildings: {
             types: {0: 'Hunting hut', 1: 'woodcutter hut', 2: 'Shop', 3: 'Village', 4: 'School'},
@@ -87,7 +87,7 @@ var locales = {
     },
     'ru': {
         products: {
-            types: {1: 'Мясо', 2: 'Дерево'}
+            types: {1: 'Мясо', 2: 'Дерево', 3: 'Человек', 4: 'Охотник'}
         },
         buildings: {
             types: {0: 'Охотничья избушка', 1: 'Избушка лесника', 2: 'Магазин', 3: 'Деревня', 4: 'Школа'},
