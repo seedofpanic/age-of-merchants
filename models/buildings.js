@@ -47,12 +47,18 @@ module.exports = function (db, DataTypes) {
                     });
                 });
             },
+            'modes': {
+                MINE: 1,
+                TOWN: 2,
+                FACTORY: 3
+            },
             'params': {
                 0: {//sawmill
                     'build_time': 1,
                     'resources_out': [{
                         type: 2,
-                        count: 100
+                        count: 100,
+                        mode: 1
                     }],
                     price: 100
                 },
@@ -60,7 +66,8 @@ module.exports = function (db, DataTypes) {
                     'build_time': 2,
                     'resources_out': [{
                         type: 2,
-                        count: 10
+                        count: 10,
+                        mode: 1
                     }],
                     price: 500
                 },
@@ -68,6 +75,29 @@ module.exports = function (db, DataTypes) {
                     'build_time': 3,
                     'resources_out': [],
                     price: 1000
+                },
+                3: {//village
+                    build_time: 1,
+                    resources_out: [
+                        {
+                            type: 3,
+                            count: 5,
+                            max: 250,
+                            mode: 2
+                        }
+                    ],
+                    price: 0,
+                    upkeep: 1
+                },
+                4: {//school
+                    build_time: 1,
+                    resources_out: [
+                        {
+                            type: 4,
+                            need: [{type: 3, count: 1}],
+                            mode: 3
+                        }
+                    ]
                 }
             }
         },

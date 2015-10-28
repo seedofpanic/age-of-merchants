@@ -7,7 +7,7 @@ var locales = {
             types: {1: 'meat', 2: 'wood'}
         },
         buildings: {
-            types: {0: 'Hunting hut', 1: 'woodcutter hut', 2: 'Shop'},
+            types: {0: 'Hunting hut', 1: 'woodcutter hut', 2: 'Shop', 3: 'Village', 4: 'School'},
             'statuses': {0: 'constructing', 1: 'active'}
         },
         'export': {
@@ -90,7 +90,7 @@ var locales = {
             types: {1: 'Мясо', 2: 'Дерево'}
         },
         buildings: {
-            types: {0: 'Охотничья избушка', 1: 'Избушка лесника', 2: 'Магазин'},
+            types: {0: 'Охотничья избушка', 1: 'Избушка лесника', 2: 'Магазин', 3: 'Деревня', 4: 'Школа'},
             'statuses': {0: 'строится', 1: 'активно'}
         },
         'resources': {
