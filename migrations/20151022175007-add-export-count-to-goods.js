@@ -1,30 +1,15 @@
 'use strict';
 
-var dbm;
-var type;
-var seed;
-
-/**
-  * We receive the dbmigrate dependency from dbmigrate initially.
-  * This enables us to not have to rely on NODE_PATH.
-  */
-exports.setup = function(options, seedLink) {
-  dbm = options.dbmigrate;
-  type = dbm.dataType;
-  seed = seedLink;
-};
-
-exports.up = function(db) {
-  db.addColumn('goods', 'export_count', {
-    type: 'int',
+exports.up = function(db, dataType) {
+  db.addColumn('products', 'export_count', {
+    type: dataType.BIGINT,
     unsigned: true,
-    notNull: true,
-    length: 10
+    notNull: true
   });
   return null;
 };
 
 exports.down = function(db) {
-  db.removeColumn('goods', 'export_count');
+  db.removeColumn('products', 'export_count');
   return null;
 };

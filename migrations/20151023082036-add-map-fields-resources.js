@@ -1,87 +1,73 @@
 'use strict';
 
-var dbm;
-var type;
-var seed;
-
-/**
-  * We receive the dbmigrate dependency from dbmigrate initially.
-  * This enables us to not have to rely on NODE_PATH.
-  */
-exports.setup = function(options, seedLink) {
-  dbm = options.dbmigrate;
-  type = dbm.dataType;
-  seed = seedLink;
-};
-
-exports.up = function(db) {
-  db.createTable('map_fields_resources', {
-      'map_fields_id': {
-        type: 'int',
+exports.up = function(db, dataType) {
+  db.createTable('fields_resources', {
+      'field_id': {
+        type: dataType.BIGINT,
         unsigned: true,
         notNull: true,
         primaryKey: true,
-        length: 10
+          references: {
+              model: "fields",
+              key: "id"
+          }
       },
       'forest_c': {
-        type: 'int',
+        type: dataType.BIGINT,
         unsigned: false,
-        notNull: true,
-        length: 6
+        notNull: true
       },
       'forest_q': {
-        type: 'decimal',
+        type: dataType.DECIMAL(10,2),
         unsigned: false,
-        notNull: true,
-        length: '10,2'
+        notNull: true
       },
       'forest_a': {
-        type: 'int',
+        type: dataType.BIGINT,
         unsigned: false,
-        notNull: true,
-        length: 6
+        notNull: true
       },
       'animals_c': {
-        type: 'int',
+        type: dataType.BIGINT,
         unsigned: false,
-        notNull: true,
-        length: 6
+        notNull: true
       },
       'animals_q': {
-        type: 'decimal',
+        type: dataType.DECIMAL(10,2),
         unsigned: false,
-        notNull: true,
-        length: '10,2'
+        notNull: true
       },
       'animals_a': {
-        type: 'int',
+        type: dataType.BIGINT,
         unsigned: false,
-        notNull: true,
-        length: 6
+        notNull: true
       },
       'soil_c': {
-        type: 'int',
+        type: dataType.BIGINT,
         unsigned: false,
-        notNull: true,
-        length: 6
+        notNull: true
       },
       'soil_q': {
-        type: 'decimal',
+        type: dataType.DECIMAL(10,2),
         unsigned: false,
-        notNull: true,
-        length: '10,2'
+        notNull: true
       },
       'soil_a': {
-        type: 'int',
+        type: dataType.BIGINT,
         unsigned: false,
-        notNull: true,
-        length: 6
+        notNull: true
+      },
+      'createdAt': {
+          type: dataType.DATE
+      },
+      'updatedAt': {
+          type: dataType.DATE
       }
     });
   return null;
 };
 
 exports.down = function(db) {
-  db.dropTable('map_fields_resources', {ifExists: true});
+  db.dropTable('fields_resources');
   return null;
 };

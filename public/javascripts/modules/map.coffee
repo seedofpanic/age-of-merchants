@@ -33,13 +33,13 @@ angular.module('Map', [])
     $http.get('/api/map?region_id=' + that.selected.id + '&type=' + type).then((res) ->
       that.map = res.data
 
-      that.max_c = that.map[0][0].c;
-      that.min_c = that.map[0][0].c;
-      that.max_q = that.map[0][0].q;
-      that.min_q = that.map[0][0].q;
+      that.max_c = that.map[0][0].res.c;
+      that.min_c = that.map[0][0].res.c;
+      that.max_q = that.map[0][0].res.q;
+      that.min_q = that.map[0][0].res.q;
       for x in [0..that.map.length - 1]
         for y in [0..that.map[x].length - 1]
-          tile = that.map[x][y]
+          tile = that.map[x][y].res
           if that.max_c < tile.c
             that.max_c = tile.c
           if that.min_c > tile.c

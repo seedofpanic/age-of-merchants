@@ -37,9 +37,9 @@ angular.module('Buildings', ['Tools', 'DB'])
     that.loading = true
     that.selected = building
     $route.updateParams('building_id': building.id)
-    $http.get('/api/goods?building_id=' + building.id).then(
+    $http.get('/api/products?building_id=' + building.id).then(
       (res) ->
-        building.goods = res.data
+        building.products = res.data
         that.loading = false
       () ->
         that.loading = false
@@ -60,36 +60,36 @@ angular.module('Buildings', ['Tools', 'DB'])
   that.openImport = () ->
     Modals.show('import', $scope)
     return
-  that.export = (goods) ->
-    if goods.export
+  that.export = (product) ->
+    if product.export
       Modals.show('stop_export', $scope, () ->
-        $http.post('api/goods/stop_export', goods).then((res) ->
-          angular.copy(res.data, goods)
+        $http.post('api/product/stop_export', product).then((res) ->
+          angular.copy(res.data, product)
         )
       )
     else
-      angular.copy(goods, ExportData.goods)
-      ExportData.goods.export = 1;
-      ExportData.goods.export_count = 100;
+      angular.copy(product, ExportData.product)
+      ExportData.product.export = 1;
+      ExportData.product.export_count = 100;
       Modals.show('start_export', $scope,  () ->
-        $http.post('api/goods/start_export', ExportData.goods).then((res) ->
-          angular.copy(res.data, goods)
+        $http.post('api/product/start_export', ExportData.product).then((res) ->
+          angular.copy(res.data, product)
         )
       )
   return
 )
 .factory('ExportData', () ->
-  goods: {}
+  product: {}
 )
 .controller('ImportCtrl', ($http, Modals, $scope, OrderData, $route) ->
   that = @
-  that.goods = []
-  $http.get('/api/goods').then((res) ->
-    that  .goods = res.data
+  that.products = []
+  $http.get('/api/products').then((res) ->
+    that.products = res.data
   )
-  that.order = (goods) ->
-    angular.copy(goods, OrderData.goods)
-    Modals.show('order_goods', $scope, () ->
+  that.order = (product) ->
+    angular.copy(product, OrderData.product)
+    Modals.show('order_product', $scope, () ->
       OrderData.building_id = $route.current.params.building_id
       $http.post('api/contracts/new', OrderData).then((res) ->
       )
@@ -102,9 +102,9 @@ angular.module('Buildings', ['Tools', 'DB'])
   return
 )
 .factory('OrderData', () ->
-  goods: {}
+  product: {}
 )
-.controller('GoodsOrderCtrl', (OrderData) ->
+.controller('ProductsOrderCtrl', (OrderData) ->
   that = @
   that.od = OrderData
   return

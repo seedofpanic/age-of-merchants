@@ -3,7 +3,7 @@ var router = express.Router();
 
 var locales = {
     'en': {
-        goods: {
+        products: {
             types: {1: 'meat', 2: 'wood'}
         },
         buildings: {
@@ -52,7 +52,7 @@ var locales = {
             'export_result': "You will get:",
             'export_type': 'Export type',
             'start_export_title': 'Start product export',
-            'order_goods_title': 'Order goods',
+            'order_product_title': 'Order products',
             'order_quantity': 'Order quantity',
             'ballance': 'Ballance'
         },
@@ -86,7 +86,7 @@ var locales = {
         }
     },
     'ru': {
-        goods: {
+        products: {
             types: {1: 'Мясо', 2: 'Дерево'}
         },
         buildings: {

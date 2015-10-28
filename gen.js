@@ -1,21 +1,8 @@
 var LENGTH = 50;
 var COUNT_FIELDS_MAX = LENGTH * LENGTH;
-var orm_db = undefined;
 
-models = require('./lib/models.js');
-var orm = require('orm');
-var db_config = require('./database.json');
-orm.connect(db_config['dev'].driver + '://' + db_config['dev'].user + ':' + db_config['dev'].password + '@' + db_config['dev'].host + '/' + db_config['dev'].database,
-    function (err, db) {
-        orm_db = db;
-        if (err) {
-            console.log(err);
-            return;
-        }
-        models.__init(db, {}, function () {});
-        gen();
-    }
-);
+var models = require('./models/index');
+gen();
 
 function randomArray(length, range, min) {
     if (!min) {
@@ -52,25 +39,24 @@ function gen () {
             var name = process.argv[3];
             var x = process.argv[4];
             var y = process.argv[5];
-            models.regions.one({
-                name: name
-            }, function (err, region) {
-                if (err) {
-                    console.log(err);
-                    return
-                }
+            models.regions.find({
+                where: {name: name}
+            }).then(function (region) {
                 if (region) {
                     if (process.argv[6] != 'r') {
                         console.log('Region with name ' + name + ' already exists!');
+                        models.sequelize.close();
                         return;
                     } else {
-                        models.map_fields.find({region_id: region.id}).each(function (field){
-                            models.fields_resources.one({map_field_id: field.id}, function (err, resource) {
-                                if (resource) {
-                                    resource.remove();
-                                }
+                        models.fields.findAll({where: {region_id: region.id}}).then(function (fields) {
+                            fields.each(function (field){
+                                models.fields_resources.find({where: {map_field_id: field.id}}, function (resource) {
+                                    if (resource) {
+                                        resource.remove();
+                                    }
+                                });
+                                field.remove();
                             });
-                            field.remove();
                         });
                         region.remove();
                     }
@@ -80,10 +66,7 @@ function gen () {
                     x: x,
                     y: y
                 };
-                models.regions.create(new_region, function (err, region) {
-                   if (err) {
-                       console.log(err);
-                   }
+                models.regions.create(new_region).then(function (region) {
                     console.log('Generating forest...');
                     var forest_c_arr = randomArray(LENGTH, 1000000);
                     var forest_q_arr = randomArray(LENGTH, 1000, 1);
@@ -127,13 +110,9 @@ function gen () {
         models.fields.create({region_id: region_id,
             x: x,
             y: y
-        }, function (err, field) {
-            if (err) {
-                console.log(err);
-                return;
-            }
-            models.resources.create({
-                map_fields_id: field.id,
+        }).then(function (field) {
+            models.fields_resources.create({
+                field_id: field.id,
                 forest_c: Math.round(forest_c),
                 forest_q: Math.round(forest_q) / 100,
                 forest_a: forest_c >> 10,
@@ -143,12 +122,12 @@ function gen () {
                 soil_c: Math.round(soil_c),
                 soil_q: Math.round(soil_q) / 100,
                 soil_a: soil_c >> 10
-            }, function () {
+            }).then(function () {
                 count_fields++;
-                console.log(x + 'x' + y);
+                //console.log(x + 'x' + y);
                 if (count_fields >= COUNT_FIELDS_MAX) {
                     console.log('done!');
-                    orm_db.close();
+                    models.sequelize.close();
                 }
             });
         });

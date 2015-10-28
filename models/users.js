@@ -1,14 +1,13 @@
 var passwordHash = require('password-hash');
-module.exports = function (db, cb) {
-    db.define("users", {
-        id: {type: 'serial', key: true},
-        email: String,
-        username: String,
-        password: String,
-        logins: {type: 'integer', defaultValue: 0},
-        last_login: {type: 'integer', defaultValue: 0}
+module.exports = function (db, DataTypes) {
+    return db.define("users", {
+        email: DataTypes.STRING,
+        username: DataTypes.STRING,
+        password: DataTypes.STRING,
+        logins: DataTypes.INTEGER,
+        last_login: DataTypes.BIGINT
     }, {
-        methods: {
+        instanceMethods: {
             validPassword: function (password) {
                 return passwordHash.verify(password, this.password);
             },
@@ -18,5 +17,4 @@ module.exports = function (db, cb) {
             }
         }
     });
-    return cb();
 };

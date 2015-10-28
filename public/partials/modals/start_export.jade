@@ -2,24 +2,24 @@
    i.close.icon
    .header {{loc.office.start_export_title}}
    .content
-      h2 {{loc.goods.types[ec.ed.goods.type]}}
+      h2 {{loc.products.types[ec.ed.product.type]}}
       form.ui.form
          .field
             label {{loc.office.export_type}}
-            select(ng-model='ec.ed.goods.export')
+            select(ng-model='ec.ed.product.export')
                option(ng-repeat='type in [1]' value='{{type}}' ng-selected='type == 1') {{loc.export.types[type]}}
          div
             div {{loc.office.count}}
-            div {{ec.ed.goods.count}}
-         .field(ng-class='{error: ec.ed.goods.export_count > ec.ed.goods.count}')
+            div {{ec.ed.product.count}}
+         .field(ng-class='{error: ec.ed.product.export_count > ec.ed.product.count}')
             label {{loc.office.count}}
-            input(type='text' ng-model='ec.ed.goods.export_count')
+            input(type='text' ng-model='ec.ed.product.export_count')
          .field
             label {{loc.office.price}}
-            input(type='text' ng-model='ec.ed.goods.price')
+            input(type='text' ng-model='ec.ed.product.price')
          div.ui.right.aligned.segment
             div {{loc.office.export_result}}
-            div {{ec.ed.goods.export_count * ec.ed.goods.price}}
+            div {{ec.ed.product.export_count * ec.ed.product.price}}
    .actions
       .ui.black.deny.button {{loc.office.cancel}}
       .ui.positive.button.approve {{loc.office.ok}}

@@ -18,9 +18,9 @@ include inc/header
                h2 {{loc.map.count}}
                table.map
                   tr(ng-repeat='fields in mc.map')
-                     td.popup(ng-repeat='field in fields' data-html="{{field.x}}x{{field.y}}<br/>{{loc.map.count}}: {{field.c}}<br/>{{loc.map.quality}}: {{field.q}}<br/>{{loc.map.growth}}: {{field.a}}" data-variation="inverted" style='background: rgb({{mc.getR(field.c)}},{{mc.getG(field.c)}}, 0)')
+                     td.popup(ng-repeat='field in fields' data-html="{{field.x}}x{{field.y}}<br/>{{loc.map.count}}: {{field.res.c}}<br/>{{loc.map.quality}}: {{field.res.q}}<br/>{{loc.map.growth}}: {{field.res.a}}" data-variation="inverted" style='background: rgb({{mc.getR(field.res.c)}},{{mc.getG(field.res.c)}}, 0)')
                h2 {{loc.map.quality}}
                table.map
                   tr(ng-repeat='fields in mc.map')
-                     td.popup(ng-repeat='field in fields' data-html="{{field.x}}x{{field.y}}<br/>{{loc.map.count}}: {{field.c}}<br/>{{loc.map.quality}}: {{field.q}}<br/>{{loc.map.growth}}: {{field.a}}" data-variation="inverted" style='background: rgb({{mc.getRQ(field.q)}},{{mc.getGQ(field.q)}}, 0)')
+                     td.popup(ng-repeat='field in fields' data-html="{{field.x}}x{{field.y}}<br/>{{loc.map.count}}: {{field.res.c}}<br/>{{loc.map.quality}}: {{field.res.q}}<br/>{{loc.map.growth}}: {{field.res.a}}" data-variation="inverted" style='background: rgb({{mc.getRQ(field.res.q)}},{{mc.getGQ(field.res.q)}}, 0)')
 

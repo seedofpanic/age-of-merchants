@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var models = require('../lib/models');
+var models = require('../models/index');
 
 router.post('/', function(req, res, next) {
   var new_user = {
@@ -8,8 +8,7 @@ router.post('/', function(req, res, next) {
     username: req.body.reg_username,
     password: ''
   };
-  models.users.create(new_user, function (err, user) {
-    console.log(err);
+  models.users.create(new_user).then(function (user) {
     user.setPassword(req.body.reg_password);
   });
   res.redirect('/');

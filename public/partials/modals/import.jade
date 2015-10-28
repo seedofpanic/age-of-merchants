@@ -10,10 +10,10 @@
                th {{loc.office.price}}
                th.collapsing
          tbody
-            tr(ng-repeat='goods in ic.goods')
-               td {{loc.goods.types[goods.product_type]}}
-               td {{goods.count}}({{goods.reserved}})
-               td {{goods.quality}}
-               td {{goods.price}}
+            tr(ng-repeat='product in ic.products')
+               td {{loc.products.types[product.product_type]}}
+               td {{product.count}}({{product.reserved}})
+               td {{product.quality}}
+               td {{product.price}}
                td
-                  .ui.button.orange(ng-click='ic.order(goods)') {{loc.office.order}}
+                  .ui.button.orange(ng-click='ic.order(product)') {{loc.office.order}}

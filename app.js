@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var session = require('client-sessions');
-var orm = require('orm');
 
 var routes = require('./routes/index');
 var api = require('./routes/api');
@@ -16,12 +15,9 @@ var registration = require('./routes/registration')
 // local libs
 var game = require('./lib/game');
 var auth = require('./lib/auth');
-var models = require('./lib/models');
 
 
 var app = express();
-var db_config = require('./database.json');
-app.use(orm.express(db_config['dev'].driver + '://' + db_config['dev'].user + ':' + db_config['dev'].password + '@' + db_config['dev'].host + '/' + db_config['dev'].database, {define: models.__init}));
 
 game.init();
 

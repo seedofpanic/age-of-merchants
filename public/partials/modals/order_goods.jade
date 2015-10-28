@@ -1,17 +1,17 @@
-.ui.modal.small(ng-controller='GoodsOrderCtrl as goc')
+.ui.modal.small(ng-controller='ProductOrderCtrl as poc')
    i.close.icon
-   .header {{loc.office.order_goods_title}}
-   .content {{loc.office.order_goods_desc}} {{loc.goods.types[goc.od.goods.product_type]}}
-      div {{loc.office.price}} {{goc.od.goods.price}}
-      div {{loc.office.count}} {{goc.od.goods.export_count}}
+   .header {{loc.office.order_product_title}}
+   .content {{loc.office.order_product_desc}} {{loc.goods.types[poc.od.product.product_type]}}
+      div {{loc.office.price}} {{poc.od.goods.price}}
+      div {{loc.office.count}} {{poc.od.goods.export_count}}
       form.ui.form
          .field
             label {{loc.office.order_type}}
-            select(ng-model='goc.od.type')
+            select(ng-model='poc.od.type')
                option(ng-repeat='type in [1, 2]' value='{{type}}') {{loc.order.types[type]}}
          .field
             label {{loc.office.order_quantity}}
-            input(type='text' ng-model='goc.od.count')
+            input(type='text' ng-model='poc.od.count')
    .actions
       .ui.black.deny.button {{loc.office.cancel}}
       .ui.positive.button.approve {{loc.office.ok}}

@@ -5,6 +5,6 @@
     "password" : "root",
     "database": "aom",
     "driver": "mysql",
-    "multipleStatements": true
+    "logging": false
   }
 }

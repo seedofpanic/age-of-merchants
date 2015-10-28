@@ -1,22 +1,16 @@
 var express = require('express');
 var router = express.Router();
-var models = require('../lib/models');
+var models = require('../models/index');
 
 router.get('/profile', function(req, res, next) {
-  models.profiles.one({name: req.query.name}, function (err, profile) {
-    if (err || !profile) {
-      return
-    }
+  models.profiles.find({where: {name: req.query.name}}).then(function (profile) {
     res.send(profile);
   });
 });
 
 router.get('/buildings', function(req, res, next) {
-  models.profiles.one({name: req.query.profile_name}, function (err, profile) {
-    if (err || !profile) {
-      return
-    }
-    models.buildings.find({profile_id: profile.id}, function (err, buildings){
+  models.profiles.find({where: {name: req.query.profile_name}}).then(function (profile) {
+    models.buildings.findAll({where: {profile_id: profile.id}, include: [models.fields]}).then(function (buildings){
       res.send(buildings);
     })
   });
@@ -24,26 +18,23 @@ router.get('/buildings', function(req, res, next) {
 
 router.post('/buildings/new', function(req, res, next){
   if (!req.user) {return;}
-  models.profiles.one({name: req.body.profile_name, user_id: req.user.id}, function(err, profile) {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    models.buildings.static.new(profile, req.body.region, req.body.x, req.body.y, req.body.type, req.body.name, function (err, building) {
+  models.profiles.find({where: {name: req.body.profile_name, user_id: req.user.id}}).then(function(profile) {
+    models.buildings.new(profile, req.body.region, req.body.x, req.body.y, req.body.type, req.body.name, function (err, building) {
       if (err) {
-        res.send(err, 500);
+        res.status(500).send(err);
         return;
       }
-      building.getField(function (err, field) {
-        building.field = field;
-        res.send(building);
+      building.getField().then(function (field) {
+        var data = building.get();
+        data.field = field.get();
+        res.send(data);
       });
     });
   });
 });
 
 router.get('/profiles', function(req, res, next){
-  models.profiles.find({user_id: req.user.id}, function (err, profile) {
+  models.profiles.findAll({where: {user_id: req.user.id}}).then(function (profile) {
     res.send(profile);
   });
 });
@@ -54,70 +45,66 @@ router.post('/profile/new', function(req, res, next){
     name: req.body.name,
     gold: 1000
   };
-  models.profiles.create(new_profile, function (err, profile) {
-    if (err) {
-      console.log(err);
-    }
+  models.profiles.create(new_profile).then(function (profile) {
     res.send(profile);
   });
 });
 
 router.get('/regions', function(req, res, next){
-  models.regions.find({}, function (err, regions) {
+  models.regions.findAll({}).then(function (regions) {
     res.send(regions);
   });
 });
 
-router.get('/goods', function(req, res, next){
+router.get('/products', function(req, res, next){
   if (req.query.building_id) {
-    models.goods.find({building_id: req.query.building_id}, function (err, goods) {
-      res.send(goods);
+    models.products.findAll({where: {building_id: req.query.building_id}}).then(function (products) {
+      res.send(products);
     });
   } else {
-    models.goods.find({'export': true}, function (err, goods) {
-      res.send(goods);
+    models.products.findAll({where: {'export': true}}).then(function (err, products) {
+      res.send(products);
     });
   }
 });
 
-router.post('/goods/start_export', function(req, res, next){
+router.post('/product/start_export', function(req, res, next){
   //TODO: check profile access
-  models.goods.get(req.body.id, function (err, goods) {
-    goods.export = req.body.export;
-    goods.export_count = req.body.export_count;
-    goods.price = req.body.price;
-    goods.save();
-    res.send(goods);
+  models.products.findById(req.body.id).then(function (product) {
+    product.export = req.body.export;
+    product.export_count = req.body.export_count;
+    product.price = req.body.price;
+    product.save();
+    res.send(product);
   });
 });
 
-router.post('/goods/stop_export', function(req, res, next){
+router.post('/product/stop_export', function(req, res, next){
   //TODO: check profile access
-  models.goods.get(req.body.id, function (err, goods) {
-    goods.export = 0;
-    goods.save();
-    res.send(goods);
+  models.products.findById(req.body.id).then(function (product) {
+    product.export = 0;
+    product.save();
+    res.send(product);
   });
 });
 
 router.post('/contracts/new', function(req, res, next){
   //TODO: check profile access
   var new_contract = {
-    goods_id: req.body.goods.id,
+    product_id: req.body.product.id,
     dest_id: req.body.building_id,
     count: req.body.count,
     type: req.body.type
   };
-  models.contracts.create(new_contract, function (err, contract) {
+  models.contracts.create(new_contract).then(function (contract) {
     res.send(contract);
   });
 });
 
 router.get('/map', function (req, res, next) {
   var map = [];
-  var type = models.resources.types[req.query.type];
-  req.db.driver.execQuery('SELECT id,x,y,' + type + '_c as c,' + type + '_q as q,' + type + '_a as a FROM map_fields inner join map_fields_resources on id=map_fields_id WHERE region_id=?'
-      , [req.query.region_id], function (err, fields) {
+  var type = models.fields_resources.types[req.query.type];
+  models.fields.findAll({where: {region_id: req.query.region_id}, include: [{model: models.fields_resources, as: 'res', attributes: [[type + '_c', 'c'], [type + '_q', 'q'], [type + '_a', 'a']]}]}).then(function (fields) {
     for (var i = 0; i < fields.length; i++) {
       if (!map[fields[i].x]) {
         map[fields[i].x] = [];
