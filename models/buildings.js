@@ -90,16 +90,35 @@ module.exports = function (db, DataTypes) {
                     upkeep: 1
                 },
                 4: {//school
-                    build_time: 1,
+                    build_time: 2,
                     resources_out: [
                         {
                             type: 4,
-                            count: 1,
-                            need: [{type: 3, count: 1}],
+                            count: 5,
+                            need: [{type: 3, count: 1}, {type: 5, count: 1}],
                             mode: 3
                         }
                     ],
                     price: 100
+                },
+                5: {//forge
+                    build_time: 2,
+                    resources_out: [
+                        {
+                            type: 5,
+                            count: 5,
+                            need: [{type: 2, count: 1}, {type: 6, count: 1}]
+                        }
+                    ]
+                },
+                6: {//metal mine
+                    build_time: 2,
+                    resources_out: [
+                        {
+                            type: 6,
+                            count: 1
+                        }
+                    ]
                 }
             }
         },

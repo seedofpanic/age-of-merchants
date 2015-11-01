@@ -9,7 +9,10 @@ module.exports = function (db, DataTypes) {
         'animals_a': DataTypes.BIGINT,
         'soil_c': DataTypes.BIGINT,
         'soil_q': DataTypes.DECIMAL(10, 2),
-        'soil_a': DataTypes.BIGINT
+        'soil_a': DataTypes.BIGINT,
+        'metal_c': DataTypes.BIGINT,
+        'metal_q': DataTypes.DECIMAL(10, 2),
+        'metal_a': DataTypes.BIGINT
     }, {
         classMethods: {
             associate: function () {

@@ -4,10 +4,10 @@ var router = express.Router();
 var locales = {
     'en': {
         products: {
-            types: {1: 'meat', 2: 'wood', 3: 'Human', 4: 'Hunter'}
+            types: {1: 'meat', 2: 'wood', 3: 'Human', 4: 'Militia', 5: 'Axe', 6: 'Metal'}
         },
         buildings: {
-            types: {0: 'Hunting hut', 1: 'woodcutter hut', 2: 'Shop', 3: 'Village', 4: 'School'},
+            types: {0: 'Hunting hut', 1: 'woodcutter hut', 2: 'Shop', 3: 'Village', 4: 'School', 5: 'Forge', 6: 'Metal mine'},
             'statuses': {0: 'constructing', 1: 'active'}
         },
         'export': {
@@ -87,10 +87,10 @@ var locales = {
     },
     'ru': {
         products: {
-            types: {1: 'Мясо', 2: 'Дерево', 3: 'Человек', 4: 'Охотник'}
+            types: {1: 'Мясо', 2: 'Дерево', 3: 'Человек', 4: 'Ополченец', 5: 'Топор', 6: 'Метал'}
         },
         buildings: {
-            types: {0: 'Охотничья избушка', 1: 'Избушка лесника', 2: 'Магазин', 3: 'Деревня', 4: 'Школа'},
+            types: {0: 'Охотничья избушка', 1: 'Избушка лесника', 2: 'Магазин', 3: 'Деревня', 4: 'Школа', 5: 'Кузница', 6: 'Шахта для добычи металла'},
             'statuses': {0: 'строится', 1: 'активно'}
         },
         'resources': {

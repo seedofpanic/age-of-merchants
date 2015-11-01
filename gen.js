@@ -49,16 +49,28 @@ function gen () {
                         return;
                     } else {
                         models.fields.findAll({where: {region_id: region.id}}).then(function (fields) {
-                            fields.each(function (field){
-                                models.fields_resources.find({where: {map_field_id: field.id}}, function (resource) {
-                                    if (resource) {
-                                        resource.remove();
+                            var pendings = fields.length;
+                            fields.forEach(function (field){
+                                models.fields_resources.findAll({where: {field_id: field.id}}).then(function (resources) {
+                                    if (resources) {
+                                        resources.forEach(function (resource) {
+                                            var res_p = resources.length;
+                                            resource.destroy().then(function () {
+                                                res_p--;
+                                                if (res_p == 0) {
+                                                    field.destroy().then(function () {
+                                                        pendings--;
+                                                        if (pendings == 0) {
+                                                            region.destroy();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        });
                                     }
                                 });
-                                field.remove();
                             });
                         });
-                        region.remove();
                     }
                 }
                 var new_region = {
@@ -76,6 +88,9 @@ function gen () {
                     console.log('Generating soil...');
                     var soil_c_arr = randomArray(LENGTH, 1000000);
                     var soil_q_arr = randomArray(LENGTH, 1000, 1);
+                    console.log('Generating metal...');
+                    var metal_c_arr = randomArray(LENGTH, 1000000);
+                    var metal_q_arr = randomArray(LENGTH, 1000, 1);
                     for (var i = 0; i < LENGTH; i++) {
                         for (var j = 0; j < LENGTH; j++) {
                             var new_field = {
@@ -89,7 +104,9 @@ function gen () {
                                 animals_c: animals_c_arr[i][j],
                                 animals_q: animals_q_arr[i][j],
                                 soil_c: soil_c_arr[i][j],
-                                soil_q: soil_q_arr[i][j]
+                                soil_q: soil_q_arr[i][j],
+                                metal_c: soil_c_arr[i][j],
+                                metal_q: soil_q_arr[i][j]
                             });
                         }
                     }
@@ -104,6 +121,8 @@ function gen () {
         var animals_q = data.animals_q;
         var soil_c = data.soil_c;
         var soil_q = data.soil_q;
+        var metal_c = data.metal_c;
+        var metal_q = data.metal_q;
         var region_id = new_field.region_id;
         var x = new_field.x;
         var y = new_field.y;
@@ -121,7 +140,10 @@ function gen () {
                 animals_a: animals_c >> 10,
                 soil_c: Math.round(soil_c),
                 soil_q: Math.round(soil_q) / 100,
-                soil_a: soil_c >> 10
+                soil_a: soil_c >> 10,
+                metal_c: Math.round(metal_c),
+                metal_q: Math.round(metal_q) / 100,
+                metal_a: metal_c >> 10
             }).then(function () {
                 count_fields++;
                 //console.log(x + 'x' + y);
