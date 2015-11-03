@@ -1,0 +1,3 @@
+div(ng-controller='TroopsCtrl as tc')
+   .ui.message.info(ng-hide='tc.troops.length > 0') {{loc.office.building.no_troops}}
+   div(ng-show='tc.troops.length > 0')

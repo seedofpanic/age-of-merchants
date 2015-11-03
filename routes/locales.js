@@ -7,7 +7,7 @@ var locales = {
             types: {1: 'meat', 2: 'wood', 3: 'Human', 4: 'Militia', 5: 'Axe', 6: 'Metal'}
         },
         buildings: {
-            types: {0: 'Hunting hut', 1: 'woodcutter hut', 2: 'Shop', 3: 'Village', 4: 'School', 5: 'Forge', 6: 'Metal mine'},
+            types: {0: 'Hunting hut', 1: 'woodcutter hut', 2: 'Shop', 3: 'Village', 4: 'School', 5: 'Forge', 6: 'Metal mine', 7: 'Castle'},
             'statuses': {0: 'constructing', 1: 'active'}
         },
         'export': {
@@ -54,7 +54,14 @@ var locales = {
             'start_export_title': 'Start product export',
             'order_product_title': 'Order products',
             'order_quantity': 'Order quantity',
-            'ballance': 'Ballance'
+            'ballance': 'Ballance',
+            building: {
+                products: 'Products',
+                army: 'Army',
+                troops: 'Troops',
+                no_troops: 'No troops in this building',
+                no_soldiers: 'No soldiers in this building'
+            }
         },
         site: {
             language: 'Language',
@@ -90,7 +97,7 @@ var locales = {
             types: {1: 'Мясо', 2: 'Дерево', 3: 'Человек', 4: 'Ополченец', 5: 'Топор', 6: 'Метал'}
         },
         buildings: {
-            types: {0: 'Охотничья избушка', 1: 'Избушка лесника', 2: 'Магазин', 3: 'Деревня', 4: 'Школа', 5: 'Кузница', 6: 'Шахта для добычи металла'},
+            types: {0: 'Охотничья избушка', 1: 'Избушка лесника', 2: 'Магазин', 3: 'Деревня', 4: 'Школа', 5: 'Кузница', 6: 'Шахта для добычи металла', 7: 'Замок'},
             'statuses': {0: 'строится', 1: 'активно'}
         },
         'resources': {
@@ -137,7 +144,14 @@ var locales = {
             'start_export_title': 'Начать экспорт товара',
             'order_goods_title': 'Заказ товаров',
             'order_quantity': 'Объем заказа',
-            'ballance': 'Балланс'
+            'ballance': 'Балланс',
+            building: {
+                products: 'Продукты',
+                army: 'Армия',
+                troops: 'Отряды',
+                no_troops: 'В этом здании нет сформированных войск',
+                no_soldiers: 'В этом здании нет солдат'
+            }
         },
         site: {
             language: 'Язык',

@@ -16,11 +16,18 @@ angular.module('Tools', ['ngRoute'])
 )
 .directive('tabs', ['$route', ($route) ->
   restrict: 'C'
-  link: (scope) ->
-    scope.tab = $route.current.params.tab
+  link: (scope, element, attrs) ->
+    param_id = attrs.param || 'tab';
+    scope.tab = $route.current.params[param_id]
     scope.openTab = (tab) ->
-      $route.updateParams(tab: tab)
+      param = {}
+      param[param_id] = tab
+      $route.updateParams(param)
+      scope.tab = tab
       return
+    if !scope.tab && attrs.active
+      scope.openTab(attrs.active)
+    return
 ])
 .directive('language', (Loc) ->
   restrict: 'C'

@@ -1,4 +1,4 @@
-angular.module('Buildings', ['Tools', 'DB'])
+angular.module('Buildings', ['Tools', 'DB', 'Building'])
 .controller('NewBuildingCtrl', ($element, $http, $route, Regions, ProfileBuildings, Profile) ->
   that = @
   that.types = {}
@@ -47,13 +47,13 @@ angular.module('Buildings', ['Tools', 'DB'])
   that.buildings = ProfileBuildings
   building_id = $route.current.params.building_id
   $scope.$watch(() ->
-    ProfileBuildings[building_id]
+    ProfileBuildings.arr[building_id]
   , () ->
-    that.select(ProfileBuildings[building_id])
+    that.select(ProfileBuildings.arr[building_id])
   )
   that.deselect = () ->
     that.selected = undefined
-    $route.updateParams('building_id': undefined )
+    $route.updateParams('building_id': undefined, building_tab: undefined )
   that.openNewBuilding = () ->
     Modals.show('new_building', $scope)
     return

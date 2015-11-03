@@ -1,0 +1,16 @@
+h2 {{bsc.selected.name}} - {{bsc.regions[bsc.selected.field.region_id].name}} ({{bsc.selected.field.x}},{{bsc.selected.field.y}})
+button.ui.button.purple(ng-click='bsc.openImport()') {{loc.office.import}}
+table.products.ui.table.form
+   thead
+      tr
+         th {{loc.office.type}}
+         th {{loc.office.count}}
+         th {{loc.office.quality}}
+         th.collapsing {{loc.office.export}}
+   tbody
+      tr(ng-repeat='product in bsc.selected.products')
+         td {{loc.products.types[product.product_type]}}
+         td {{product.count}}({{goods.reserved}})
+         td {{product.quality | number: 2}}
+         td.ui.toggle.checkbox
+            button.ui.button(ng-click='bsc.export(produnct)' ng-class='{red: product.export > 0, green: product.export == 0}') {{product.export > 0 ? loc.office.export_s_btn : loc.office.export_btn}}

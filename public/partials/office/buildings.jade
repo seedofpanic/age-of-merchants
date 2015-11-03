@@ -21,19 +21,9 @@ div(ng-controller='BuildingsCtrl as bsc')
    .building(ng-show='bsc.selected.id')
       .ui.button.icon.right.floated(ng-click='bsc.deselect()')
          i.icon.close
-      h2 {{bsc.selected.name}} - {{bsc.regions[bsc.selected.field.region_id].name}} ({{bsc.selected.field.x}},{{bsc.selected.field.y}})
-      button.ui.button.purple(ng-click='bsc.openImport()') {{loc.office.import}}
-      table.products.ui.table.form
-         thead
-            tr
-               th {{loc.office.type}}
-               th {{loc.office.count}}
-               th {{loc.office.quality}}
-               th.collapsing {{loc.office.export}}
-         tbody
-            tr(ng-repeat='product in bsc.selected.products')
-               td {{loc.products.types[product.product_type]}}
-               td {{product.count}}({{goods.reserved}})
-               td {{product.quality | number: 2}}
-               td.ui.toggle.checkbox
-                  button.ui.button(ng-click='bsc.export(produnct)' ng-class='{red: product.export > 0, green: product.export == 0}') {{product.export > 0 ? loc.office.export_s_btn : loc.office.export_btn}}
+      .tabs(data-param='building_tab' data-active='products')
+         .ui.top.attached.tabular.menu
+            a.item(ng-class='{active: tab == "products"}' ng-click='openTab("products")') {{loc.office.building.products}}
+            a.item(ng-class='{active: tab == "army"}' ng-click='openTab("army")' ng-show='bsc.selected.type==7') {{loc.office.building.army}}
+            a.item(ng-class='{active: tab == "troops"}' ng-click='openTab("troops")' ng-show='bsc.selected.type==7') {{loc.office.building.troops}}
+         .ui.bottom.attached.active.tab.segment(ng-include="bsc.selected.id ? '/partials/office/building/' + (tab || 'products') + '.html' : ''")

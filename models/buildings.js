@@ -109,7 +109,8 @@ module.exports = function (db, DataTypes) {
                             count: 5,
                             need: [{type: 2, count: 1}, {type: 6, count: 1}]
                         }
-                    ]
+                    ],
+                    price: 200
                 },
                 6: {//metal mine
                     build_time: 2,
@@ -118,7 +119,16 @@ module.exports = function (db, DataTypes) {
                             type: 6,
                             count: 1
                         }
-                    ]
+                    ],
+                    price: 100
+                },
+                7: {//castle
+                    build_time: 3,
+                    resources_out: [
+
+                    ],
+                    upkeep: 10,
+                    price: 10000
                 }
             }
         },
