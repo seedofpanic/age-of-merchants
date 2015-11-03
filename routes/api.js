@@ -109,6 +109,37 @@ router.post('/contracts/new', function(req, res, next){
   });
 });
 
+router.post('/troops/new', function(req, res, next){
+  models.profiles.find({where: {name: req.body.profile_name}}).then(function (profile) {
+    var building_id = req.body.building_id;
+    models.buildings.find({where: {id: building_id}}).then(function (building) {
+      var new_troop = {
+        profile_id: profile.id,
+        field_id: building.field_id
+      };
+      models.troops.create(new_troop).then(function (troop) {
+        var soldiers = req.body.soldiers;
+        soldiers.forEach(function (soldier) {
+          models.products.find({where: {id: soldier.id}}).then(function (product) {
+            soldier.recruit = soldier.recruit > product.count ? product.count : soldier.recruit;
+            product.count -= soldier.recruit;
+            product.save();
+            var new_soldier = {
+              troop_id: troop.id,
+              product_type: product.product_type,
+              count: soldier.recruit,
+              quality: product.quality
+            };
+            models.soldiers.create(new_soldier);
+          });
+        });
+        res.send(troop);
+      });
+    });
+  });
+});
+
+
 router.get('/map', function (req, res, next) {
   var map = [];
   var type = models.fields_resources.types[req.query.type];
