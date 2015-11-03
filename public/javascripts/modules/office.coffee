@@ -24,3 +24,7 @@ angular.module('Office', ['ngRoute'])
     $route.updateParams(profile_name: profile.name);
   return
 )
+.controller('TroopsCtrl', () ->
+  that = @
+  return
+)

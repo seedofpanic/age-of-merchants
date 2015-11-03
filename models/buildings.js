@@ -52,6 +52,9 @@ module.exports = function (db, DataTypes) {
                 TOWN: 2,
                 FACTORY: 3
             },
+            is_army: {
+              4: true
+            },
             'params': {
                 0: {//sawmill
                     'build_time': 1,
@@ -141,7 +144,8 @@ module.exports = function (db, DataTypes) {
                     } else {
                         new_product = {
                             building_id: building.id,
-                            product_type: product_type
+                            product_type: product_type,
+                            is_army: db.buildings.is_army[product_type] || false
                         };
                         db.models.products.create(new_product).then(function (product) {
                             product.add(count, quality);

@@ -13,7 +13,8 @@ module.exports = function (db, DataTypes) {
         reserved: DataTypes.BIGINT,
         price: DataTypes.DECIMAL(10, 2),
         'export': DataTypes.BOOLEAN,
-        'export_count': DataTypes.BIGINT
+        'export_count': DataTypes.BIGINT,
+        is_army: DataTypes.BOOLEAN
     },{
         classMethods: {
             associate: function () {

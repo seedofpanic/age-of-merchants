@@ -37,13 +37,6 @@ angular.module('Buildings', ['Tools', 'DB', 'Building'])
     that.loading = true
     that.selected = building
     $route.updateParams('building_id': building.id)
-    $http.get('/api/products?building_id=' + building.id).then(
-      (res) ->
-        building.products = res.data
-        that.loading = false
-      () ->
-        that.loading = false
-    )
   that.buildings = ProfileBuildings
   building_id = $route.current.params.building_id
   $scope.$watch(() ->

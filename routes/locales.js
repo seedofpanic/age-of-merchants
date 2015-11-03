@@ -55,12 +55,13 @@ var locales = {
             'order_product_title': 'Order products',
             'order_quantity': 'Order quantity',
             'ballance': 'Ballance',
+            troops: 'Troops',
+            no_troops: 'No troops in this building',
             building: {
                 products: 'Products',
                 army: 'Army',
-                troops: 'Troops',
-                no_troops: 'No troops in this building',
-                no_soldiers: 'No soldiers in this building'
+                no_soldiers: 'No soldiers in this building',
+                form_troop: 'Form troop'
             }
         },
         site: {
@@ -145,12 +146,13 @@ var locales = {
             'order_goods_title': 'Заказ товаров',
             'order_quantity': 'Объем заказа',
             'ballance': 'Балланс',
+            troops: 'Отряды',
+            no_troops: 'В этом здании нет сформированных войск',
             building: {
                 products: 'Продукты',
                 army: 'Армия',
-                troops: 'Отряды',
-                no_troops: 'В этом здании нет сформированных войск',
-                no_soldiers: 'В этом здании нет солдат'
+                no_soldiers: 'В этом здании нет солдат',
+                form_troop: 'Сформировать отряд'
             }
         },
         site: {

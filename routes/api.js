@@ -68,6 +68,14 @@ router.get('/products', function(req, res, next){
   }
 });
 
+router.get('/army', function(req, res, next){
+  if (req.query.building_id) {
+    models.products.findAll({where: {building_id: req.query.building_id, is_army: true}}).then(function (products) {
+      res.send(products);
+    });
+  }
+});
+
 router.post('/product/start_export', function(req, res, next){
   //TODO: check profile access
   models.products.findById(req.body.id).then(function (product) {
