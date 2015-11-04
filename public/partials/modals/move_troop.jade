@@ -1,0 +1,15 @@
+.ui.modal.small(ng-controller='MoveTroopCtrl as mtc')
+   i.close.icon
+   .header {{loc.office.troop.move_to}}
+   .content
+      form.ui.form
+         .fields.two
+            .field
+               label {{loc.office.x}}
+               input(type='text' ng-model='mtc.troop.field.x')
+            .field
+               label {{loc.office.y}}
+               input(type='text' ng-model='mtc.troop.field.x')
+   .actions
+      .ui.black.deny.button {{loc.office.cancel}}
+      .ui.positive.button.approve {{loc.office.ok}}
