@@ -18,7 +18,7 @@ module.directive('dropdown', () ->
   require: '?ngModel'
   transclude: true
   replace: true
-  templateUrl: '/partial/admin/dropdown.html'
+  templateUrl: '/partials/tools/dropdown.html'
   link: (scope, element, attrs, model, transclude) ->
     firstChange = true
 
@@ -56,9 +56,11 @@ module.directive('dropdown', () ->
 
     scope.select = (data, element, event) ->
       scope.droped = false
-      scope.selected = data
-      scope.value = data.value
-      model.$setViewValue(data.value) if model
+      scope.selected =
+        value: data
+        name: element.html()
+      scope.value = data
+      model.$setViewValue(data) if model
       event.stopPropagation() if event
       scope.$apply() if event
       if attrs.ngChange && firstChange
@@ -79,7 +81,6 @@ module.directive('ddItem', () ->
     scope.data = scope.$eval(attrs.data)
     scope.selected = false
     return unless scope.data
-    element.append(scope.data.name)
     element.click((event) ->
       scope.select(scope.data, element, event)
       scope.selected = true

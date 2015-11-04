@@ -1,4 +1,4 @@
-angular.module('Tools', ['ngRoute'])
+angular.module('Tools', ['ngRoute', 'DropdownModule'])
 .factory('Loc', ($rootScope, $http, $cookies) ->
   set: (lang) ->
     $http.get('/locales/' + lang).then(

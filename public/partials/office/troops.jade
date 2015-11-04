@@ -1,3 +1,20 @@
 div(ng-controller='TroopsCtrl as tc')
    .ui.message.info(ng-hide='tc.troops.length > 0') {{loc.office.no_troops}}
    div(ng-show='tc.troops.length > 0')
+      table.ui.table
+         thead
+            tr
+               th {{loc.office.ID}}
+               th {{loc.office.region}}
+               th {{loc.office.status}}
+               th {{loc.office.troop.actions}}
+         tbody
+            tr.clickable(ng-repeat='troop in tc.troops')
+               td {{troop.id}}
+               td {{tc.regions[troop.field.region_id].name}} ({{troop.field.x}},{{troop.field.y}})
+               td.collapsing {{(troop.move ? loc.office.troop.moving_to + ' ' + tc.regions[troop.move.field.region_id].name + '(' + troop.move.field.x + ',' + troop.move.field.y + ')' : loc.office.troop.pending)}}
+               td.collapsing
+                  button.ui.button.orange.icon(ng-click='tc.openMover(troop)' title='{{loc.office.troop.move_to}}' ng-hide='troop.move')
+                     i.icon.arrow.right.button
+                  button.ui.button.red.icon(ng-click='tc.stopTroop(troop)' title='{{loc.office.troop.stop}}' ng-show='troop.move')
+                     i.icon.stop

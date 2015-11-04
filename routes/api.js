@@ -16,6 +16,36 @@ router.get('/buildings', function(req, res, next) {
   });
 });
 
+router.get('/troops', function(req, res, next) {
+  models.profiles.find({where: {name: req.query.profile_name}}).then(function (profile) {
+    models.troops.findAll({where: {profile_id: profile.id}, include: [models.fields, {model: models.troops_moves, as: 'move', include: [models.fields]}]}).then(function (troops){
+      res.send(troops);
+    })
+  });
+});
+
+router.post('/troop/move', function(req, res, next) {
+  var troop = req.body;
+  models.fields.find({where: {region_id: troop.move.field.region_id, x: troop.move.field.x, y: troop.move.field.y}})
+      .then(function (field){
+        var new_move = {
+          troop_id: troop.id,
+          field_id: field.id
+        };
+        models.troops_moves.create(new_move).then(function (move) {
+          var data = move.get();
+          data.field = field.get();
+          res.send(data);
+        });
+      })
+});
+router.post('/troop/stop', function(req, res, next) {
+  var troop_id = req.body.troop_id;
+  models.troops_moves.destroy({where: {troop_id: troop_id}}).then(function () {
+    res.send({})
+  });
+});
+
 router.post('/buildings/new', function(req, res, next){
   if (!req.user) {return;}
   models.profiles.find({where: {name: req.body.profile_name, user_id: req.user.id}}).then(function(profile) {

@@ -62,6 +62,13 @@ var locales = {
                 army: 'Army',
                 no_soldiers: 'No soldiers in this building',
                 form_troop: 'Form troop'
+            },
+            troop: {
+                pending: 'Waiting for orders',
+                moving_to: 'Moving to',
+                move_to: 'Move to',
+                x: 'X',
+                y: 'Y'
             }
         },
         site: {
@@ -153,6 +160,13 @@ var locales = {
                 army: 'Армия',
                 no_soldiers: 'В этом здании нет солдат',
                 form_troop: 'Сформировать отряд'
+            },
+            troop: {
+                pending: 'Ожидают приказов',
+                moving_to: 'Двигаются в',
+                move_to: 'Передвигаться',
+                x: 'X',
+                y: 'Y'
             }
         },
         site: {

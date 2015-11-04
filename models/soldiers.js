@@ -1,12 +1,5 @@
 module.exports = function (db, DataTypes) {
     return db.define("soldiers", {
-        'id': {
-            type: DataTypes.BIGINT,
-            unsigned: true,
-            notNull: true,
-            primaryKey: true,
-            autoIncrement: true
-        },
         troop_id: {
             type: DataTypes.BIGINT,
             unsigned: true,
@@ -26,6 +19,12 @@ module.exports = function (db, DataTypes) {
         quality: {
             type: DataTypes.DECIMAL(10,2),
             unsigned: true
+        }
+    }, {
+        classMethods: {
+            associate: function () {
+                this.belongsTo(db.models.troops, {foreignKey: 'troop_id'});
+            }
         }
     });
 
