@@ -17,7 +17,7 @@ var locales = {
           types: {1: 'Once', 2: 'Every day'}
         },
         'resources': {
-            types: {1: 'Forest', 2: 'Animals', 3: 'Soil'}
+            types: {1: 'Forest', 2: 'Animals', 3: 'Soil', 4: 'Iron'}
         },
         age_of_merchants: 'Age of Merchants',
         office: {
@@ -109,7 +109,7 @@ var locales = {
             'statuses': {0: 'строится', 1: 'активно'}
         },
         'resources': {
-            types: {1: 'Лес', 2: 'Животные', 3: 'Почва'}
+            types: {1: 'Лес', 2: 'Животные', 3: 'Почва', 4: 'Металл'}
         },
         'export': {
             types: {1: 'Один раз'}

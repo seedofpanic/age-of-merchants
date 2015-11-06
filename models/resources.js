@@ -18,7 +18,7 @@ module.exports = function (db, DataTypes) {
             associate: function () {
                 this.belongsTo(db.models.fields, {foreignKey: 'field_id'});
             },
-            types: {1: 'forest', 2: 'animals', 3: 'soil'}
+            types: {1: 'forest', 2: 'animals', 3: 'soil', 4:'metal'}
         }
     });
 };
