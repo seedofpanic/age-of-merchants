@@ -32,41 +32,42 @@ module.exports = {
       'updatedAt': {
         type: Sequelize.DATE
       }
-    });
-    queryInterface.createTable('soldiers', {
-      'id': {
-        type: Sequelize.BIGINT,
-        unsigned: true,
-        notNull: true,
-        primaryKey: true,
-        autoIncrement: true
-      },
-      troop_id: {
-        type: Sequelize.BIGINT,
-        unsigned: true,
-        references: {
-          model: "troops",
-          key: "id"
+    }).then(function () {
+      queryInterface.createTable('soldiers', {
+        'id': {
+          type: Sequelize.BIGINT,
+          unsigned: true,
+          notNull: true,
+          primaryKey: true,
+          autoIncrement: true
+        },
+        troop_id: {
+          type: Sequelize.BIGINT,
+          unsigned: true,
+          references: {
+            model: "troops",
+            key: "id"
+          }
+        },
+        product_type: {
+          type: Sequelize.INTEGER,
+          unsigned: true
+        },
+        count: {
+          type: Sequelize.BIGINT,
+          unsigned: true
+        },
+        quality: {
+          type: Sequelize.DECIMAL(10,2),
+          unsigned: true
+        },
+        'createdAt': {
+          type: Sequelize.DATE
+        },
+        'updatedAt': {
+          type: Sequelize.DATE
         }
-      },
-      product_type: {
-        type: Sequelize.INTEGER,
-        unsigned: true
-      },
-      count: {
-        type: Sequelize.BIGINT,
-        unsigned: true
-      },
-      quality: {
-        type: Sequelize.DECIMAL(10,2),
-        unsigned: true
-      },
-      'createdAt': {
-        type: Sequelize.DATE
-      },
-      'updatedAt': {
-        type: Sequelize.DATE
-      }
+      });
     });
   },
 
