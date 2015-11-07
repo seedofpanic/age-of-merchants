@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "DEBUG=myapp ./bin/www"
+    "start": "DEBUG=aom ./bin/www",
+    "test": "node tests/battle.js"
   },
   "dependencies": {
     "body-parser": "^1.13.3",
@@ -22,6 +23,7 @@
     "password-hash": "^1.2.2",
     "sequelize": "^3.12.2",
     "sequelize-cli": "^2.0.0",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "test": "^0.6.0"
   }
 }

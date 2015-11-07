@@ -22,6 +22,7 @@ module.exports = function (db, DataTypes) {
                 this.belongsTo(db.models.profiles, {foreignKey: 'profile_id'});
                 this.belongsTo(db.models.fields, {foreignKey: 'field_id'});
                 this.hasOne(db.models.troops_moves, {foreignKey: 'troop_id', as: 'move'});
+                this.hasOne(db.models.troops_attacks, {foreignKey: 'troop_id', as: 'attack'});
             }
         },
         instanceMethods: {
