@@ -1,0 +1,19 @@
+.ui.modal.small(ng-controller='NeighTroopsCtrl as ntc')
+   i.close.icon
+   .header {{loc.office.troops.neighbors}}
+   .content
+      table.ui.table
+         thead
+            tr
+               th {{loc.office.troop.id}}
+               th {{loc.office.troop.actions}}
+         tbody
+            tr(ng-repeat="troop in ntc.troops" ng-hide='troop.id==ntc.id' ng-class='{green: troop.profile.user_id==user.id}')
+               td {{troop.id}}
+               td.collapsing
+                  .ui.toggle.checkbox.attack
+                     input(type="checkbox" name="attack" ng-model='troop.attack' ng-change="ntc.attack(troop)")
+                     label {{loc.office.troop.attack}}
+
+   .actions
+      .ui.positive.button.approve {{loc.office.ok}}

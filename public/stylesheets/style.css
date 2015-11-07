@@ -96,3 +96,13 @@ table.map td{
   width: 10px;
   height: 10px;
 }
+
+.ui.toggle.checkbox.attack input~label {
+  color: rgba(0,0,0,.3);
+}
+.ui.toggle.checkbox.attack input:checked~label {
+  color: red !important;
+}
+.ui.toggle.checkbox.attack input:checked~label:before {
+  background-color: red !important;
+}

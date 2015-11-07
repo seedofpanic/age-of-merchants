@@ -18,10 +18,35 @@ router.get('/buildings', function(req, res, next) {
 
 router.get('/troops', function(req, res, next) {
   models.profiles.find({where: {name: req.query.profile_name}}).then(function (profile) {
-    models.troops.findAll({where: {profile_id: profile.id}, include: [models.fields, {model: models.troops_moves, as: 'move', include: [models.fields]}]}).then(function (troops){
+    models.troops.findAll({
+      attributes: ['id', ['(SELECT count(*) FROM `troops` as t WHERE t.`field_id`=`troops`.`field_id` and t.id != `troops`.`id`)', 'neighbors']],
+      where: {profile_id: profile.id}, include: [models.fields, {model: models.troops_moves, as: 'move', include: [models.fields]}]
+    }).then(function (troops){
       res.send(troops);
     })
   });
+});
+
+router.get('/troops/field', function(req, res, next) {
+  var troop_id = req.query.troop_id;
+  var field_id = req.query.field_id;
+  models.troops.findAll({
+    where: {field_id: field_id, $not: {id: troop_id}}, include: [{model: models.profiles}]
+  }).then(function (troops){
+    var data = [];
+    var pendings = troops.length;
+    troops.forEach(function (troop) {
+      var row_troop = troop.get();
+      troop.getAssaults().then(function (assaults) {
+        row_troop.assaults = assaults;
+        data.push(row_troop);
+        pendings--;
+        if (pendings == 0) {
+          res.send(data);
+        }
+      });
+    });
+  })
 });
 
 router.post('/troop/move', function(req, res, next) {
@@ -184,3 +209,19 @@ router.get('/map', function (req, res, next) {
   });
 });
 module.exports = router;
+
+router.post('/troops/attack', function (req, res, next) {
+  var troop_id = req.body.troop_id;
+  var target_id = req.body.target_id;
+  models.troops_attacks.findOrCreate({where: {troop_id: troop_id, target_id: target_id}, defaults: {troop_id: troop_id, target_id: target_id}}).then(function (){
+    res.send('ok');
+  });
+});
+
+router.post('/troops/stop_attack', function (req, res, next) {
+  var troop_id = req.body.troop_id;
+  var target_id = req.body.target_id;
+  models.troops_attacks.destroy({where: {troop_id: troop_id, target_id: target_id}}).then(function (){
+    res.send('ok');
+  });
+});

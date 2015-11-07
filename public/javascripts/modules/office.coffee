@@ -26,7 +26,9 @@ angular.module('Office', ['ngRoute'])
 )
 .factory 'OrderTroop', () ->
   troop: {}
-.controller 'TroopsCtrl', ($http, $route, Regions, $scope, OrderTroop, Modals) ->
+.factory 'NeighborTroop', () ->
+  troop: {}
+.controller 'TroopsCtrl', ($http, $route, Regions, $scope, OrderTroop, Modals, NeighborTroop) ->
   that = @
   that.regions = Regions
   that.profile_name = $route.current.params.profile_name
@@ -46,9 +48,38 @@ angular.module('Office', ['ngRoute'])
       $http.post 'api/troop/move', OrderTroop.troop
       .then (res) ->
         troop.move = res.data
+  that.showNeighbors = (troop) ->
+    NeighborTroop.troop = troop
+    Modals.show 'troops_neighbors', $scope, () ->
+      return
   return
 .controller 'MoveTroopCtrl', (OrderTroop, Regions) ->
   that = @
   that.regions = Regions
   that.troop = OrderTroop.troop
+  return
+.controller 'NeighTroopsCtrl', (NeighborTroop, $http) ->
+  that = @
+  that.id = NeighborTroop.troop.id
+  that.troops = []
+  $http.get('api/troops/field', {params:
+      field_id: NeighborTroop.troop.field.id
+      troop_id: NeighborTroop.troop.id
+  }).then (res) ->
+    res.data.forEach (troop) ->
+      troop.attack = troop.assaults.length > 0
+      that.troops.push(troop);
+      return
+    return
+  that.attack = (troop) ->
+    if troop.attack
+      $http.post('api/troops/attack', {target_id: troop.id, troop_id: that.id}).then () ->
+        return
+      , () ->
+        troop.attack = false
+    else
+      $http.post('api/troops/stop_attack', {target_id: troop.id, troop_id: that.id}).then () ->
+        return
+      , () ->
+        troop.attack = true
   return
