@@ -22,9 +22,19 @@ module.exports = function (db, DataTypes) {
         }
     }, {
         classMethods: {
+            stats: {
+                6: {
+                    power: [1,3],
+                    life: 5
+                }
+            },
             associate: function () {
                 this.belongsTo(db.models.troops, {foreignKey: 'troop_id'});
             }
+        },
+        instanceMethods: {
+            power: 0,
+            life: 0
         }
     });
 
