@@ -25,5 +25,6 @@ div(ng-controller='BuildingsCtrl as bsc')
       .tabs(data-param='building_tab' data-active='products')
          .ui.top.attached.tabular.menu
             a.item(ng-class='{active: tab == "products"}' ng-click='openTab("products")') {{loc.office.building.products}}
+            a.item(ng-class='{active: tab == "shop"}' ng-click='openTab("shop")' ng-show='bsc.selected.type==2') {{loc.office.building.shop}}
             a.item(ng-class='{active: tab == "army"}' ng-click='openTab("army")' ng-show='bsc.selected.type==7') {{loc.office.building.army}}
          .ui.bottom.attached.active.tab.segment(ng-include="bsc.selected.id ? '/partials/office/building/' + (tab || 'products') + '.html' : ''")

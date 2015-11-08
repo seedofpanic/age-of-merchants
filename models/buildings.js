@@ -50,7 +50,8 @@ module.exports = function (db, DataTypes) {
             'modes': {
                 MINE: 1,
                 TOWN: 2,
-                FACTORY: 3
+                FACTORY: 3,
+                SHOP: 3
             },
             is_army: {
               4: true
@@ -76,8 +77,12 @@ module.exports = function (db, DataTypes) {
                 },
                 2: {//shop
                     'build_time': 3,
-                    'resources_out': [],
-                    price: 1000
+                    price: 1000,
+                    resources_out: [
+                        {
+                            mode: 4
+                        }
+                    ]
                 },
                 3: {//village
                     build_time: 1,
