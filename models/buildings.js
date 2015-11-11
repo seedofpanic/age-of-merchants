@@ -25,24 +25,26 @@ module.exports = function (db, DataTypes) {
               this.belongsTo(db.models.fields, {foreignKey: 'field_id'});
               this.belongsTo(db.models.profiles, {foreignKey: 'profile_id'});
             },
-            new: function (profile, regoion_id, x, y, type, name, cb) {
-                var params = db.models.buildings.params[type];
-                if (profile.gold < params.price) {
+            new: function (data, cb) {
+                var params = db.models.buildings.params[data.type];
+                if (data.profile.gold < params.price) {
                     cb('not_enoth_gold');
                     return;
                 }
-                db.models.fields.find({where: {region_id: regoion_id, x: x, y: y}}).then(function (field) {
+                db.models.fields.find({where: {region_id: data.region_id, x: data.x, y: data.y}}).then(function (field) {
                     var new_building = {
-                        profile_id: profile.id,
-                        type: type,
-                        name: name,
+                        profile_id: data.profile.id,
+                        type: data.type,
+                        name: data.name,
                         field_id: field.id,
                         buildtime: params.build_time,
-                        status: 0
+                        status: 0,
+                        out_type: data.out_type,
+                        mode: params.resources_out[data.out_type].mode
                     };
                     db.models.buildings.create(new_building).then(function (building) {
-                        profile.gold -= params.price;
-                        profile.save();
+                        data.profile.gold -= params.price;
+                        data.profile.save();
                         cb(null, building);
                     });
                 });
@@ -150,7 +152,7 @@ module.exports = function (db, DataTypes) {
                         new_product = {
                             building_id: building.id,
                             product_type: product_type,
-                            is_army: db.buildings.is_army[product_type] || false
+                            is_army: db.models.buildings.is_army[product_type] || false
                         };
                         db.models.products.create(new_product).then(function (product) {
                             product.add(count, quality);

@@ -8,6 +8,11 @@ router.get('/profile', function(req, res, next) {
   });
 });
 
+router.get('/buildings/types', function(req, res, next) {
+  var types = [];
+  res.send(models.buildings.params);
+});
+
 router.get('/buildings', function(req, res, next) {
   models.profiles.find({where: {name: req.query.profile_name}}).then(function (profile) {
     models.buildings.findAll({where: {profile_id: profile.id}, include: [models.fields]}).then(function (buildings){
@@ -74,7 +79,15 @@ router.post('/troop/stop', function(req, res, next) {
 router.post('/buildings/new', function(req, res, next){
   if (!req.user) {return;}
   models.profiles.find({where: {name: req.body.profile_name, user_id: req.user.id}}).then(function(profile) {
-    models.buildings.new(profile, req.body.region, req.body.x, req.body.y, req.body.type, req.body.name, function (err, building) {
+    models.buildings.new({
+        profile: profile,
+        region_id: req.body.region,
+        x: req.body.x,
+        y: req.body.y,
+        type: req.body.type,
+        name: req.body.name,
+        out_type: req.body.out_type
+      }, function (err, building) {
       if (err) {
         res.status(500).send(err);
         return;

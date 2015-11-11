@@ -106,3 +106,9 @@ table.map td{
 .ui.toggle.checkbox.attack input:checked~label:before {
   background-color: red !important;
 }
+.commed:after {
+  content: ', ';
+}
+.commed:last-of-type:after {
+  content: '';
+}

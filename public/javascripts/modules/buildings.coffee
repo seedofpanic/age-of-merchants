@@ -1,9 +1,11 @@
 angular.module('Buildings', ['Tools', 'DB', 'Building'])
 .controller('NewBuildingCtrl', ($element, $http, $route, Regions, ProfileBuildings, Profile) ->
   that = @
-  that.types = {}
+  that.types = []
   that.regions = Regions
   that.profile_name = $route.current.params.profile_name
+  $http.get('api/buildings/types').then (res) ->
+    that.types = res.data
   that.create = () ->
     if (
       that.name.length > 0 &&

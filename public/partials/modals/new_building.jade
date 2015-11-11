@@ -8,12 +8,18 @@
             input(type='text' ng-model='nbc.name')
          .field
             label {{loc.office.type}}
-            select(ng-model='nbc.type')
-               option(ng-repeat='(id,type) in loc.buildings.types' value='{{id}}') {{type}}
-         .field
+            div(dropdown ng-model='nbc.type')
+               div.item(dd-item ng-repeat='(id,type) in nbc.types' data='{{id}}' ng-selected='keys(nbc.types)[0]==id') {{loc.buildings.types[id]}}
+         .ui.segment
+            .field(ng-repeat='outs in nbc.types[nbc.type].resources_out')
+               .ui.radio.checkbox
+                  input(type='radio' name='out')
+                  label {{loc.products.types[outs.type]}} <span><= </span>
+                     span(class='commed' ng-repeat='res in outs.need') {{loc.products.types[res.type]}}
+         .field(ng-scope)
             label {{loc.office.region}}
-            select(ng-model='nbc.region')
-               option(ng-repeat='region in nbc.regions' value='{{region.id}}') {{region.name}}
+            div(dropdown ng-model='nbc.region')
+               div.item(dd-item ng-repeat='region in nbc.regions' ng-selected="region.id==keys(nbc.regions)[0]" data='{{region.id}}') {{region.name}}
          .fields.two
             .field
                label X

@@ -16,12 +16,12 @@ $(window).click(() ->
 module.directive('dropdown', () ->
   restrict: 'A'
   require: '?ngModel'
+  scope: true
   transclude: true
   replace: true
   templateUrl: '/partials/tools/dropdown.html'
   link: (scope, element, attrs, model, transclude) ->
     firstChange = true
-
     scope.selected = {}
     scope.droped = false
     dd =
@@ -52,8 +52,6 @@ module.directive('dropdown', () ->
         scope.toggle()
       )
 
-
-
     scope.select = (data, element, event) ->
       scope.droped = false
       scope.selected =
@@ -62,7 +60,8 @@ module.directive('dropdown', () ->
       scope.value = data
       model.$setViewValue(data) if model
       event.stopPropagation() if event
-      scope.$apply() if event
+      unless scope.$$phase
+        scope.$apply()
       if attrs.ngChange && firstChange
         scope.$eval(attrs.ngChange)
         firstChange = false
@@ -77,17 +76,17 @@ module.directive('ddItem', () ->
   restrict: 'A'
   template: ''
   link: (scope, element, attrs) ->
+    that = @
+    ddscope = angular.element(element.parents('[dropdown="dropdown"]').first()).scope()
 
-    scope.data = scope.$eval(attrs.data)
-    scope.selected = false
-    return unless scope.data
+    that.data = attrs.data
+    return unless attrs.data
     element.click((event) ->
-      scope.select(scope.data, element, event)
-      scope.selected = true
+      console.log(attrs.data)
+      ddscope.select(attrs.data, element, event)
     )
-    updateSelection = () ->
-      if (scope.$eval(attrs.ngSelected))
-        scope.select(scope.data, element, null)
-        scope.selected = scope.$eval(attrs.ngSelected)
+    updateSelection = (newVal) ->
+      if (newVal)
+        ddscope.select(attrs.data, element, null)
     scope.$watch(attrs.ngSelected, updateSelection)
 )

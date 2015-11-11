@@ -12,6 +12,7 @@ angular.module('Tools', ['ngRoute', 'DropdownModule'])
 .run((Loc, $cookies, $rootScope)->
   $rootScope.c = (str) ->
     return $rootScope.$eval(str)
+  $rootScope.keys = Object.keys
   Loc.set($cookies.get('lang') || 'en')
 )
 .directive('tabs', ['$route', ($route) ->
