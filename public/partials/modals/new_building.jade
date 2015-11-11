@@ -2,18 +2,18 @@
    i.close.icon
    .header {{loc.office.new_b_modal_title}}
    .content
-      form.ui.form
-         .field
+      form.ui.form(name='NewBuildingForm')
+         .field(ng-class='{error: NewBuildingForm.name.$dirty && !NewBuildingForm.name.$valid}')
             label {{loc.office.name}}
-            input(type='text' ng-model='nbc.name')
+            input(type='text' ng-model='nbc.name' name='name' required='required')
          .field
             label {{loc.office.type}}
-            div(dropdown ng-model='nbc.type')
+            div(dropdown ng-model='nbc.type' ng-change='nbc.changeType(selected)')
                div.item(dd-item ng-repeat='(id,type) in nbc.types' data='{{id}}' ng-selected='keys(nbc.types)[0]==id') {{loc.buildings.types[id]}}
-         .ui.segment
-            .field(ng-repeat='outs in nbc.types[nbc.type].resources_out')
+         .ui.segment(ng-show='nbc.types[nbc.type] && (keys(nbc.types[nbc.type].resources_out).length > 0)')
+            .field(ng-repeat='(key,outs) in nbc.types[nbc.type].resources_out')
                .ui.radio.checkbox
-                  input(type='radio' name='out')
+                  input(type='radio' name='out' ng-model='nbc.out_id' value='{{key}}')
                   label {{loc.products.types[outs.type]}} <span><= </span>
                      span(class='commed' ng-repeat='res in outs.need') {{loc.products.types[res.type]}}
          .field(ng-scope)
@@ -21,12 +21,14 @@
             div(dropdown ng-model='nbc.region')
                div.item(dd-item ng-repeat='region in nbc.regions' ng-selected="region.id==keys(nbc.regions)[0]" data='{{region.id}}') {{region.name}}
          .fields.two
-            .field
+            .field(ng-class='{error: NewBuildingForm.x.$dirty && !NewBuildingForm.x.$valid}')
                label X
-               input(ng-model='nbc.x')
-            .field
+               input(ng-model='nbc.x' required='required' type='number' min='0' max='49' name='x')
+            .field(ng-class='{error: NewBuildingForm.y.$dirty && !NewBuildingForm.y.$valid}')
                label Y
-               input(ng-model='nbc.y')
+               input(ng-model='nbc.y' required='required' type='number' min='0' max='49' name='y')
+         .ui.message(ng-class='{green: nbc.types[nbc.type].price <= nbc.profile.gold, red: nbc.types[nbc.type].price > nbc.profile.gold}')
+            .header {{loc.office.price}}: {{nbc.types[nbc.type].price}}
    .actions
       .ui.black.deny.button {{loc.office.cancel}}
-      .ui.positive.button(ng-click='nbc.create()') {{loc.office.construct}}
+      .ui.positive.button(ng-click='nbc.create()' ng-class='{disabled: !NewBuildingForm.$valid}') {{loc.office.construct}}

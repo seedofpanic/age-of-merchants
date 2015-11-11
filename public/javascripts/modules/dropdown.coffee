@@ -82,7 +82,6 @@ module.directive('ddItem', () ->
     that.data = attrs.data
     return unless attrs.data
     element.click((event) ->
-      console.log(attrs.data)
       ddscope.select(attrs.data, element, event)
     )
     updateSelection = (newVal) ->
