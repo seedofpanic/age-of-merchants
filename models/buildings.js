@@ -68,6 +68,7 @@ module.exports = function (db, DataTypes) {
                         count: 100,
                         mode: 1
                     }],
+                    max_workers: 5,
                     price: 100
                 },
                 1: {//hunting
@@ -77,6 +78,7 @@ module.exports = function (db, DataTypes) {
                         count: 10,
                         mode: 1
                     }],
+                    max_workers: 5,
                     price: 500
                 },
                 2: {//shop
@@ -86,7 +88,8 @@ module.exports = function (db, DataTypes) {
                         {
                             mode: 4
                         }
-                    ]
+                    ],
+                    max_workers: 5
                 },
                 3: {//village
                     build_time: 1,
@@ -98,6 +101,7 @@ module.exports = function (db, DataTypes) {
                             mode: 2
                         }
                     ],
+                    max_workers: 5,
                     price: 0,
                     upkeep: 1
                 },
@@ -111,6 +115,7 @@ module.exports = function (db, DataTypes) {
                             mode: 3
                         }
                     ],
+                    max_workers: 5,
                     price: 100
                 },
                 5: {//forge
@@ -122,6 +127,7 @@ module.exports = function (db, DataTypes) {
                             need: [{type: 2, count: 1}, {type: 6, count: 1}]
                         }
                     ],
+                    max_workers: 5,
                     price: 200
                 },
                 6: {//metal mine
@@ -132,6 +138,7 @@ module.exports = function (db, DataTypes) {
                             count: 1
                         }
                     ],
+                    max_workers: 5,
                     price: 100
                 },
                 7: {//castle
@@ -139,6 +146,7 @@ module.exports = function (db, DataTypes) {
                     resources_out: [
 
                     ],
+                    max_workers: 5,
                     upkeep: 10,
                     price: 10000
                 }

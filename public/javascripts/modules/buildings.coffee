@@ -1,5 +1,11 @@
 angular.module('Buildings', ['Tools', 'DB', 'Building'])
-.controller('NewBuildingCtrl', ($element, $http, $route, Regions, ProfileBuildings, Profile) ->
+.factory 'BuildingTypes', ($http) ->
+  types = []
+  $http.get('api/buildings/types').then (res) ->
+    $.each res.data, () ->
+      types.push(@)
+  types
+.controller('NewBuildingCtrl', ($element, $http, $route, Regions, ProfileBuildings, Profile, BuildingTypes) ->
   that = @
   that.x = 0
   that.y = 0
@@ -7,8 +13,7 @@ angular.module('Buildings', ['Tools', 'DB', 'Building'])
   that.regions = Regions
   that.profile_name = $route.current.params.profile_name
   that.profile = Profile
-  $http.get('api/buildings/types').then (res) ->
-    that.types = res.data
+  that.types = BuildingTypes
   that.setName = (name) ->
     that.name = name + ' ' + Math.ceil(Math.random() * 10000)
   that.changeType = (type) ->
@@ -68,9 +73,24 @@ angular.module('Buildings', ['Tools', 'DB', 'Building'])
     return
   return
 )
-.controller 'BuildingCtrl', ($http, SelectedBuilding, $scope) ->
+.controller 'BuildingCtrl', ($http, SelectedBuilding, $scope, BuildingTypes) ->
   that = @
   that.selected = SelectedBuilding
+  that.types = BuildingTypes
+  that.hire = 0
+  that.getMax = () ->
+    if !that.selected.b || !that.humans
+      return 0
+    if (that.selected.b.workers_c + that.humans.count) < that.types[that.selected.b.type].max_workers
+      that.selected.b.workers_c + that.humans.count
+    else
+      that.types[that.selected.b.type].max_workers
+  that.employ = () ->
+    $http.post('/api/buildings/employ',
+      id: that.humans.id
+      count: that.hire
+      building_id: that.selected.b.id
+    )
   $scope.$watch () ->
     SelectedBuilding.b
   , (newVal) ->
@@ -90,9 +110,11 @@ angular.module('Buildings', ['Tools', 'DB', 'Building'])
 .controller('ImportCtrl', ($http, Modals, $scope, OrderData, $route) ->
   that = @
   that.products = []
-  $http.get('/api/products').then((res) ->
-    that.products = res.data
-  )
+  that.get = (prop = '') ->
+    $http.get('/api/products/import/' + prop).then((res) ->
+      that.products = res.data
+    )
+  that.get('')
   that.order = (product) ->
     angular.copy(product, OrderData.product)
     Modals.show('order_product', $scope, () ->
@@ -115,7 +137,7 @@ angular.module('Buildings', ['Tools', 'DB', 'Building'])
 .factory('OrderData', () ->
   product: {}
 )
-.controller('ProductsOrderCtrl', (OrderData) ->
+.controller('ProductOrderCtrl', (OrderData) ->
   that = @
   that.od = OrderData
   return

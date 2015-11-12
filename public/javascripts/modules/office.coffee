@@ -13,13 +13,15 @@ angular.module('Office', ['ngRoute'])
   that.deselect = () ->
     $location.path('office')
   that.newProfile = () ->
+    that.err = null
     if that.new_profile_name.length > 0
       $http.post('/api/profile/new', name: that.new_profile_name)
       .then( (res) ->
         that.profiles.push(res.data)
-      , () ->
-
+      , (res) ->
+        that.err = res.data
       )
+
   that.selectProfile = (profile) ->
     $route.updateParams(profile_name: profile.name);
   return

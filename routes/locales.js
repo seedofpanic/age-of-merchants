@@ -38,7 +38,7 @@ var locales = {
             'quality': 'Quality',
             'price': 'Price',
             'export': 'Export',
-            'import': 'Import',
+            'import_btn': 'Import',
             'import_modal_title': 'Select product to import',
             'new_b_modal_title': 'Construct new building',
             'cancel': 'Cancel',
@@ -64,7 +64,12 @@ var locales = {
                 form_troop: 'Form troop',
                 shop: 'Shop',
                 workers: 'Staff members',
-                available: 'Available'
+                available: 'Available',
+                hire: 'Hire'
+            },
+            'import': {
+                all: 'All',
+                my: 'My'
             },
             troop: {
                 pending: 'Waiting for orders',
@@ -140,7 +145,7 @@ var locales = {
             'quality': 'Качество',
             'price': 'Цена',
             'export': 'Экспорт',
-            'import': 'Импорт',
+            'import_btn': 'Импорт',
             'import_modal_title': 'Выберите продукт для импорта',
             'new_b_modal_title': 'Создать новое предприятие',
             'cancel': 'Отменить',
@@ -166,7 +171,12 @@ var locales = {
                 form_troop: 'Сформировать отряд',
                 shop: 'Магазин',
                 workers: 'Работники',
-                available: 'Доступно'
+                available: 'Доступно',
+                hire: 'Нанять'
+            },
+            'import': {
+                all: 'Все',
+                my: 'Мои'
             },
             troop: {
                 pending: 'Ожидают приказов',

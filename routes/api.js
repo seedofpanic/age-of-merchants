@@ -114,9 +114,15 @@ router.post('/profile/new', function(req, res, next){
     name: req.body.name,
     gold: 1000
   };
-  models.profiles.create(new_profile).then(function (profile) {
-    res.send(profile);
-  });
+  models.profiles.find({where: {name: new_profile.name}}).then(function (profile) {
+    if (!profile) {
+      models.profiles.create(new_profile).then(function (profile) {
+        res.send(profile);
+      });
+    } else {
+      res.status(500).send('Account with such name already exists!');
+    }
+  })
 });
 
 router.get('/regions', function(req, res, next){
@@ -138,11 +144,21 @@ router.get('/products', function(req, res, next){
     models.products.findAll({where: {building_id: req.query.building_id}}).then(function (products) {
       res.send(products);
     });
-  } else {
-    models.products.findAll({where: {'export': true}}).then(function (err, products) {
-      res.send(products);
-    });
   }
+});
+
+router.get('/products/import', function(req, res, next){
+  models.products.findAll({where: {'export': true}}).then(function (products) {
+    res.send(products);
+  });
+});
+
+router.get('/products/import/my', function(req, res, next){
+  models.products.findAll({include:
+      {model: models.buildings, attributes: [], required: true, include: {model: models.profiles, attributes: [], required: true, include: {model: models.users, attributes: [], required: true, where: {id: req.user.id}}}}
+    }).then(function (products) {
+      res.send(products);
+  });
 });
 
 router.get('/army', function(req, res, next){
@@ -248,13 +264,16 @@ router.post('/troops/stop_attack', function (req, res, next) {
   });
 });
 
-router.post('/buildings/employ', function () {
+router.post('/buildings/employ', function (req, res, next) {
   var id = req.body.id;
   var count = req.body.count;
   var building_id = req.body.building_id;
   models.products.find({where: {id: id, building_id: building_id}}).then(function (product) {
     product.take(count, function (taken) {
-      models.buildings.update({workers_c: taken.count, workers_q: taken.quality}, {where: {id: building_id}});
+      models.buildings.find({where: {id: building_id}}).then(function (building) {
+        building.workers_q = (building.workers_q * building.workers_c + taken.count * taken.quality) / (building.workers_c + taken.count)
+        building.workers_c = taken.count;
+      })
     });
   });
 });

@@ -19,6 +19,7 @@ module.exports = function (db, DataTypes) {
         classMethods: {
             associate: function () {
                 this.belongsTo(db.models.buildings, {foreignKey: 'building_id'});
+                this.hasOne(db.models.contracts, {foreignKey: 'product_id'});
             }
         },
         instanceMethods: {
