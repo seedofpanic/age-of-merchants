@@ -28,6 +28,7 @@ angular.module('Buildings', ['Tools', 'DB', 'Building'])
       $http.post('/api/buildings/new',
         name: that.name
         type: that.type
+        out_type: that.out_id
         region: that.region
         x: that.x
         y: that.y

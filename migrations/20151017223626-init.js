@@ -1,4 +1,4 @@
-exports.up = function(db, dataType) {
+exports.up = function(db, dataType, done) {
     console.log('buildings');
     db.createTable('buildings', {
       'id': {
@@ -222,12 +222,18 @@ exports.up = function(db, dataType) {
                                                 }
                                             }
                                         ).then(function (){
+                                                var pendings = 7;
                                                 db.addColumn( 'buildings', 'profile_id', {
                                                     type: dataType.BIGINT,
                                                     unsigned: true,
                                                     references: {
                                                         model: "profiles",
                                                         key: "id"
+                                                    }
+                                                }).then(function () {
+                                                    pendings--;
+                                                    if (pendings == 0) {
+                                                        done();
                                                     }
                                                 });
                                                 db.addColumn( 'buildings', 'field_id', {
@@ -237,6 +243,11 @@ exports.up = function(db, dataType) {
                                                         model: "fields",
                                                         key: "id"
                                                     }
+                                                }).then(function () {
+                                                    pendings--;
+                                                    if (pendings == 0) {
+                                                        done();
+                                                    }
                                                 });
                                                 db.addColumn( 'contracts', 'product_id', {
                                                     type: dataType.BIGINT,
@@ -244,6 +255,11 @@ exports.up = function(db, dataType) {
                                                     references: {
                                                         model: "products",
                                                         key: "id"
+                                                    }
+                                                }).then(function () {
+                                                    pendings--;
+                                                    if (pendings == 0) {
+                                                        done();
                                                     }
                                                 });
                                                 db.addColumn( 'contracts', 'dest_id', {
@@ -253,6 +269,11 @@ exports.up = function(db, dataType) {
                                                         model: "buildings",
                                                         key: "id"
                                                     }
+                                                }).then(function () {
+                                                    pendings--;
+                                                    if (pendings == 0) {
+                                                        done();
+                                                    }
                                                 });
                                                 db.addColumn( 'products', 'building_id', {
                                                     type: dataType.BIGINT,
@@ -260,6 +281,11 @@ exports.up = function(db, dataType) {
                                                     references: {
                                                         model: "buildings",
                                                         key: "id"
+                                                    }
+                                                }).then(function () {
+                                                    pendings--;
+                                                    if (pendings == 0) {
+                                                        done();
                                                     }
                                                 });
                                                 db.addColumn( 'fields', 'region_id', {
@@ -269,6 +295,11 @@ exports.up = function(db, dataType) {
                                                         model: "regions",
                                                         key: "id"
                                                     }
+                                                }).then(function () {
+                                                    pendings--;
+                                                    if (pendings == 0) {
+                                                        done();
+                                                    }
                                                 });
                                                 db.addColumn( 'profiles', 'user_id', {
                                                     type: dataType.BIGINT,
@@ -276,6 +307,11 @@ exports.up = function(db, dataType) {
                                                     references: {
                                                         model: "users",
                                                         key: "id"
+                                                    }
+                                                }).then(function () {
+                                                    pendings--;
+                                                    if (pendings == 0) {
+                                                        done();
                                                     }
                                                 });
                                             })
@@ -287,12 +323,48 @@ exports.up = function(db, dataType) {
     });
 };
 
-exports.down = function(db) {
-    db.dropTable('buildings')
-    db.dropTable('contracts')
-    db.dropTable('products')
-    db.dropTable('fields')
-    db.dropTable('regions')
-    db.dropTable('profiles')
-    db.dropTable('users')
+exports.down = function(db, dataType, done) {
+    var pendings = 7
+    db.dropTable('buildings').then(function () {
+        pendings--;
+        if (pendings == 0) {
+            done();
+        }
+    });
+    db.dropTable('contracts').then(function () {
+        pendings--;
+        if (pendings == 0) {
+            done();
+        }
+    });
+    db.dropTable('products').then(function () {
+        pendings--;
+        if (pendings == 0) {
+            done();
+        }
+    });
+    db.dropTable('fields').then(function () {
+        pendings--;
+        if (pendings == 0) {
+            done();
+        }
+    });
+    db.dropTable('regions').then(function () {
+        pendings--;
+        if (pendings == 0) {
+            done();
+        }
+    });
+    db.dropTable('profiles').then(function () {
+        pendings--;
+        if (pendings == 0) {
+            done();
+        }
+    });
+    db.dropTable('users').then(function () {
+        pendings--;
+        if (pendings == 0) {
+            done();
+        }
+    });
 };

@@ -13,7 +13,7 @@ Today Age of Merchants is a fast-growing project that became much better every d
 I'm up to fully rewrite core on node.js. I need some time to get old functionality back on feet...
 
 ## Install
-1. $ git init https://github.com/seedofpanic/age-of-merchants.git aom
+1. $ git clone https://github.com/seedofpanic/age-of-merchants.git aom
 2. $ cd aom
 3. $ npm install
 4. $ bower install

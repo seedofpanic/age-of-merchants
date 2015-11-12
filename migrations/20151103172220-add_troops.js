@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  up: function (queryInterface, Sequelize) {
+  up: function (queryInterface, Sequelize, done) {
     queryInterface.createTable('troops', {
       'id': {
         type: Sequelize.BIGINT,
@@ -67,12 +67,17 @@ module.exports = {
         'updatedAt': {
           type: Sequelize.DATE
         }
+      }).then(function () {
+        done()
       });
     });
   },
 
-  down: function (queryInterface, Sequelize) {
-    queryInterface.dropTable('soldiers')
-    queryInterface.dropTable('troops')
+  down: function (queryInterface, Sequelize, done) {
+    queryInterface.dropTable('soldiers').then(function () {
+      queryInterface.dropTable('troops').then(function () {
+        done()
+      });
+    });
   }
 };
