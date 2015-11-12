@@ -28,9 +28,11 @@ angular.module('Building', [])
         update()
   return
 )
-.controller('ProductsCtrl', ($http, $route, Modals, $scope) ->
+.controller('ProductsCtrl', ($http, $route, Modals, $scope, ExportData) ->
   that = @
+  $scope.exportData = ExportData
   building_id = $route.current.params.building_id
+  that.loading = true
   $http.get('/api/products?building_id=' + building_id).then(
     (res) ->
       that.products = res.data
@@ -41,6 +43,22 @@ angular.module('Building', [])
   that.openImport = () ->
     Modals.show('import', $scope)
     return
+  that.export = (product) ->
+    if product.export
+      Modals.show('stop_export', $scope, () ->
+        $http.post('api/product/stop_export', product).then((res) ->
+          angular.copy(res.data, product)
+        )
+      )
+    else
+      angular.copy(product, ExportData.product)
+      ExportData.product.export = 1;
+      ExportData.product.export_count = 100;
+      Modals.show('start_export', $scope,  () ->
+        $http.post('api/product/start_export', ExportData.product).then((res) ->
+          angular.copy(res.data, product)
+        )
+      )
   return
 )
 .controller 'ShopCtrl', ($http) ->

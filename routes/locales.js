@@ -62,7 +62,9 @@ var locales = {
                 army: 'Army',
                 no_soldiers: 'No soldiers in this building',
                 form_troop: 'Form troop',
-                shop: 'Shop'
+                shop: 'Shop',
+                workers: 'Staff members',
+                available: 'Available'
             },
             troop: {
                 pending: 'Waiting for orders',
@@ -162,7 +164,9 @@ var locales = {
                 army: 'Армия',
                 no_soldiers: 'В этом здании нет солдат',
                 form_troop: 'Сформировать отряд',
-                shop: 'Магазин'
+                shop: 'Магазин',
+                workers: 'Работники',
+                available: 'Доступно'
             },
             troop: {
                 pending: 'Ожидают приказов',

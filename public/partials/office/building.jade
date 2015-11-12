@@ -1,0 +1,17 @@
+.building(ng-show='bsc.selected.b.id' ng-controller='BuildingCtrl as bc')
+    .ui.button.icon.right.floated(ng-click='bsc.deselect()')
+        i.icon.close
+    h2 {{bc.selected.b.name}} - {{bsc.regions[bsc.selected.b.field.region_id].name}} ({{bc.selected.b.field.x}},{{bc.selected.b.field.y}})
+    .ui.segment
+        h3 {{loc.office.building.workers}}
+        form.ui.form
+            .ui.input
+                input(type='number' min='0' max='bc.working + bc.humans.count' ng-model='bc.hire')
+            span  / {{bc.selected.b.workers_c}}
+            p {{loc.office.building.available}}: {{bc.humans.count - bc.hire}}
+    .tabs(data-param='building_tab' data-active='products')
+        .ui.top.attached.tabular.menu
+            a.item(ng-class='{active: tab == "products"}' ng-click='openTab("products")') {{loc.office.building.products}}
+            a.item(ng-class='{active: tab == "shop"}' ng-click='openTab("shop")' ng-show='bc.selected.b.type==2') {{loc.office.building.shop}}
+            a.item(ng-class='{active: tab == "army"}' ng-click='openTab("army")' ng-show='bc.selected.b.type==7') {{loc.office.building.army}}
+        .ui.bottom.attached.active.tab.segment(ng-include="bc.selected.b.id ? '/partials/office/building/' + (tab || 'products') + '.html' : ''")

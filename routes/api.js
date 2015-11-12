@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var models = require('../models/index');
+var sequelize = require('sequelize');
 
 router.get('/profile', function(req, res, next) {
   models.profiles.find({where: {name: req.query.name}}).then(function (profile) {
@@ -124,6 +125,14 @@ router.get('/regions', function(req, res, next){
   });
 });
 
+router.get('/products/humans', function(req, res, next){
+  if (req.query.building_id) {
+    models.products.find({attributes: ['id', 'count', 'quality'], where: {building_id: req.query.building_id, product_type: 3}}).then(function (result) {
+      res.send(result);
+    });
+  }
+});
+
 router.get('/products', function(req, res, next){
   if (req.query.building_id) {
     models.products.findAll({where: {building_id: req.query.building_id}}).then(function (products) {
@@ -236,5 +245,16 @@ router.post('/troops/stop_attack', function (req, res, next) {
   var target_id = req.body.target_id;
   models.troops_attacks.destroy({where: {troop_id: troop_id, target_id: target_id}}).then(function (){
     res.send('ok');
+  });
+});
+
+router.post('/buildings/employ', function () {
+  var id = req.body.id;
+  var count = req.body.count;
+  var building_id = req.body.building_id;
+  models.products.find({where: {id: id, building_id: building_id}}).then(function (product) {
+    product.take(count, function (taken) {
+      models.buildings.update({workers_c: taken.count, workers_q: taken.quality}, {where: {id: building_id}});
+    });
   });
 });

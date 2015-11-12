@@ -1,5 +1,5 @@
 div(ng-controller='BuildingsCtrl as bsc')
-   .buildings(ng-hide='bsc.selected.id')
+   .buildings(ng-hide='bsc.selected.b.id')
       h2 {{loc.office.buildings}}
       button.ui.button.blue(ng-click='bsc.openNewBuilding()') {{loc.office.construct_building}}
       table.ui.table(ng-show='bsc.buildings.length > 0')
@@ -18,13 +18,4 @@ div(ng-controller='BuildingsCtrl as bsc')
                   span(ng-show='building.buildtime > 0') ({{building.buildtime}})
       .ui.message.info(ng-hide='bsc.buildings.length > 0')
          .header No buildings to show, try to construct one
-   .building(ng-show='bsc.selected.id')
-      .ui.button.icon.right.floated(ng-click='bsc.deselect()')
-         i.icon.close
-      h2 {{bsc.selected.name}} - {{bsc.regions[bsc.selected.field.region_id].name}} ({{bsc.selected.field.x}},{{bsc.selected.field.y}})
-      .tabs(data-param='building_tab' data-active='products')
-         .ui.top.attached.tabular.menu
-            a.item(ng-class='{active: tab == "products"}' ng-click='openTab("products")') {{loc.office.building.products}}
-            a.item(ng-class='{active: tab == "shop"}' ng-click='openTab("shop")' ng-show='bsc.selected.type==2') {{loc.office.building.shop}}
-            a.item(ng-class='{active: tab == "army"}' ng-click='openTab("army")' ng-show='bsc.selected.type==7') {{loc.office.building.army}}
-         .ui.bottom.attached.active.tab.segment(ng-include="bsc.selected.id ? '/partials/office/building/' + (tab || 'products') + '.html' : ''")
+   include building

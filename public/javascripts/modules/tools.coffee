@@ -41,19 +41,18 @@ angular.module('Tools', ['ngRoute', 'DropdownModule'])
 .factory('Modals', ($http, $compile) ->
   modals = {}
   show: (id, scope, onApprove)->
-    unless modals[id]
-      $http.get('/partials/modals/' + id + '.html').then((res) ->
-        modals[id] = $(res.data).appendTo('body')
-        modals[id].modal(
-          onApprove: onApprove
-          selector:
-            close: '.close'
-            approve: '.approve'
-          allowMultiple: true
-        ).modal('show')
-        $compile(modals[id])(scope)
-      )
-    else
-      modals[id].modal('show')
+    if modals[id]
+      modals[id].remove()
+    $http.get('/partials/modals/' + id + '.html').then((res) ->
+      modals[id] = $(res.data).appendTo('body')
+      modals[id].modal(
+        onApprove: onApprove
+        selector:
+          close: '.close'
+          approve: '.approve'
+        allowMultiple: true
+      ).modal('show')
+      $compile(modals[id])(scope)
+    )
     return
 )

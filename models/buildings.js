@@ -18,7 +18,9 @@ module.exports = function (db, DataTypes) {
         },
         buildtime: DataTypes.INTEGER,
         status: DataTypes.INTEGER,
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        workers_c: DataTypes.INTEGER,
+        workers_q: DataTypes.DECIMAL(10,2)
     }, {
         classMethods: {
             associate: function () {

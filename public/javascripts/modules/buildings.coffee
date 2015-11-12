@@ -41,15 +41,17 @@ angular.module('Buildings', ['Tools', 'DB', 'Building'])
     return
   return
 )
-.controller('BuildingsCtrl', ($scope, $http, $compile, $route, Modals, ExportData, Regions, ProfileBuildings) ->
+.factory 'SelectedBuilding', () ->
+  b: undefined
+.controller('BuildingsCtrl', ($scope, $http, $compile, $route, Modals, Regions, ProfileBuildings, SelectedBuilding) ->
   that = @
   that.regions = Regions
-  that.selected = undefined
+  that.selected = SelectedBuilding
   that.select = (building) ->
     unless (building)
       return
     that.loading = true
-    that.selected = building
+    that.selected.b = building
     $route.updateParams('building_id': building.id)
   that.buildings = ProfileBuildings
   building_id = $route.current.params.building_id
@@ -59,29 +61,29 @@ angular.module('Buildings', ['Tools', 'DB', 'Building'])
     that.select(ProfileBuildings.arr[building_id])
   )
   that.deselect = () ->
-    that.selected = undefined
+    that.selected.b = undefined
     $route.updateParams('building_id': undefined, building_tab: undefined )
   that.openNewBuilding = () ->
     Modals.show('new_building', $scope)
     return
-  that.export = (product) ->
-    if product.export
-      Modals.show('stop_export', $scope, () ->
-        $http.post('api/product/stop_export', product).then((res) ->
-          angular.copy(res.data, product)
-        )
-      )
-    else
-      angular.copy(product, ExportData.product)
-      ExportData.product.export = 1;
-      ExportData.product.export_count = 100;
-      Modals.show('start_export', $scope,  () ->
-        $http.post('api/product/start_export', ExportData.product).then((res) ->
-          angular.copy(res.data, product)
-        )
-      )
   return
 )
+.controller 'BuildingCtrl', ($http, SelectedBuilding, $scope) ->
+  that = @
+  that.selected = SelectedBuilding
+  $scope.$watch () ->
+    SelectedBuilding.b
+  , (newVal) ->
+    unless newVal
+      return
+    $http.get('/api/products/humans?building_id=' + newVal.id).then(
+      (res) ->
+        that.humans = res.data
+        that.loading = false
+      () ->
+        that.loading = false
+    )
+  return
 .factory('ExportData', () ->
   product: {}
 )
@@ -100,9 +102,14 @@ angular.module('Buildings', ['Tools', 'DB', 'Building'])
     )
   return
 )
-.controller('ExportCtrl', (ExportData) ->
+.controller('ExportCtrl', (ExportData, $scope) ->
   that = @
   that.ed = ExportData
+  $scope.$watch () ->
+    ExportData.product
+  , (newVal, oldVal) ->
+    console.log(oldVal)
+    console.log(newVal)
   return
 )
 .factory('OrderData', () ->
