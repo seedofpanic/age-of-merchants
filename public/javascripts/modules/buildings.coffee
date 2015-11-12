@@ -64,9 +64,6 @@ angular.module('Buildings', ['Tools', 'DB', 'Building'])
   that.openNewBuilding = () ->
     Modals.show('new_building', $scope)
     return
-  that.openImport = () ->
-    Modals.show('import', $scope)
-    return
   that.export = (product) ->
     if product.export
       Modals.show('stop_export', $scope, () ->

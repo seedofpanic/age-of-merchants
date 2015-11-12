@@ -28,7 +28,7 @@ angular.module('Building', [])
         update()
   return
 )
-.controller('ProductsCtrl', ($http, $route) ->
+.controller('ProductsCtrl', ($http, $route, Modals, $scope) ->
   that = @
   building_id = $route.current.params.building_id
   $http.get('/api/products?building_id=' + building_id).then(
@@ -38,5 +38,10 @@ angular.module('Building', [])
     () ->
       that.loading = false
   )
+  that.openImport = () ->
+    Modals.show('import', $scope)
+    return
   return
 )
+.controller 'ShopCtrl', ($http) ->
+  that = @

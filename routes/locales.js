@@ -92,7 +92,8 @@ var locales = {
             world: 'World',
             profile: 'Profile',
             to_your_office: 'To your office',
-            loading: 'Loading'
+            loading: 'Loading',
+            'office': 'Office'
         },
         map: {
             resource_type: 'Resource type',
@@ -191,7 +192,8 @@ var locales = {
             world: 'Мир',
             profile: 'Профиль',
             to_your_office: 'В Ваш офис',
-            loading: 'Загрузка'
+            loading: 'Загрузка',
+            'office': 'Офис'
         },
         map: {
             resource_type: 'Тип ресурса',

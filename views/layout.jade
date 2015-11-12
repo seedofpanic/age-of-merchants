@@ -13,8 +13,8 @@ html
   body.pushable(ng-app='App' ng-init='user=#{JSON.stringify(user)}')
     .ui.large.top.fixed.menu.transition.hidden
       .ui.container
-        a.active.item {{loc.site.home}}
-        a.item {{loc.site.world}}
+        a.item(ng-href='/') {{loc.site.home}}
+        a.item(ng-href='#world' ng-show='user.id>0') {{loc.site.world}}
         a.item {{loc.site.profile}}
         .right.menu
           .item(ng-hide='user.id > 0')
@@ -23,9 +23,10 @@ html
             a.ui.primary.button(ng-href='#auth') {{loc.site.signup}}
 
     .ui.vertical.inverted.sidebar.menu.left
-      a.active.item Home
-      a.active.item(ng-href='#map') World
-      a.active.item Profile
-      a.active.item(ng-href='#auth' ng-hide='user.id > 0') {{loc.site.signin}}
-      a.active.item(ng-href='#auth' ng-hide='user.id > 0') {{loc.site.signup}}
+      a.item(ng-href='#') {{loc.site.home}}
+      a.item(ng-href='#map' ng-show='user.id>0') {{loc.site.world}}
+      a.item(ng-href='#office' ng-show='user.id>0') {{loc.site.office}}
+      a.item(ng-href='#profile' ng-show='user.id>0') {{loc.site.profile}}
+      a.item(ng-href='#auth' ng-hide='user.id > 0') {{loc.site.signin}}
+      a.item(ng-href='#auth' ng-hide='user.id > 0') {{loc.site.signup}}
   div.view(ng-view)

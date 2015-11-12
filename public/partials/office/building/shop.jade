@@ -1,0 +1,20 @@
+div(ng-controller='ShopCtrl as sc')
+   button.ui.button.purple(ng-click='pc.openImport()') {{loc.office.import}}
+   form.ui.form
+      table.products.ui.table.form
+         thead
+            tr
+               th {{loc.office.type}}
+               th {{loc.office.price}}
+               th {{loc.office.count}}
+               th {{loc.office.quality}}
+               th.collapsing {{loc.office.sell}}
+         tbody
+            tr(ng-repeat='product in pc.products')
+               td {{loc.products.types[product.product_type]}}
+               td
+                  input(type='text' pattern='^\d+$' ng-model='product.price')
+               td {{product.count}}({{product.reserved}})
+               td {{product.quality | number: 2}}
+               td.ui.toggle.checkbox
+                  button.ui.button(ng-click='pc.export(produnct)' ng-class='{red: product.export > 0, green: product.export == 0}') {{product.export > 0 ? loc.office.export_s_btn : loc.office.export_btn}}
