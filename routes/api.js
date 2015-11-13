@@ -235,8 +235,11 @@ router.post('/troops/new', function(req, res, next){
 
 router.get('/map', function (req, res, next) {
   var map = [];
-  var type = models.fields_resources.types[req.query.type];
-  models.fields.findAll({where: {region_id: req.query.region_id}, include: [{model: models.fields_resources, as: 'res', attributes: [[type + '_c', 'c'], [type + '_q', 'q'], [type + '_a', 'a']]}]}).then(function (fields) {
+  type = parseInt(req.query.type);
+  if (type == 0) {
+    return;
+  }
+  models.fields.findAll({where: {region_id: req.query.region_id}, include: [{model: models.fields_resources, as: 'res', attributes: ['c', 'q', 'a'], where: {type: type}}]}).then(function (fields) {
     for (var i = 0; i < fields.length; i++) {
       if (!map[fields[i].x]) {
         map[fields[i].x] = [];
