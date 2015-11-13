@@ -55,7 +55,7 @@ module.exports = function (db, DataTypes) {
                 MINE: 1,
                 TOWN: 2,
                 FACTORY: 3,
-                SHOP: 3
+                SHOP: 4
             },
             is_army: {
               4: true

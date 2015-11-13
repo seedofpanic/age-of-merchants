@@ -5,9 +5,14 @@
     .ui.segment
         h3 {{loc.office.building.workers}}
         form.ui.form
-            .ui.input
-                input(type='number' min='{{-bc.selected.b.workers_c}}' max='{{bc.getMax()}}' ng-model='bc.hire')
-            span  {{loc.office.building.working}} {{bc.selected.b.workers_c}} / {{bc.types[bsc.selected.b.type].max_workers}} {{loc.office.quality}}: {{bc.selected.b.workers_q}}
+            .field
+                .ui.input
+                    input(type='text' ng-model='bs.salary')
+                span {{loc.office.building.current_salary}}: {{bc.salary}}
+            .field
+                .ui.input
+                    input(type='number' min='{{-bc.selected.b.workers_c}}' max='{{bc.getMax()}}' ng-model='bc.hire')
+                span  {{loc.office.building.working}} {{bc.selected.b.workers_c}} / {{bc.types[bsc.selected.b.type].max_workers}} ({{bc.selected.b.workers_c / bc.types[bsc.selected.b.type].max_workers * 100}}%) {{loc.office.quality}}: {{bc.selected.b.workers_q}}
             p {{loc.office.building.available}}: {{bc.humans.count - bc.hire}}
             button.ui.button.green(ng-click='bc.employ()') {{loc.office.building.hire}}
     .tabs(data-param='building_tab' data-active='products')
