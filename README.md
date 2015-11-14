@@ -19,11 +19,7 @@ I'm up to fully rewrite core on node.js. I need some time to get old functionali
 4. $ bower install
 5. Rename all .json.default to .json in config/ folder
 6. Configure database connection in config/config.json
-7. Migrate DB
-```
-    $ node_modules\.bin\sequelize db:migrate
-    For windows: node_modules/.bin/sequelize db:migrate
-```
+7. node_modules/.bin/sequelize db:migrate
 8. $ node compile
 9. (optional)  $ gen region "Region name" "X" "Y"
 ```
