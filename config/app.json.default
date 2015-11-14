@@ -1,0 +1,26 @@
+{
+ "development": {
+    "session": {
+        "secret": "fmdeoighpktpogjdsy",
+        "duration": 1800000,
+        "active_duration": 1800000
+     },
+    "logger": "dev"
+  },
+  "test": {
+     "session": {
+        "secret": "fmdeoighpktpogjdsy",
+        "duration": 1800000,
+        "active_duration": 1800000
+     },
+    "logger": "dev"
+  },
+  "production": {
+    "session": {
+        "secret": "",
+        "duration": 1800000,
+        "active_duration": 1800000
+    },
+    "logger": false
+  }
+}
