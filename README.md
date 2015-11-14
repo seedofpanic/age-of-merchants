@@ -17,17 +17,18 @@ I'm up to fully rewrite core on node.js. I need some time to get old functionali
 2. $ cd aom
 3. $ npm install
 4. $ bower install
-5. Configure database connection in config/config.json
-6. Migrate DB
+5. Rename all .json.default to .json in config/ folder
+6. Configure database connection in config/config.json
+7. Migrate DB
 ```
     $ node_modules\.bin\sequelize db:migrate
     For windows: node_modules/.bin/sequelize db:migrate
 ```
-7. $ node compile
-8. (optional)  $ gen region "Region name" "X" "Y"
+8. $ node compile
+9. (optional)  $ gen region "Region name" "X" "Y"
 ```
     Example:   $ gen region MyRegion 0 0
 ```
-9. $ node bin/www (runs the server)
+10. $ node bin/www (runs the server)
 
 That's it! I hope I didn't forget something, if I did, plz let me know in issues!
