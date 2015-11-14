@@ -1,0 +1,17 @@
+div(ng-controller='ProductsCtrl as pc')
+   div {{pc.exportData}}
+   button.ui.button.purple(ng-click='pc.openImport()') {{loc.office.import_btn}}
+   table.products.ui.table.form
+      thead
+         tr
+            th {{loc.office.type}}
+            th {{loc.office.count}}
+            th {{loc.office.quality}}
+            th.collapsing {{loc.office.export}}
+      tbody
+         tr(ng-repeat='product in pc.products')
+            td {{loc.products.types[product.product_type]}}
+            td {{product.count}}({{product.reserved}})
+            td {{product.quality | number: 2}}
+            td.ui.toggle.checkbox
+               button.ui.button(ng-click='pc.export(product)' ng-class='{red: product.export > 0, green: product.export == 0}') {{product.export > 0 ? loc.office.export_s_btn : loc.office.export_btn}}

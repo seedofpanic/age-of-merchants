@@ -1,0 +1,107 @@
+{
+  "products": {
+    "types": {"1": "meat", "2": "wood", "3": "Human", "4": "Militia", "5": "Axe", "6": "Metal"}
+  },
+  "buildings": {
+    "types": {"0": "Hunting hut", "1": "woodcutter hut", "2": "Shop", "3": "Village", "4": "School", "5": "Forge", "6": "Metal mine", "7": "Castle"},
+    "statuses": {"0": "constructing", "1": "active"}
+  },
+  "export": {
+    "types": {"1": "Once"}
+  },
+  "order": {
+    "types": {"1": "Once", "2": "Every day"}
+  },
+  "resources": {
+    "types": {"1": "Forest", "2": "Animals", "3": "Soil", "4": "Iron"}
+  },
+  "age_of_merchants": "Age of Merchants",
+  "office": {
+    "create_new_profile": "Create new profile",
+    "create_btn": "Create",
+    "new_profile_name": "New profile name",
+    "create_first_profile": "Create your first profile to get your own office",
+    "header": "office.profile_name + \"'s office\"",
+    "stats": "Stats",
+    "buildings": "Buildings",
+    "construct_building": "Construct building",
+    "name": "Name",
+    "region": "Region",
+    "type": "Type",
+    "status": "Status",
+    "no_buildings": "No buildings to show, try to construct one",
+    "count": "Count",
+    "quality": "Quality",
+    "price": "Price",
+    "export": "Export",
+    "import_btn": "Import",
+    "import_modal_title": "Select product to import",
+    "new_b_modal_title": "Construct new building",
+    "cancel": "Cancel",
+    "construct": "Construct",
+    "order": "Order",
+    "export_btn": "Start export",
+    "export_s_btn": "Stop export",
+    "stop_export_title": "Stop export",
+    "confirm_stop_export": "All offers with this product will be canceled! Do you want to stop exporting?",
+    "ok": "OK",
+    "export_result": "You will get:",
+    "export_type": "Export type",
+    "start_export_title": "Start product export",
+    "order_product_title": "Order products",
+    "order_quantity": "Order quantity",
+    "ballance": "Ballance",
+    "troops": "Troops",
+    "no_troops": "No troops in this building",
+    "building": {
+      "products": "Products",
+      "army": "Army",
+      "no_soldiers": "No soldiers in this building",
+      "form_troop": "Form troop",
+      "shop": "Shop",
+      "workers": "Staff members",
+      "available": "Available",
+      "hire": "Hire"
+    },
+    "import": {
+      "all": "All",
+      "my": "My"
+    },
+    "troop": {
+      "pending": "Waiting for orders",
+      "moving_to": "Moving to",
+      "move_to": "Move to",
+      "x": "X",
+      "y": "Y"
+    }
+  },
+  "site": {
+    "language": "Language",
+    "auth": {
+      "login": "Log-in to your account",
+      "email": "E-mail address",
+      "username": "Username",
+      "password_r": "Repeat Password",
+      "password": "Password",
+      "login_btn": "Login",
+      "registration": "Registration",
+      "register_btn": "Register"
+    },
+    "welcome": "Welcome",
+    "signin": "Sign in",
+    "signup": "Sign up",
+    "signout": "Sign out",
+    "home": "Home",
+    "world": "World",
+    "profile": "Profile",
+    "to_your_office": "To your office",
+    "loading": "Loading",
+    "office": "Office"
+  },
+  "map": {
+    "resource_type": "Resource type",
+    "count": "Count",
+    "quality": "Quality",
+    "growth": "Growth"
+  }
+}

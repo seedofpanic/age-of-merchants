@@ -3,6 +3,7 @@ include inc/header
    .ui.segment(ng-show='office.loaded && !office.profile_name')
       h1(ng-hide='office.profiles.length > 0') {{loc.office.create_first_profile}}
       h1(ng-show='office.profiles.length > 0') {{loc.office.create_new_profile}}
+      .ui.message.error(ng-show='office.err') {{office.err}}
       form.ui.form(action='/api/profile/new' method='post')
          .field
             input(type='text' placeholder='{{loc.office.new_profile_name}}' ng-model='office.new_profile_name')
@@ -20,4 +21,5 @@ include inc/header
          .ui.top.attached.tabular.menu
             a.item(ng-class='{active: !tab || tab == "stats"}' ng-click='openTab("stats")') {{loc.office.stats}}
             a.item(ng-class='{active: tab == "buildings"}' ng-click='openTab("buildings")') {{loc.office.buildings}}
+            a.item(ng-class='{active: tab == "troops"}' ng-click='openTab("troops")') {{loc.office.troops}}
          .ui.bottom.attached.active.tab.segment(ng-include="'/partials/office/' + (tab || 'stats') + '.html'")

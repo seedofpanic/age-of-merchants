@@ -49,16 +49,28 @@ function gen () {
                         return;
                     } else {
                         models.fields.findAll({where: {region_id: region.id}}).then(function (fields) {
-                            fields.each(function (field){
-                                models.fields_resources.find({where: {map_field_id: field.id}}, function (resource) {
-                                    if (resource) {
-                                        resource.remove();
+                            var pendings = fields.length;
+                            fields.forEach(function (field){
+                                models.fields_resources.findAll({where: {field_id: field.id}}).then(function (resources) {
+                                    if (resources) {
+                                        resources.forEach(function (resource) {
+                                            var res_p = resources.length;
+                                            resource.destroy().then(function () {
+                                                res_p--;
+                                                if (res_p == 0) {
+                                                    field.destroy().then(function () {
+                                                        pendings--;
+                                                        if (pendings == 0) {
+                                                            region.destroy();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        });
                                     }
                                 });
-                                field.remove();
                             });
                         });
-                        region.remove();
                     }
                 }
                 var new_region = {
@@ -67,6 +79,7 @@ function gen () {
                     y: y
                 };
                 models.regions.create(new_region).then(function (region) {
+                    var gold_c_arr = randomArray(LENGTH, 10000);
                     console.log('Generating forest...');
                     var forest_c_arr = randomArray(LENGTH, 1000000);
                     var forest_q_arr = randomArray(LENGTH, 1000, 1);
@@ -76,6 +89,9 @@ function gen () {
                     console.log('Generating soil...');
                     var soil_c_arr = randomArray(LENGTH, 1000000);
                     var soil_q_arr = randomArray(LENGTH, 1000, 1);
+                    console.log('Generating metal...');
+                    var metal_c_arr = randomArray(LENGTH, 1000000);
+                    var metal_q_arr = randomArray(LENGTH, 1000, 1);
                     for (var i = 0; i < LENGTH; i++) {
                         for (var j = 0; j < LENGTH; j++) {
                             var new_field = {
@@ -84,12 +100,15 @@ function gen () {
                                 y: j
                             };
                             newField(new_field, {
+                                gold_c: gold_c_arr[i][j],
                                 forest_c: forest_c_arr[i][j],
                                 forest_q: forest_q_arr[i][j],
                                 animals_c: animals_c_arr[i][j],
                                 animals_q: animals_q_arr[i][j],
                                 soil_c: soil_c_arr[i][j],
-                                soil_q: soil_q_arr[i][j]
+                                soil_q: soil_q_arr[i][j],
+                                metal_c: metal_c_arr[i][j],
+                                metal_q: metal_q_arr[i][j]
                             });
                         }
                     }
@@ -98,12 +117,15 @@ function gen () {
     }
     var count_fields = 0;
     function newField(new_field, data) {
+        var gold_c = data.gold_c;
         var forest_c = data.forest_c;
         var forest_q = data.forest_q;
         var animals_c = data.animals_c;
         var animals_q = data.animals_q;
         var soil_c = data.soil_c;
         var soil_q = data.soil_q;
+        var metal_c = data.metal_c;
+        var metal_q = data.metal_q;
         var region_id = new_field.region_id;
         var x = new_field.x;
         var y = new_field.y;
@@ -111,18 +133,39 @@ function gen () {
             x: x,
             y: y
         }).then(function (field) {
-            models.fields_resources.create({
-                field_id: field.id,
-                forest_c: Math.round(forest_c),
-                forest_q: Math.round(forest_q) / 100,
-                forest_a: forest_c >> 10,
-                animals_c: Math.round(animals_c),
-                animals_q: Math.round(animals_q.toFixed(2)) / 100,
-                animals_a: animals_c >> 10,
-                soil_c: Math.round(soil_c),
-                soil_q: Math.round(soil_q) / 100,
-                soil_a: soil_c >> 10
-            }).then(function () {
+            models.fields_resources.bulkCreate([
+                {
+                    field_id: field.id,
+                    type: models.fields_resources.names.gold,
+                    c: Math.round(gold_c),
+                    q: 0,
+                    a: 0
+                },
+                {
+                    field_id: field.id,
+                    type: models.fields_resources.names.forest,
+                    c: Math.round(forest_c),
+                    q: Math.round(forest_q) / 100,
+                    a: forest_c >> 10
+                }, {
+                    field_id: field.id,
+                    type: models.fields_resources.names.animals,
+                    c: Math.round(animals_c),
+                    q: Math.round(animals_q.toFixed(2)) / 100,
+                    a: animals_c >> 10
+                }, {
+                    field_id: field.id,
+                    type: models.fields_resources.names.soil,
+                    c: Math.round(soil_c),
+                    q: Math.round(soil_q) / 100,
+                    a: soil_c >> 10
+                },{
+                    field_id: field.id,
+                    type: models.fields_resources.names.metal,
+                    c: Math.round(metal_c),
+                    q: Math.round(metal_q) / 100,
+                    a: metal_c >> 10
+            }]).then(function () {
                 count_fields++;
                 //console.log(x + 'x' + y);
                 if (count_fields >= COUNT_FIELDS_MAX) {

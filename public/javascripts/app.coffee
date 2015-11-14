@@ -3,6 +3,8 @@ angular.module('App', ['ngRoute', 'Auth', 'Office', 'Tools', 'Buildings', 'ngCoo
   $rootScope.$on('$routeChangeStart', (next, current) ->
     if ($location.path() != '') && ($location.path() != '/') && !$rootScope.user.id
       $location.path('auth')
+    if ($location.path() == '')
+      $location.path('/')
   )
   return
 )

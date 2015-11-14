@@ -1,10 +1,9 @@
 .ui.container.masthead
    .ui.large.inverted.menu.bottom.attached
-      a.toc.item
-         i.sidebar.icon
-      a.active.item {{loc.site.home}}
-      a.active.item(ng-href='#map') {{loc.site.world}}
-      a.active.item {{loc.site.profile}}
+      a.active.item(ng-href='#') {{loc.site.home}}
+      a.active.item(ng-href='#map' ng-show='user.id>0') {{loc.site.world}}
+      a.active.item(ng-href='#office' ng-show='user.id>0') {{loc.site.office}}
+      a.active.item(ng-href='#' ng-show='user.id>0') {{loc.site.profile}}
       .right.item
          div.ui.form
             .field

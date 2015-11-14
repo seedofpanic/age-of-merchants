@@ -5,3 +5,6 @@ bower_components/
 public/partials/**/*.html
 public/javascripts/**/*.js
 public/javascripts/**/*.map
+config/config.json
+config/game.json
+config/app.json

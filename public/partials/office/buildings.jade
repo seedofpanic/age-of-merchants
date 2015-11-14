@@ -1,5 +1,5 @@
 div(ng-controller='BuildingsCtrl as bsc')
-   .buildings(ng-hide='bsc.selected.id')
+   .buildings(ng-hide='bsc.selected.b.id')
       h2 {{loc.office.buildings}}
       button.ui.button.blue(ng-click='bsc.openNewBuilding()') {{loc.office.construct_building}}
       table.ui.table(ng-show='bsc.buildings.length > 0')
@@ -18,22 +18,4 @@ div(ng-controller='BuildingsCtrl as bsc')
                   span(ng-show='building.buildtime > 0') ({{building.buildtime}})
       .ui.message.info(ng-hide='bsc.buildings.length > 0')
          .header No buildings to show, try to construct one
-   .building(ng-show='bsc.selected.id')
-      .ui.button.icon.right.floated(ng-click='bsc.deselect()')
-         i.icon.close
-      h2 {{bsc.selected.name}} - {{bsc.regions[bsc.selected.field.region_id].name}} ({{bsc.selected.field.x}},{{bsc.selected.field.y}})
-      button.ui.button.purple(ng-click='bsc.openImport()') {{loc.office.import}}
-      table.products.ui.table.form
-         thead
-            tr
-               th {{loc.office.type}}
-               th {{loc.office.count}}
-               th {{loc.office.quality}}
-               th.collapsing {{loc.office.export}}
-         tbody
-            tr(ng-repeat='product in bsc.selected.products')
-               td {{loc.products.types[product.product_type]}}
-               td {{product.count}}({{goods.reserved}})
-               td {{product.quality | number: 2}}
-               td.ui.toggle.checkbox
-                  button.ui.button(ng-click='bsc.export(produnct)' ng-class='{red: product.export > 0, green: product.export == 0}') {{product.export > 0 ? loc.office.export_s_btn : loc.office.export_btn}}
+   include building

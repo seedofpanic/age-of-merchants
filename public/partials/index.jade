@@ -4,9 +4,10 @@
          .ui.large.secondary.inverted.pointing.menu
             a.toc.item
                i.sidebar.icon
-            a.active.item {{loc.site.home}}
-            a.active.item(ng-href='#map') {{loc.site.world}}
-            a.active.item {{loc.site.profile}}
+            a.active.item(ng-href='#') {{loc.site.home}}
+            a.active.item(ng-href='#map' ng-show='user.id>0') {{loc.site.world}}
+            a.active.item(ng-href='#office' ng-show='user.id>0') {{loc.site.office}}
+            a.active.item(ng-href='#profile' ng-show='user.id>0') {{loc.site.profile}}
             .right.item(ng-hide='user.id > 0')
                a.ui.inverted.button(ng-href='#auth') {{loc.site.signin}}
                a.ui.inverted.button(ng-href='#auth') {{loc.site.signup}}
@@ -21,4 +22,4 @@
                i.right.arrow.icon
             a.ui.huge.primary.button(ng-href='#auth' ng-hide='user.id > 0') {{loc.site.signin}}
          p
-            button.ui.button.purple.large.disabled Github
+            a.ui.button.purple.large(href='https://github.com/seedofpanic/age-of-merchants') Github

@@ -1,0 +1,6 @@
+div.ui.fluid.search.selection.dropdown(ng-class="{'active visible' : droped}")
+   i.dropdown.icon
+   input.value(type="text" name="{{name}}" value="{{selected}}" ng-show="false")
+   div.text.select(ng-show="selected") {{selected.name}}
+   div.default.text(ng-hide="selected") {{placeholder}}
+   div.menu.transition(ng-class="{visible : droped}" tabindex="-1" ng-transclude)

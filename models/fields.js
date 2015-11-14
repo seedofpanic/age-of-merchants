@@ -9,7 +9,8 @@ module.exports = function (db, DataTypes) {
             }
         },
         x: DataTypes.INTEGER,
-        y: DataTypes.INTEGER
+        y: DataTypes.INTEGER,
+        avg_salary: DataTypes.DECIMAL
     }, {
         classMethods: {
             associate: function () {

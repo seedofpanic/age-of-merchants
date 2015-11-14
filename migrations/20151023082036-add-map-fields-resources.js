@@ -1,6 +1,6 @@
 'use strict';
 
-exports.up = function(db, dataType) {
+exports.up = function(db, dataType, done) {
   db.createTable('fields_resources', {
       'field_id': {
         type: dataType.BIGINT,
@@ -63,11 +63,15 @@ exports.up = function(db, dataType) {
       'updatedAt': {
           type: dataType.DATE
       }
-    });
+    }).then(function () {
+      done()
+  });
   return null;
 };
 
-exports.down = function(db) {
-  db.dropTable('fields_resources');
+exports.down = function(db, dataType, done) {
+  db.dropTable('fields_resources').then(function () {
+      done()
+  });
   return null;
 };

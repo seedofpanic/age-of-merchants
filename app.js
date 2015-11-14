@@ -1,7 +1,6 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
@@ -10,12 +9,20 @@ var session = require('client-sessions');
 var routes = require('./routes/index');
 var api = require('./routes/api');
 var locales = require('./routes/locales');
-var registration = require('./routes/registration')
+var registration = require('./routes/registration');
 
 // local libs
 var game = require('./lib/game');
 var auth = require('./lib/auth');
 
+// config
+var env = process.env.NODE_ENV || 'development';
+var config = require('./config/app.json')[env];
+
+var logger;
+if (config.logger) {
+  logger = require('morgan');
+}
 
 var app = express();
 
@@ -26,18 +33,21 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 //passport
+
 app.use(session({
   cookieName: 'session',
-  secret: 'jf3290jf9je9pfj89ey2uf32j98jf',
-  duration: 30 * 60 * 1000,
-  activeDuration: 5 * 60 * 1000,
+  secret: config.session.secret,
+  duration: config.session.duration,
+  activeDuration: config.session.active_duration
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+if (config.logger) {
+  app.use(logger(config.logger));
+}
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());

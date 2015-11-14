@@ -2,6 +2,10 @@
    i.close.icon
    .header {{loc.office.import_modal_title}}
    .content
+      .ui.segment
+         div(dropdown)
+            div.item(dd-item ng-click="ic.get('')" selected) {{loc.office.import.all}}
+            div.item(dd-item ng-click="ic.get('my')") {{loc.office.import.my}}
       table.ui.table
          thead
             th {{loc.office.type}}
