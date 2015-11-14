@@ -61,6 +61,9 @@ if (config.logger) {
       date_format: "YYYYMMDD",
       verbose: false
     });
+    console.log = function (msg) {
+      accessLogStream.write(msg);
+    };
     app.use(logger('combined', {stream: accessLogStream}))
   } else {
     app.use(logger(config.logger));
