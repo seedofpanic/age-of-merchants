@@ -46,7 +46,28 @@ app.use(passport.session());
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 if (config.logger) {
-  app.use(logger(config.logger));
+  if (config.logger_mode == 'files') {
+    var logDirectory = __dirname + '/log';
+
+    var fs = require('fs');
+    // ensure log directory exists
+    fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
+
+    var FileStreamRotator = require('file-stream-rotator');
+    // create a rotating write stream
+    var accessLogStream = FileStreamRotator.getStream({
+      filename: logDirectory + '/access-%DATE%.log',
+      frequency: 'daily',
+      date_format: "YYYYMMDD",
+      verbose: false
+    });
+    console.log = function (msg) {
+      accessLogStream.write(msg);
+    };
+    app.use(logger('combined', {stream: accessLogStream}))
+  } else {
+    app.use(logger(config.logger));
+  }
 }
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
