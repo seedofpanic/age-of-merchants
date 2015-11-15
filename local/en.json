@@ -1,9 +1,9 @@
 {
   "products": {
-    "types": {"1": "meat", "2": "wood", "3": "Human", "4": "Militia", "5": "Axe", "6": "Metal"}
+    "types": {"0": "Gold", "1": "meat", "2": "wood", "3": "Human", "4": "Militia", "5": "Axe", "6": "Metal"}
   },
   "buildings": {
-    "types": {"0": "Hunting hut", "1": "woodcutter hut", "3": "Village", "4": "School", "5": "Forge", "6": "Metal mine", "7": "Castle"},
+    "types": {"0": "Hunting hut", "1": "woodcutter hut", "3": "Village", "4": "School", "5": "Forge", "6": "Metal mine", "7": "Castle", "8": "Gold mine"},
     "statuses": {"0": "constructing", "1": "active"}
   },
   "export": {

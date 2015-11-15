@@ -1,22 +1,31 @@
 .pusher
    .ui.inverted.vertical.masthead.center.aligned.segment
       .ui.container
-         .ui.large.secondary.inverted.pointing.menu
-            a.toc.item
-               i.sidebar.icon
+         .ui.large.secondary.inverted.menu
             a.active.item(ng-href='#') {{loc.site.home}}
             a.active.item(ng-href='#map' ng-show='user.id>0') {{loc.site.world}}
             a.active.item(ng-href='#office' ng-show='user.id>0') {{loc.site.office}}
             a.active.item(ng-href='#profile' ng-show='user.id>0') {{loc.site.profile}}
             .right.item(ng-hide='user.id > 0')
+               div.ui.form
+                  .field
+                     select.language(ng-model='lang')
+                        option(value='en') English
+                        option(value='ru') Русский
                a.ui.inverted.button(ng-href='#auth') {{loc.site.signin}}
                a.ui.inverted.button(ng-href='#auth') {{loc.site.signup}}
             .right.item(ng-show='user.id > 0')
+               div.ui.form
+                  .field
+                     select.language(ng-model='lang')
+                        option(value='en') English
+                        option(value='ru') Русский
                span {{loc.site.welcome}} {{user.username}}
                a.ui.inverted.button(href='/logout') {{loc.site.signout}}
       .ui.text.container
          h1.ui.inverted.header {{loc.age_of_merchants}}
          h2 {{loc.site.welcome}}
+         h3 pre Alpha 0.0.9.2
          p
             a.ui.huge.primary.button(ng-href='#office' ng-show='user.id > 0') {{loc.site.to_your_office}}
                i.right.arrow.icon

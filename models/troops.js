@@ -24,6 +24,9 @@ module.exports = function (db, DataTypes) {
                 this.hasOne(db.models.troops_moves, {foreignKey: 'troop_id', as: 'move'});
                 this.hasMany(db.models.troops_attacks, {foreignKey: 'troop_id', as: 'attacks'});
                 this.hasMany(db.models.troops_attacks, {foreignKey: 'target_id', as: 'assaults'});
+            },
+            check: function (id, user_id) {
+                return this.find({where: {id: id}, include: {model: db.models.profiles, required: true, where: {user_id: user_id}}});
             }
         },
         instanceMethods: {

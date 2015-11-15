@@ -1,9 +1,9 @@
 angular.module('Buildings', ['Tools', 'DB', 'Building'])
 .factory 'BuildingTypes', ($http) ->
-  types = []
+  types = {}
   $http.get('api/buildings/types').then (res) ->
-    $.each res.data, () ->
-      types.push(@)
+    $.each res.data, (key) ->
+      types[key] = @
   types
 .controller('NewBuildingCtrl', ($element, $http, $route, Regions, ProfileBuildings, Profile, BuildingTypes) ->
   that = @

@@ -23,6 +23,9 @@ module.exports = function (db, DataTypes) {
                 this.belongsTo(db.models.products, {foreignKey: 'product_id'});
                 this.belongsTo(db.models.buildings, {foreignKey: 'dest_id'});
             }
+        },
+        check: function (id, user_id) {
+            return this.find({where: {id: id}, include: {model: db.models.buildings, required: true, include: {model: db.models.profiles, required: true, where: {user_id: user_id}}}});
         }
     });
 };

@@ -51,6 +51,9 @@ module.exports = function (db, DataTypes) {
                     });
                 });
             },
+            check: function (id, user_id) {
+                return this.find({where: {id: id}, include: {model: db.models.profiles, required: true, where: {user_id: user_id}}});
+            },
             'modes': {
                 MINE: 1,
                 TOWN: 2,

@@ -20,6 +20,9 @@ module.exports = function (db, DataTypes) {
             associate: function () {
                 this.belongsTo(db.models.buildings, {foreignKey: 'building_id'});
                 this.hasOne(db.models.contracts, {foreignKey: 'product_id'});
+            },
+            check: function (id, user_id) {
+                return this.find({where: {id: id}, include: {model: db.models.buildings, required: true, include: {model: db.models.profiles, required: true, where: {user_id: user_id}}}});
             }
         },
         instanceMethods: {

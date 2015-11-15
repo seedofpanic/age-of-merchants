@@ -13,6 +13,9 @@ module.exports = function (db, DataTypes) {
         classMethods: {
             associate: function () {
                 this.belongsTo(db.models.users, {foreignKey: 'user_id'});
+            },
+            check: function (id, user_id) {
+                return this.find({where: {id: id, user_id: user_id}});
             }
         }
     });
