@@ -9,7 +9,7 @@
          .field
             label {{loc.office.type}}
             div(dropdown ng-model='nbc.type' ng-change='nbc.changeType(selected)')
-               div.item(dd-item ng-repeat='(id,type) in nbc.types' data='{{id}}' ng-selected='keys(nbc.types)[0]==id') {{loc.buildings.types[id]}}
+               div.item(dd-item ng-repeat='(id,type) in loc.buildings.types' data='{{id}}' ng-selected='keys(nbc.types)[0]==id') {{loc.buildings.types[id]}}
          .ui.segment(ng-show='nbc.types[nbc.type] && (keys(nbc.types[nbc.type].resources_out).length > 0)')
             .field(ng-repeat='(key,outs) in nbc.types[nbc.type].resources_out')
                .ui.radio.checkbox
