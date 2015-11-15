@@ -79,7 +79,7 @@ module.exports = function (db, DataTypes) {
                         mode: 1
                     }],
                     max_workers: 5,
-                    price: 500
+                    price: 100
                 },
                 2: {//shop
                     'build_time': 3,
@@ -102,7 +102,7 @@ module.exports = function (db, DataTypes) {
                         }
                     ],
                     max_workers: 5,
-                    price: 0,
+                    price: 50,
                     upkeep: 1
                 },
                 4: {//school
@@ -149,6 +149,16 @@ module.exports = function (db, DataTypes) {
                     max_workers: 5,
                     upkeep: 10,
                     price: 10000
+                },
+                8: {//gold mine
+                    build_time: 1,
+                    resources_out: [
+                        {
+                            type: 0,
+                            out: 100
+                        }
+                    ],
+                    price: 300
                 }
             }
         },

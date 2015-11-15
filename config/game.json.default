@@ -8,7 +8,7 @@
     "update_on_start": false
   },
   "production": {
-    "schedule_job": "0 12,0 * * *",
+    "schedule_job": "0 0,12 * * *",
     "update_on_start": false
   }
 }

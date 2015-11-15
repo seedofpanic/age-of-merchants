@@ -3,7 +3,7 @@
     "types": {"1": "meat", "2": "wood", "3": "Human", "4": "Militia", "5": "Axe", "6": "Metal"}
   },
   "buildings": {
-    "types": {"0": "Hunting hut", "1": "woodcutter hut", "2": "Shop", "3": "Village", "4": "School", "5": "Forge", "6": "Metal mine", "7": "Castle"},
+    "types": {"0": "Hunting hut", "1": "woodcutter hut", "3": "Village", "4": "School", "5": "Forge", "6": "Metal mine", "7": "Castle"},
     "statuses": {"0": "constructing", "1": "active"}
   },
   "export": {
