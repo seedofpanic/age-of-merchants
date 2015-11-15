@@ -2,19 +2,19 @@
     .ui.button.icon.right.floated(ng-click='bsc.deselect()')
         i.icon.close
     h2 {{bc.selected.b.name}} - {{bsc.regions[bsc.selected.b.field.region_id].name}} ({{bc.selected.b.field.x}},{{bc.selected.b.field.y}})
-    .ui.segment
+    .ui.segment(ng-hide='bc.selected.b.status==0')
         h3 {{loc.office.building.workers}}
-        form.ui.form
+        form.ui.form(name='WorkersEditForm')
             .field
                 .ui.input
-                    input(type='text' ng-model='bs.salary')
-                span {{loc.office.building.current_salary}}: {{bc.salary}}
+                    input(type='text' ng-model='bc.salary')
+                span {{loc.office.building.current_salary}}: {{bc.selected.b.worker_s}} ({{loc.office.building.field_avg}}: {{bc.selected.b.field.avg_salary}})
             .field
                 .ui.input
                     input(type='number' min='{{-bc.selected.b.workers_c}}' max='{{bc.getMax()}}' ng-model='bc.hire')
                 span  {{loc.office.building.working}} {{bc.selected.b.workers_c}} / {{bc.types[bsc.selected.b.type].max_workers}} ({{bc.selected.b.workers_c / bc.types[bsc.selected.b.type].max_workers * 100}}%) {{loc.office.quality}}: {{bc.selected.b.workers_q}}
             p {{loc.office.building.available}}: {{bc.humans.count - bc.hire}}
-            button.ui.button.green(ng-click='bc.employ()') {{loc.office.building.hire}}
+            button.ui.button.green(ng-click='bc.employ()' ng-class='{disabled: !WorkersEditForm.$dirty}') {{loc.office.building.hire}}
     .tabs(data-param='building_tab' data-active='products')
         .ui.top.attached.tabular.menu
             a.item(ng-class='{active: tab == "products"}' ng-click='openTab("products")') {{loc.office.building.products}}

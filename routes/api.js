@@ -170,16 +170,15 @@ router.get('/regions', function(req, res, next){
 });
 
 router.get('/products/humans', function(req, res, next){
-  if (parseInt(req.query.building_id)) {
-    check(models.buildings, building_id, parseInt(req.user.id), res, function () {
-      models.products.find({
-        attributes: ['id', 'count', 'quality'],
-        where: {building_id: parseInt(req.query.building_id), product_type: 3}
-      }).then(function (result) {
-        res.send(result);
-      });
+  var building_id = parseInt(req.query.building_id);
+  check(models.buildings, building_id, parseInt(req.user.id), res, function () {
+    models.products.find({
+      attributes: ['id', 'count', 'quality'],
+      where: {building_id: parseInt(req.query.building_id), product_type: 3}
+    }).then(function (result) {
+      res.send(result);
     });
-  }
+  });
 });
 
 router.get('/products', function(req, res, next){
@@ -345,14 +344,26 @@ router.post('/troops/stop_attack', function (req, res, next) {
 router.post('/buildings/employ', function (req, res, next) {
   var id = parseInt(req.body.id);
   var count = parseInt(req.body.count);
+  var salary = parseFloat(req.body.salary).toFixed(2);
   var building_id = parseInt(req.body.building_id);
   check(models.buildings, building_id, parseInt(req.user.id), res, function (building) {
-    models.products.find({where: {id: id, building_id: building_id}}).then(function (product) {
-      product.take(count, function (taken) {
-        building.workers_q = (building.workers_q * building.workers_c + taken.count * taken.quality) / (building.workers_c + taken.count)
-        building.workers_c = taken.count;
+    if (id) {
+      models.products.find({where: {id: id, building_id: building_id}}).then(function (product) {
+        product.take(count, function (taken) {
+          building.workers_q = (building.workers_q * building.workers_c + taken.count * taken.quality) / (building.workers_c + taken.count)
+          building.workers_c = taken.count;
+          building.worker_s = salary;
+          building.save().then(function () {
+            res.send(building);
+          });
+        });
       });
-    });
+    } else {
+      building.worker_s = salary;
+      building.save().then(function () {
+        res.send(building);
+      });
+    }
   });
 });
 

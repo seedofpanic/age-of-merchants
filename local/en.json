@@ -50,7 +50,7 @@
     "start_export_title": "Start product export",
     "order_product_title": "Order products",
     "order_quantity": "Order quantity",
-    "ballance": "Ballance",
+    "balance": "Balance",
     "troops": "Troops",
     "no_troops": "No troops in this building",
     "building": {
@@ -61,7 +61,9 @@
       "shop": "Shop",
       "workers": "Staff members",
       "available": "Available",
-      "hire": "Hire"
+      "hire": "Hire",
+      "current_salary": "Current salary",
+      "field_avg": "Fields average"
     },
     "import": {
       "all": "All",

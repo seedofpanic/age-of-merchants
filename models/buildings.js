@@ -1,3 +1,11 @@
+var MODES = {
+    GOLDMINE: 0,
+    MINE: 1,
+    TOWN: 2,
+    FACTORY: 3,
+    SHOP: 4,
+    CASTLE: 5
+};
 module.exports = function (db, DataTypes) {
 
     return db.define('buildings', {
@@ -20,7 +28,8 @@ module.exports = function (db, DataTypes) {
         status: DataTypes.INTEGER,
         type: DataTypes.INTEGER,
         workers_c: DataTypes.INTEGER,
-        workers_q: DataTypes.DECIMAL(10,2)
+        workers_q: DataTypes.DECIMAL(10,2),
+        worker_s: DataTypes.DECIMAL(10,2)
     }, {
         classMethods: {
             associate: function () {
@@ -54,11 +63,11 @@ module.exports = function (db, DataTypes) {
             check: function (id, user_id) {
                 return this.find({where: {id: id}, include: {model: db.models.profiles, required: true, where: {user_id: user_id}}});
             },
-            'modes': {
-                MINE: 1,
-                TOWN: 2,
-                FACTORY: 3,
-                SHOP: 4
+            'modes': MODES,
+            'statuses': {
+                CONSTRUCTING: 0,
+                ACTIVE: 1,
+                CANT_PAY: 2
             },
             is_army: {
               4: true
@@ -69,7 +78,7 @@ module.exports = function (db, DataTypes) {
                     'resources_out': [{
                         type: 2,
                         count: 100,
-                        mode: 1
+                        mode: MODES.MINE
                     }],
                     max_workers: 5,
                     price: 100
@@ -79,7 +88,7 @@ module.exports = function (db, DataTypes) {
                     'resources_out': [{
                         type: 1,
                         count: 10,
-                        mode: 1
+                        mode: MODES.MINE
                     }],
                     max_workers: 5,
                     price: 100
@@ -91,7 +100,7 @@ module.exports = function (db, DataTypes) {
                             type: 3,
                             count: 5,
                             max: 250,
-                            mode: 2
+                            mode: MODES.TOWN
                         }
                     ],
                     max_workers: 5,
@@ -105,7 +114,7 @@ module.exports = function (db, DataTypes) {
                             type: 4,
                             count: 5,
                             need: [{type: 3, count: 1}, {type: 5, count: 1}],
-                            mode: 3
+                            mode: MODES.FACTORY
                         }
                     ],
                     max_workers: 5,
@@ -117,7 +126,8 @@ module.exports = function (db, DataTypes) {
                         {
                             type: 5,
                             count: 5,
-                            need: [{type: 2, count: 1}, {type: 6, count: 1}]
+                            need: [{type: 2, count: 1}, {type: 6, count: 1}],
+                            mode: MODES.FACTORY
                         }
                     ],
                     max_workers: 5,
@@ -128,7 +138,7 @@ module.exports = function (db, DataTypes) {
                     resources_out: [
                         {
                             type: 6,
-                            count: 1
+                            count: MODES.MINE
                         }
                     ],
                     max_workers: 5,
@@ -137,7 +147,9 @@ module.exports = function (db, DataTypes) {
                 7: {//castle
                     build_time: 3,
                     resources_out: [
-
+                        {
+                            mode: MODES.CASTLE
+                        }
                     ],
                     max_workers: 5,
                     upkeep: 10,
@@ -148,7 +160,8 @@ module.exports = function (db, DataTypes) {
                     resources_out: [
                         {
                             type: 0,
-                            out: 100
+                            out: 100,
+                            mode: MODES.GOLDMINE
                         }
                     ],
                     price: 300

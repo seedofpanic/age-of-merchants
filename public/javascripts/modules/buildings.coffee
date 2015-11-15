@@ -86,16 +86,21 @@ angular.module('Buildings', ['Tools', 'DB', 'Building'])
     else
       that.types[that.selected.b.type].max_workers
   that.employ = () ->
+    building = that.selected.b
     $http.post('/api/buildings/employ',
       id: that.humans.id
       count: that.hire
-      building_id: that.selected.b.id
-    )
+      building_id: building.id
+      salary: that.salary
+    ).then (res) ->
+      building.worker_s = res.data.worker_s
+      $scope.WorkersEditForm.$dirty = false
   $scope.$watch () ->
     SelectedBuilding.b
   , (newVal) ->
     unless newVal
       return
+    that.salary = newVal.worker_s
     $http.get('/api/products/humans?building_id=' + newVal.id).then(
       (res) ->
         that.humans = res.data
@@ -130,8 +135,6 @@ angular.module('Buildings', ['Tools', 'DB', 'Building'])
   $scope.$watch () ->
     ExportData.product
   , (newVal, oldVal) ->
-    console.log(oldVal)
-    console.log(newVal)
   return
 )
 .factory('OrderData', () ->

@@ -15,7 +15,7 @@ include inc/header
    .ui.segment(ng-show='office.loaded && office.profile_name')
       .ui.button.icon.right.floated(ng-click='office.deselect()')
          i.icon.close
-      .ui.segment.right.floated.menu {{loc.office.ballance}}: {{office.profile.gold}}
+      .ui.segment.right.floated.menu {{loc.office.balance}}: {{office.profile.gold}}
       h1 {{$eval(loc.office.header)}}
       .tabs
          .ui.top.attached.tabular.menu
