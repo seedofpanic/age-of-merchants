@@ -81,16 +81,6 @@ module.exports = function (db, DataTypes) {
                     max_workers: 5,
                     price: 100
                 },
-                2: {//shop
-                    'build_time': 3,
-                    price: 1000,
-                    resources_out: [
-                        {
-                            mode: 4
-                        }
-                    ],
-                    max_workers: 5
-                },
                 3: {//village
                     build_time: 1,
                     resources_out: [
