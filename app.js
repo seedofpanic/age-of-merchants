@@ -32,6 +32,16 @@ game.init();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+// hook
+function updateBreak(req, res, next) {
+  if (game.updating) {
+    res.send('<h1>Updating... Please try later...</h1>');
+  } else {
+    next();
+  }
+}
+app.use(updateBreak);
+
 //passport
 
 app.use(session({
@@ -62,7 +72,7 @@ if (config.logger) {
       verbose: false
     });
     console.log = function (msg) {
-      accessLogStream.write(msg);
+      accessLogStream.write('[' + new Date() + '] ' + msg + '\n');
     };
     app.use(logger('combined', {stream: accessLogStream}))
   } else {
