@@ -1,4 +1,4 @@
-angular.module('App', ['ngRoute', 'Auth', 'Office', 'Tools', 'Buildings', 'ngCookies', 'Map'])
+angular.module('App', ['ngRoute', 'Auth', 'Office', 'Tools', 'Buildings', 'ngCookies', 'Map', 'Users'])
 .run(($location, $rootScope ) ->
   $rootScope.$on('$routeChangeStart', (next, current) ->
     if ($location.path() != '') && ($location.path() != '/') && !$rootScope.user.id
@@ -24,5 +24,9 @@ angular.module('App', ['ngRoute', 'Auth', 'Office', 'Tools', 'Buildings', 'ngCoo
     $routeProvider.when('/map',
       templateUrl: 'partials/map.html'
       controller: 'MapCtrl as mc'
+    )
+    $routeProvider.when('/users',
+      templateUrl: 'partials/users.html'
+      controller: 'UsersCtrl as uc'
     )
 ])

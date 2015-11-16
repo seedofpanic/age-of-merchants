@@ -22,6 +22,22 @@ router.get('/buildings', function(req, res, next) {
   });
 });
 
+router.get('/users', function(req, res, next) {
+  var limit = 10;
+  var page = parseInt(req.query.page);
+  var offset = ((page > -1) ? page : 0) * limit;
+  models.users.find({attributes: [[sequelize.fn('COUNT', sequelize.col('id')), 'count']]}).then(function (result){
+    models.users.findAll({offset: offset, limit: limit, attributes: ['id', 'username', [sequelize.literal('(SELECT sum(gold) FROM profiles WHERE user_id=users.id)'), 'gold']], order: 'gold desc,id'}).then(function (users){
+      data = {
+        page: page,
+        users: users,
+        pages: Math.floor(result.get('count') / limit) + 1
+      };
+      res.send(data);
+    });
+  });
+});
+
 router.get('/troops', function(req, res, next) {
   models.profiles.find({where: {id: parseInt(req.query.profile_id)}}).then(function (profile) {
     if (!profile) {

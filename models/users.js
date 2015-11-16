@@ -7,6 +7,11 @@ module.exports = function (db, DataTypes) {
         logins: DataTypes.INTEGER,
         last_login: DataTypes.BIGINT
     }, {
+        classMethods: {
+            associate: function () {
+                this.hasMany(db.models.profiles, {foreignKey: 'user_id'});
+            }
+        },
         instanceMethods: {
             validPassword: function (password) {
                 return passwordHash.verify(password, this.password);

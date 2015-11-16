@@ -78,6 +78,12 @@
     }
   },
   "site": {
+    "users": {
+      "name": "Name",
+      "gold": "Gold",
+      "influence": "Influence",
+      "actions": "Actions"
+    },
     "language": "Language",
     "auth": {
       "login": "Log-in to your account",
@@ -98,7 +104,8 @@
     "profile": "Profile",
     "to_your_office": "To your office",
     "loading": "Loading",
-    "office": "Office"
+    "office": "Office",
+    "users_list": "Users"
   },
   "map": {
     "resource_type": "Resource type",

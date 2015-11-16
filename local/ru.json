@@ -88,6 +88,12 @@
     }
   },
   "site": {
+    "users": {
+      "name": "Имя",
+      "gold": "Золото",
+      "influence": "Влеяние",
+      "actions": "Действия"
+    },
     "language": "Язык",
     "auth": {
       "login": "Войти в ваш аккаунт",
@@ -108,7 +114,8 @@
     "profile": "Профиль",
     "to_your_office": "В Ваш офис",
     "loading": "Загрузка",
-    "office": "Офис"
+    "office": "Офис",
+    "users_list": "Пользователи"
   },
   "map": {
     "resource_type": "Тип ресурса",
