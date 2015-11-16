@@ -1,5 +1,5 @@
 angular.module('Office', ['ngRoute'])
-.controller('OfficeCtrl', ($http, $route, $location, Profile) ->
+.controller('OfficeCtrl', ($http, $route, $location, Profile, ProfileBuildings) ->
   that = @
   that.loaded = true
   that.new_profile_name = ''

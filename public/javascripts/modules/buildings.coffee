@@ -52,6 +52,7 @@ angular.module('Buildings', ['Tools', 'DB', 'Building'])
   that = @
   that.regions = Regions
   that.selected = SelectedBuilding
+  ProfileBuildings.get()
   that.select = (building) ->
     unless (building)
       return

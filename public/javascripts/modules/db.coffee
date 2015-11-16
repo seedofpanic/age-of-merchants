@@ -9,15 +9,17 @@ angular.module('DB', [])
 )
 .factory('ProfileBuildings', ($http, $route) ->
   buildings = arr: {}
-  profile_name = $route.current.params.profile_name
-  $http.get('/api/buildings?profile_name=' + profile_name).then( (res) ->
-    $.each res.data, () ->
-      buildings.arr[@.id] = @
-    buildings.length = res.data.length
-  )
-  buildings.push = (building) ->
-    buildings.arr[building.id] = building
-    buildings.length++
+  buildings.get = () ->
+    profile_name = $route.current.params.profile_name
+    buildings.arr = {}
+    $http.get('/api/buildings?profile_name=' + profile_name).then( (res) ->
+      $.each res.data, () ->
+        buildings.arr[@.id] = @
+      buildings.length = res.data.length
+    )
+    buildings.push = (building) ->
+      buildings.arr[building.id] = building
+      buildings.length++
   buildings
 )
 .factory('Profile', ($http, $route, $rootScope) ->
