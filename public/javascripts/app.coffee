@@ -16,7 +16,7 @@ angular.module('App', ['ngRoute', 'Auth', 'Office', 'Tools', 'Buildings', 'ngCoo
       templateUrl: 'partials/auth.html'
       controller: 'AuthCtrl'
     )
-    $routeProvider.when('/office/:profile_name?/:tab?',
+    $routeProvider.when('/office/:profile_id?/:tab?',
       templateUrl: 'partials/office.html'
       controller: 'OfficeCtrl as office'
       reloadOnSearch: false

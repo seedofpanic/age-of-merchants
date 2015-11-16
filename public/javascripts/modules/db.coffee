@@ -10,9 +10,9 @@ angular.module('DB', [])
 .factory('ProfileBuildings', ($http, $route) ->
   buildings = arr: {}
   buildings.get = () ->
-    profile_name = $route.current.params.profile_name
+    profile_id = $route.current.params.profile_id
     buildings.arr = {}
-    $http.get('/api/buildings?profile_name=' + profile_name).then( (res) ->
+    $http.get('/api/buildings?profile_id=' + profile_id).then( (res) ->
       $.each res.data, () ->
         buildings.arr[@.id] = @
       buildings.length = res.data.length
@@ -24,17 +24,17 @@ angular.module('DB', [])
 )
 .factory('Profile', ($http, $route, $rootScope) ->
   profile = {}
-  get = (profile_name) ->
-    if (profile_name)
-      $http.get('/api/profile?name=' + profile_name).then((res) ->
+  get = (profile_id) ->
+    if (profile_id)
+      $http.get('/api/profile?id=' + profile_id).then((res) ->
         angular.copy(res.data, profile)
         profile.update = () ->
-          get($route.current.params.profile_name)
+          get($route.current.params.profile_id)
       )
-  get($route.current.params.profile_name)
+  get($route.current.params.profile_id)
 
   $rootScope.$on('$routeChangeSuccess', (scope, next, current) ->
-    get(next.params.profile_name)
+    get(next.params.profile_id)
   )
   profile
 )

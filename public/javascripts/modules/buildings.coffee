@@ -11,7 +11,7 @@ angular.module('Buildings', ['Tools', 'DB', 'Building'])
   that.y = 0
   that.types = []
   that.regions = Regions
-  that.profile_name = $route.current.params.profile_name
+  that.profile_id = $route.current.params.profile_id
   that.profile = Profile
   that.types = BuildingTypes
   that.setName = (name) ->
@@ -37,7 +37,7 @@ angular.module('Buildings', ['Tools', 'DB', 'Building'])
         region: that.region
         x: that.x
         y: that.y
-        profile_name: that.profile_name
+        profile_id: that.profile_id
       ).then((res) ->
         ProfileBuildings.push(res.data)
         Profile.update()

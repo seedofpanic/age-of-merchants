@@ -5,14 +5,8 @@ var sequelize = require('sequelize');
 var jsesc = require('escape-html');
 
 router.get('/profile', function(req, res, next) {
-  models.profiles.find({attributes: ['id', 'name', 'gold'], where: {name: jsesc(req.query.name)}}).then(function (profile) {
-    if (!profile) {
-      res.status(500).send();
-      return;
-    }
-    check(models.profiles, profile.id, parseInt(req.user.id), res, function () {
-      res.send(profile);
-    });
+  check(models.profiles, parseInt(req.query.id), parseInt(req.user.id), res, function (profile) {
+    res.send(profile);
   });
 });
 
@@ -21,7 +15,7 @@ router.get('/buildings/types', function(req, res, next) {
 });
 
 router.get('/buildings', function(req, res, next) {
-  models.profiles.find({where: {name: jsesc(req.query.profile_name)}}).then(function (profile) {
+  models.profiles.find({where: {id: parseInt(req.query.profile_id)}}).then(function (profile) {
     models.buildings.findAll({where: {profile_id: profile.id}, include: [models.fields]}).then(function (buildings){
       res.send(buildings);
     })
@@ -29,7 +23,7 @@ router.get('/buildings', function(req, res, next) {
 });
 
 router.get('/troops', function(req, res, next) {
-  models.profiles.find({where: {name: jsesc(req.query.profile_name)}}).then(function (profile) {
+  models.profiles.find({where: {id: parseInt(req.query.profile_id)}}).then(function (profile) {
     if (!profile) {
       res.status(500).send();
       return;
@@ -115,26 +109,24 @@ router.post('/buildings/new', function(req, res, next){
     res.status(500).send();
     return;
   }
-  models.profiles.find({where: {name: jsesc(req.body.profile_name), user_id: parseInt(req.user.id)}}).then(function(profile) {
-    check(models.profiles, profile.id, parseInt(req.user.id), res, function () {
-      models.buildings.new({
-        profile: profile,
-        region_id: parseInt(req.body.region),
-        x: checkFieldCoord(x),
-        y: checkFieldCoord(y),
-        type: type,
-        name: jsesc(req.body.name),
-        out_type: out_type
-      }, function (err, building) {
-        if (err) {
-          res.status(500).send(err);
-          return;
-        }
-        building.getField().then(function (field) {
-          var data = building.get();
-          data.field = field.get();
-          res.send(data);
-        });
+  check(models.profiles, parseInt(req.body.profile_id), parseInt(req.user.id), res, function (profile) {
+    models.buildings.new({
+      profile: profile,
+      region_id: parseInt(req.body.region),
+      x: checkFieldCoord(x),
+      y: checkFieldCoord(y),
+      type: type,
+      name: jsesc(req.body.name),
+      out_type: out_type
+    }, function (err, building) {
+      if (err) {
+        res.status(500).send(err);
+        return;
+      }
+      building.getField().then(function (field) {
+        var data = building.get();
+        data.field = field.get();
+        res.send(data);
       });
     });
   });
@@ -264,36 +256,34 @@ function newContract(new_contract, res) {
 }
 
 router.post('/troops/new', function(req, res, next){
-  models.profiles.find({where: {name: jsesc(req.body.profile_name)}}).then(function (profile) {
-    check(models.profiles, profile.id, parseInt(req.user.id), res, function () {
-      var building_id = parseInt(req.body.building_id);
-      models.buildings.find({where: {id: building_id, profile_id: profile.id}}).then(function (building) {
-        if (!building) {
-          res.status(500).send();
-          return;
-        }
-        var new_troop = {
-          profile_id: profile.id,
-          field_id: building.field_id
-        };
-        models.troops.create(new_troop).then(function (troop) {
-          var soldiers = req.body.soldiers;
-          soldiers.forEach(function (soldier) {
-            models.products.find({where: {id: soldier.id}}).then(function (product) {
-              soldier.recruit = soldier.recruit > product.count ? product.count : soldier.recruit;
-              product.count -= soldier.recruit;
-              product.save();
-              var new_soldier = {
-                troop_id: troop.id,
-                product_type: product.product_type,
-                count: soldier.recruit,
-                quality: product.quality
-              };
-              models.soldiers.create(new_soldier);
-            });
+  check(models.profiles, parseInt(req.body.profile_id), parseInt(req.user.id), res, function (profile) {
+    var building_id = parseInt(req.body.building_id);
+    models.buildings.find({where: {id: building_id, profile_id: profile.id}}).then(function (building) {
+      if (!building) {
+        res.status(500).send();
+        return;
+      }
+      var new_troop = {
+        profile_id: profile.id,
+        field_id: building.field_id
+      };
+      models.troops.create(new_troop).then(function (troop) {
+        var soldiers = req.body.soldiers;
+        soldiers.forEach(function (soldier) {
+          models.products.find({where: {id: soldier.id}}).then(function (product) {
+            soldier.recruit = soldier.recruit > product.count ? product.count : soldier.recruit;
+            product.count -= soldier.recruit;
+            product.save();
+            var new_soldier = {
+              troop_id: troop.id,
+              product_type: product.product_type,
+              count: soldier.recruit,
+              quality: product.quality
+            };
+            models.soldiers.create(new_soldier);
           });
-          res.send(troop);
         });
+        res.send(troop);
       });
     });
   });

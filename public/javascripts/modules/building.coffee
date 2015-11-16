@@ -2,7 +2,7 @@ angular.module('Building', [])
 .controller('SoldiersCtrl', ($http, $route) ->
   that = @
   building_id = $route.current.params.building_id
-  profile_name = $route.current.params.profile_name
+  profile_id = $route.current.params.profile_id
   update = () ->
     $http.get('/api/army?building_id=' + building_id).then(
       (res) ->
@@ -23,7 +23,7 @@ angular.module('Building', [])
       $http.post '/api/troops/new',
         soldiers: troop
         building_id: building_id
-        profile_name: profile_name
+        profile_id: profile_id
       .then (res) ->
         update()
   return

@@ -3,9 +3,9 @@ angular.module('Office', ['ngRoute'])
   that = @
   that.loaded = true
   that.new_profile_name = ''
-  that.profile_name = $route.current.params.profile_name
+  that.profile_id = $route.current.params.profile_id
   that.profiles = []
-  unless that.profile_name
+  unless that.profile_id
     $http.get('/api/profiles').then((res) ->
       that.profiles = res.data
     )
@@ -23,7 +23,7 @@ angular.module('Office', ['ngRoute'])
       )
 
   that.selectProfile = (profile) ->
-    $route.updateParams(profile_name: profile.name);
+    $route.updateParams(profile_id: profile.id);
   return
 )
 .factory 'OrderTroop', () ->
@@ -33,8 +33,8 @@ angular.module('Office', ['ngRoute'])
 .controller 'TroopsCtrl', ($http, $route, Regions, $scope, OrderTroop, Modals, NeighborTroop) ->
   that = @
   that.regions = Regions
-  that.profile_name = $route.current.params.profile_name
-  $http.get '/api/troops?profile_name=' + that.profile_name
+  that.profile_id = $route.current.params.profile_id
+  $http.get '/api/troops?profile_id=' + that.profile_id
   .then (res) ->
     that.troops = res.data
   that.stopTroop = (troop) ->
