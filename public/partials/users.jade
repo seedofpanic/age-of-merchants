@@ -15,13 +15,8 @@ include inc/header
                td {{user.gold}}
                td {{user.influence}}
                td.collapsing
-                  button.ui.button.icon
+                  button.ui.button.icon(ng-click='uc.showNewDialog(user)')
                      i.icon.mail
-         tfoot(ng-show='uc.pages > 1')
+         tfoot(ng-show='pages > 1')
             th(colspan="20")
-               .ui.pagination.menu
-                  a.icon.item(ng-show='uc.current_page > 0' ng-click='uc.get(uc.current_page-1)')
-                     i.left.chevron.icon
-                  a.item(ng-repeat="(page,value) in uc.getPages() track by $index" ng-click='uc.get(page)' ng-class='{active: page==uc.current_page}') {{page+1}}
-                  a.icon.item(ng-show='uc.current_page < uc.pages - 1' ng-click='uc.get(uc.current_page+1)')
-                     i.right.chevron.icon
+               div(paging)

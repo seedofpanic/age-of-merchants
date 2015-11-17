@@ -1,0 +1,6 @@
+.ui.pagination.menu
+   a.icon.item(ng-show='current_page > 0' ng-click='current_page=current_page-1')
+      i.left.chevron.icon
+   a.item(ng-repeat="(page,value) in getPages(pages) track by $index" ng-click='$parent.current_page=page' ng-class='{active: page==current_page}') {{page+1}}
+   a.icon.item(ng-show='current_page < pages - 1' ng-click='current_page=current_page+1')
+      i.right.chevron.icon

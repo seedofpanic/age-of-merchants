@@ -1,0 +1,10 @@
+include inc/header
+.ui.container
+   .ui.segment
+      .ui.grid
+         .four.wide.column
+            .ui.inverted.vertical.menu
+               a.item(ng-href='#profile/personal') {{loc.site.user.personal_data}}
+               a.item(ng-href='#profile/dialogs') {{loc.site.user.dialogs}}
+               a.item(href='/logout') {{loc.site.signout}}
+         .twelve.wide.column(ng-include='uc.getTemplate()')

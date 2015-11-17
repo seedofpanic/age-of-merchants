@@ -1,0 +1,9 @@
+.ui.modal.small(ng-controller='NewDialogCtrl as ndc')
+   i.close.icon
+   .header {{loc.site.user.dialog.send_message}} {{ndc.send_to.username}}
+   .content
+      form.ui.form(name='NewDialogForm')
+         textarea(placeholder='{{loc.site.user.dialog.new_msg_text}}' ng-required='true' ng-model='ndc.message')
+   .actions
+      .ui.black.deny.button {{loc.site.cancel}}
+      .ui.positive.button(ng-click='ndc.send()' ng-class='{disabled: !NewDialogForm.$valid}') {{loc.site.ok}}

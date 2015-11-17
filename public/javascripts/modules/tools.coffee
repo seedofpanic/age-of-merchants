@@ -56,3 +56,10 @@ angular.module('Tools', ['ngRoute', 'DropdownModule'])
     )
     return
 )
+.directive 'paging', () ->
+  restrict: 'A'
+  replace: true
+  templateUrl: '/partials/tools/paging.html'
+  link: (scope) ->
+    scope.getPages = (pages) ->
+      new Array(pages)

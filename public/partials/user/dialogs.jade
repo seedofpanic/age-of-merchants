@@ -1,0 +1,14 @@
+table.ui.table(ng-controller='DialogsCtrl as dc')
+   thead
+      tr
+         th {{loc.site.user.dialog.from}}
+         th
+   tbody
+      tr(ng-repeat='dialog in dc.dialogs track by $index')
+         td
+            span(ng-repeat='user in dialog.users' class="commed")
+               span.ui.label(ng-show='user.new>0')
+                  i.mail.icon
+                  span {{user.username}}
+                  span ({{user.new}})
+               span(ng-hide='user.new>0') {{user.username}}

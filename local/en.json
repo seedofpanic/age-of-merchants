@@ -78,6 +78,8 @@
     }
   },
   "site": {
+    "ok": "ОК",
+    "cancel": "отменить",
     "users": {
       "name": "Name",
       "gold": "Gold",
@@ -105,7 +107,16 @@
     "to_your_office": "To your office",
     "loading": "Loading",
     "office": "Office",
-    "users_list": "Users"
+    "users_list": "Users",
+    "user": {
+      "personal_data": "Personal data",
+      "dialogs": "Dialogs",
+      "dialog": {
+        "from": "From",
+        "send_message": "Send message to",
+        "new_msg_text": "Your message here"
+      }
+    }
   },
   "map": {
     "resource_type": "Resource type",
