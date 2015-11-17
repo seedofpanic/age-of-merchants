@@ -9,9 +9,6 @@ Whats new in AoM?)
 
 Today Age of Merchants is a fast-growing project that became much better every day. But it became hard to make all things done by alone. It would be great if I'll find people people who also have interest in development of games like this. I sure together we could make Age of Merchants - high quality game with very fun and usefull gameplay at the same time
 
-# LAST CHANGES
-I'm up to fully rewrite core on node.js. I need some time to get old functionality back on feet...
-
 ## Install
 1. $ git clone https://github.com/seedofpanic/age-of-merchants.git aom
 2. $ cd aom

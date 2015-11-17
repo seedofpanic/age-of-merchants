@@ -79,7 +79,7 @@
   },
   "site": {
     "ok": "ОК",
-    "cancel": "отменить",
+    "cancel": "cancel",
     "users": {
       "name": "Name",
       "gold": "Gold",
@@ -114,7 +114,11 @@
       "dialog": {
         "from": "From",
         "send_message": "Send message to",
-        "new_msg_text": "Your message here"
+        "new_msg_text": "Your message here",
+        "last": "Last message",
+        "send": "Send",
+        "new": "new",
+        "no_dialogs": "You havn't started any dialogs yet"
       }
     }
   },

@@ -9,11 +9,18 @@ angular.module('Tools', ['ngRoute', 'DropdownModule'])
       () ->
     )
 )
-.run((Loc, $cookies, $rootScope)->
+.run((Loc, $cookies, $rootScope, $http)->
   $rootScope.c = (str) ->
     return $rootScope.$eval(str)
   $rootScope.keys = Object.keys
   Loc.set($cookies.get('lang') || 'en')
+  $rootScope.getNewMsgs = () ->
+    $http.get '/api/dialogs/new'
+    .then (res) ->
+      $rootScope.new_messages = res.data
+    setTimeout($rootScope.getNewMsgs, 10000)
+  $rootScope.getNewMsgs()
+  return
 )
 .directive('tabs', ['$route', ($route) ->
   restrict: 'C'

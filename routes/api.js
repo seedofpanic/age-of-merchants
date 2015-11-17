@@ -379,10 +379,30 @@ router.post('/buildings/employ', function (req, res, next) {
   });
 });
 
+router.get('/dialogs/new', function (req, res, next) {
+  models.messages_news.count({where: {user_id: parseInt(req.user.id)}}).then(function (news) {
+    res.send({count: news});
+  });
+});
+
+router.get('/dialogs/messages', function (req, res, next) {
+  var dialog_id = parseInt(req.query.dialog_id);
+  var user_id = parseInt(req.user.id);
+  check(models.dialogs, dialog_id, user_id, res, function () {
+    models.messages.findAll({where: {dialog_id: dialog_id}, include: [{model: models.messages_news, as: 'new', required: false, where: {user_id: user_id}},{model: models.users, attributes: ['username', 'id']}]}).then(function (messages) {
+      models.messages_news.destroy({where: {user_id: user_id}, include: {model: models.messages, where: {dialog_id: dialog_id}}});
+      models.dialogs_users.update({new: 0}, {where: {dialog_id: dialog_id, $not: {user_id: user_id}}});
+      res.send(messages);
+    });
+  });
+});
+
 router.get('/dialogs', function (req, res, next) {
   var user_id = parseInt(req.user.id);
-  models.dialogs_users.findAll({where: {dialog_id: sequelize.literal("dialog_id in (SELECT dialog_id FROM dialogs_users WHERE `user_id`='" + user_id + "' order by updatedAt)"), $not: {user_id: user_id}},
-    include: {model: models.users, attributes: ['username']}
+  models.dialogs_users.findAll({
+    attributes: [['(SELECT count(*) from messages_news mn where mn.dialog_id=dialogs_users.dialog_id and mn.user_id = ' + user_id + ')', 'new'], 'dialog_id', [sequelize.literal('(SELECT msg FROM messages where messages.dialog_id=dialogs_users.dialog_id order by updatedAt desc limit 1)'), 'last']],
+    where: {dialog_id: sequelize.literal("dialogs_users.dialog_id in (SELECT dialog_id FROM dialogs_users WHERE `user_id`='" + user_id + "' order by updatedAt)"), $not: {user_id: user_id}},
+    include: [{model: models.users, attributes: ['username', 'id']}]
   })
       .then(function (dialogs) {
         res.send(dialogs);
@@ -394,29 +414,37 @@ router.post('/dialogs/message/send', function (req, res, next) {
   var message = jsesc(req.body.message);
   var user_id = parseInt(req.user.id);
   models.sequelize.query(
-      "SELECT su.* FROM dialogs_users fu INNER JOIN dialogs_users su on fu.dialog_id=su.dialog_id and su.user_id = '" + send_to +
+      "SELECT fu.* FROM dialogs_users fu INNER JOIN dialogs_users su on fu.dialog_id=su.dialog_id and su.user_id = '" + send_to +
           "' where fu.user_id='" + user_id + "' order by (SELECT COUNT(cu.id) FROM dialogs_users cu WHERE fu.dialog_id=cu.dialog_id) limit 1", { type: sequelize.QueryTypes.SELECT}
   ).then(function (dialog_user) {
         if (dialog_user.length > 0) {
           var new_message = {
             msg: message,
             dialog_id: dialog_user[0].dialog_id,
-            user_id: user_id,
-            viewed: false
+            user_id: user_id
           };
-          models.messages.create(new_message, {attributes: ['id']}).then(function (message) {
-            models.dialogs_users.update({'new': sequelize.literal("`new`+1")}, {where: {id: dialog_user[0].id}}).then(function () {
+          models.messages.create(new_message, {attributes: ['id']}, {include: {model: models.users, attributes: ['username']}}).then(function (message) {
+            models.messages_news.bulkCreate([
+              {message_id: message.id, user_id: send_to, dialog_id: dialog_user[0].dialog_id}
+            ]).then(function () {
               res.send(message)
             });
           });
         } else {
           models.dialogs.create({}).then(function (dialog) {
+            var new_message = {
+              msg: message,
+              dialog_id: dialog.id,
+              user_id: user_id
+            };
             models.dialogs_users.bulkCreate([
               {dialog_id: dialog.id, user_id: user_id, 'new': 0},
               {dialog_id: dialog.id, user_id: send_to, 'new': 0}
             ]).then(function () {
-              models.messages.create(new_message, {attributes: ['id']}).then(function (message) {
-                models.dialogs_users.update({'new': sequelize.literal("`new`+1")}, {where: {dialog_id: dialog.id, user_id: send_to}}).then(function () {
+              models.messages.create(new_message, {attributes: ['id']}, {include: {model: models.users, attributes: ['username']}}).then(function (message) {
+                models.messages_news.bulkCreate([
+                  {message_id: message.id, user_id: send_to, dialog_id: dialog.id}
+                ]).then(function () {
                   res.send(message)
                 });
               });

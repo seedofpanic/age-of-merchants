@@ -1,14 +1,32 @@
-table.ui.table(ng-controller='DialogsCtrl as dc')
-   thead
-      tr
-         th {{loc.site.user.dialog.from}}
-         th
-   tbody
-      tr(ng-repeat='dialog in dc.dialogs track by $index')
-         td
-            span(ng-repeat='user in dialog.users' class="commed")
-               span.ui.label(ng-show='user.new>0')
-                  i.mail.icon
-                  span {{user.username}}
-                  span ({{user.new}})
-               span(ng-hide='user.new>0') {{user.username}}
+div(ng-controller='DialogsCtrl as dc')
+   .ui.message.info(ng-hide='selected || (dc.dialogs && keys(dc.dialogs).length > 0)') {{loc.site.user.dialog.no_dialogs}}
+   table.ui.table(ng-hide="selected || (keys(dc.dialogs).length == 0)")
+      tbody
+         tr(ng-repeat='dialog in dc.dialogs track by $index' ng-click='dc.show(dialog)' class="clickable")
+            td.collapsing
+               span(ng-repeat='user in dialog.users' class="commed")
+                  span.ui.label(ng-show='user.new>0')
+                     i.mail.icon
+                     span {{user.username}}
+                     span ({{user.new}})
+                  span(ng-hide='user.new>0') {{user.username}}
+            td
+               span.ui.label.blue {{loc.site.user.dialog.last}}:
+               span  {{dialog.last}}
+   .ui.segment(ng-show="selected")
+      button.ui.button.right.floated.icon(ng-click='dc.deselect()')
+         i.icon.close
+      .ui.comments
+            .comment(ng-repeat='message in dc.messages')
+               .ui.segment
+                  div(class='right' ng-show='message.new')
+                     .ui.green.right.ribbon.label {{loc.site.user.dialog.new}}
+                  span.content
+                     .author {{message.user.username}}
+                     .text {{message.msg}}
+      .ui.segment
+         form.ui.form(name='MessageSendForm')
+            textarea(ng-model='dc.new_msg' ng-required='true')
+            .divider
+            button.ui.button.blue.right.floated(ng-click='dc.send()' ng-class='{disabled: dc.loading || !MessageSendForm.$valid}') {{loc.site.user.dialog.send}}
+            .divider

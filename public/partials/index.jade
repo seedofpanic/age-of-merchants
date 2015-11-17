@@ -6,6 +6,7 @@
             a.active.item(ng-href='#map' ng-show='user.id>0') {{loc.site.world}}
             a.active.item(ng-href='#office' ng-show='user.id>0') {{loc.site.office}}
             a.active.item(ng-href='#profile/personal_data' ng-show='user.id>0') {{loc.site.profile}}
+               .floating.ui.blue.label(ng-show='new_messages.count > 0') {{new_messages.count}}
             a.active.item(ng-href='#users' ng-show='user.id>0') {{loc.site.users_list}}
             .right.item(ng-hide='user.id > 0')
                div.ui.form
@@ -26,7 +27,7 @@
       .ui.text.container
          h1.ui.inverted.header {{loc.age_of_merchants}}
          h2 {{loc.site.welcome}}
-         h3 pre Alpha 0.0.9.3
+         h3 pre Alpha 0.0.9.4
          p
             a.ui.huge.primary.button(ng-href='#office' ng-show='user.id > 0') {{loc.site.to_your_office}}
                i.right.arrow.icon

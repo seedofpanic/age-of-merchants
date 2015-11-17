@@ -29,8 +29,9 @@ angular.module('App', ['ngRoute', 'Auth', 'Office', 'Tools', 'Buildings', 'ngCoo
       templateUrl: 'partials/users.html'
       controller: 'UsersCtrl as uc'
     )
-    $routeProvider.when('/profile/:tab',
+    $routeProvider.when('/profile/:tab?',
       templateUrl: 'partials/user.html'
       controller: 'UserCtrl as uc'
+      reloadOnSearch: false
     )
 ])

@@ -46,9 +46,6 @@ module.exports = {
         'msg': {
           type: Sequelize.TEXT
         },
-        'viewed': {
-          type: Sequelize.BOOLEAN
-        },
         'createdAt': {
           type: Sequelize.DATE
         },
@@ -94,7 +91,28 @@ module.exports = {
             type: Sequelize.DATE
           }
         }).then(function () {
-          done();
+          queryInterface.createTable('messages_news', {
+            'message_id': {
+              type: Sequelize.BIGINT,
+              unsigned: true,
+              notNull: true,
+              primaryKey: true
+            },
+            'user_id': {
+              type: Sequelize.BIGINT,
+              unsigned: true,
+              notNull: true,
+              primaryKey: true
+            },
+            'dialog_id': {
+              type: Sequelize.BIGINT,
+              unsigned: true,
+              notNull: true,
+              primaryKey: true
+            }
+          }).then(function () {
+            done();
+          });
         });
       });
     });
@@ -104,7 +122,9 @@ module.exports = {
     queryInterface.dropTable('dialogs_users').then(function () {
       queryInterface.dropTable('messages').then(function () {
         queryInterface.dropTable('dialogs').then(function () {
-          done();
+          queryInterface.dropTable('messages_news').then(function () {
+            done();
+          });
         });
       });
     });

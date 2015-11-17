@@ -112,3 +112,8 @@ table.map td{
 .commed:last-of-type:after {
   content: '';
 }
+.comment .right {
+  position: absolute;
+  right: 13px;
+  top: 3px;
+}
