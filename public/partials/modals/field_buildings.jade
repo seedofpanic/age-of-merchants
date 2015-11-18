@@ -1,0 +1,18 @@
+.ui.modal.fullscreen(ng-controller='FieldBuildingsCtrl as fbc')
+   i.close.icon
+   .header {{loc.office.import_modal_title}}
+   .content
+      table.ui.table
+         thead
+            tr
+               th {{loc.office.name}}
+               th {{loc.office.type}}
+               th {{loc.office.owner}}
+         tbody
+            tr(ng-repeat='building in fbc.buildings')
+               td.collapsing {{building.name}}
+               td {{loc.buildings.types[building.type]}}
+               td.collapsing {{building.profile.user.username}}
+         tfoot
+            th(colspan="10")
+               div(paging)

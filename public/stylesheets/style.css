@@ -117,3 +117,6 @@ table.map td{
   right: 13px;
   top: 3px;
 }
+.dropdown .text{
+  cursor: pointer;
+}

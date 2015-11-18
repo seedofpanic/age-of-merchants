@@ -4,7 +4,12 @@
   },
   "buildings": {
     "types": {"0": "Hunting hut", "1": "woodcutter hut", "3": "Village", "4": "School", "5": "Forge", "6": "Metal mine", "7": "Castle", "8": "Gold mine"},
-    "statuses": {"0": "constructing", "1": "active"}
+    "statuses": {"0": "constructing", "1": "active"},
+    "modes": {    "0": "GOLDMINE",
+      "1": "Mines",
+      "2": "Towns",
+      "3": "Factories",
+      "5": "Castles"}
   },
   "export": {
     "types": {"1": "Once"}
@@ -17,6 +22,7 @@
   },
   "age_of_merchants": "Age of Merchants",
   "office": {
+    "owner": "Owner",
     "create_new_profile": "Create new profile",
     "create_btn": "Create",
     "new_profile_name": "New profile name",
@@ -80,6 +86,8 @@
   "site": {
     "ok": "ОК",
     "cancel": "cancel",
+    "choose_one": "Choose one",
+    "all": "All",
     "users": {
       "name": "Name",
       "gold": "Gold",
@@ -126,6 +134,8 @@
     "resource_type": "Resource type",
     "count": "Count",
     "quality": "Quality",
-    "growth": "Growth"
+    "growth": "Growth",
+    "types": {"2": "Buildings", "1": "Resources"},
+    "buildings_type": "Buildings type"
   }
 }

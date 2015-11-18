@@ -6,5 +6,6 @@ include inc/header
             .ui.inverted.vertical.menu
                a.item(ng-href='#profile/personal') {{loc.site.user.personal_data}}
                a.item(ng-href='#profile/dialogs') {{loc.site.user.dialogs}}
+                  .ui.blue.label(ng-show='new_messages.count > 0') {{new_messages.count}}
                a.item(href='/logout') {{loc.site.signout}}
          .twelve.wide.column(ng-include='uc.getTemplate()')

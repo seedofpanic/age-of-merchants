@@ -29,7 +29,9 @@ module.exports = function (db, DataTypes) {
         type: DataTypes.INTEGER,
         workers_c: DataTypes.INTEGER,
         workers_q: DataTypes.DECIMAL(10,2),
-        worker_s: DataTypes.DECIMAL(10,2)
+        worker_s: DataTypes.DECIMAL(10,2),
+        out_type: DataTypes.INTEGER,
+        mode: DataTypes.INTEGER
     }, {
         classMethods: {
             associate: function () {
@@ -181,8 +183,7 @@ module.exports = function (db, DataTypes) {
                             is_army: db.models.buildings.is_army[product_type] || false
                         };
                         db.models.products.create(new_product).then(function (product) {
-                            product.add(count, quality);
-                            if (cb) {cb()}
+                            product.add(count, quality, cb);
                         });
                         return;
                     }

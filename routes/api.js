@@ -127,20 +127,23 @@ router.post('/buildings/new', function(req, res, next){
   var y = parseInt(req.body.y);
   var type = parseInt(req.body.type);
   var out_type = parseInt(req.body.out_type);
-  if (!models.buildings.params[type].resources_out[out_type]) {
+  var out_props = models.buildings.params[type].resources_out[out_type];
+  if (!out_props) {
     res.status(500).send();
     return;
   }
   check(models.profiles, parseInt(req.body.profile_id), parseInt(req.user.id), res, function (profile) {
-    models.buildings.new({
+    var new_building = {
       profile: profile,
       region_id: parseInt(req.body.region),
       x: checkFieldCoord(x),
       y: checkFieldCoord(y),
       type: type,
       name: jsesc(req.body.name),
-      out_type: out_type
-    }, function (err, building) {
+      out_type: out_type,
+      mode: out_props.mode
+    };
+    models.buildings.new(new_building, function (err, building) {
       if (err) {
         res.status(500).send(err);
         return;
@@ -314,19 +317,42 @@ router.post('/troops/new', function(req, res, next){
 
 router.get('/map', function (req, res, next) {
   var map = [];
-  type = parseInt(req.query.type);
+  var type = parseInt(req.query.type)
+  var sub_type = parseInt(req.query.sub_type);
   if (type == 0) {
     return;
   }
-  models.fields.findAll({where: {region_id: parseInt(req.query.region_id)}, include: [{model: models.fields_resources, as: 'res', attributes: ['c', 'q', 'a'], where: {type: type}}]}).then(function (fields) {
-    for (var i = 0; i < fields.length; i++) {
-      if (!map[fields[i].x]) {
-        map[fields[i].x] = [];
+  if (type == 1) {
+    models.fields.findAll({
+      where: {region_id: parseInt(req.query.region_id)},
+      include: [{model: models.fields_resources, as: 'res', attributes: ['c', 'q', 'a'], where: {type: sub_type}}]
+    }).then(function (fields) {
+      for (var i = 0; i < fields.length; i++) {
+        if (!map[fields[i].x]) {
+          map[fields[i].x] = [];
+        }
+        map[fields[i].x][fields[i].y] = fields[i];
       }
-      map[fields[i].x][fields[i].y] = fields[i];
+      res.send(map);
+    });
+  } else if (type == 2) {
+    var and = '';
+    if (sub_type != -2) {
+      and = ' and mode=' + sub_type;
     }
-    res.send(map);
-  });
+    models.fields.findAll({
+      where: {region_id: parseInt(req.query.region_id)},
+      attributes: ['x', 'y', 'id', 'avg_salary',['(SELECT COUNT(*) FROM buildings where field_id=fields.id' + and + ')', 'c']]
+    }).then(function (fields) {
+      for (var i = 0; i < fields.length; i++) {
+        if (!map[fields[i].x]) {
+          map[fields[i].x] = [];
+        }
+        map[fields[i].x][fields[i].y] = fields[i];
+      }
+      res.send(map);
+    });
+  }
 });
 module.exports = router;
 
@@ -380,7 +406,12 @@ router.post('/buildings/employ', function (req, res, next) {
 });
 
 router.get('/dialogs/new', function (req, res, next) {
-  models.messages_news.count({where: {user_id: parseInt(req.user.id)}}).then(function (news) {
+  var user_id = parseInt(req.user.id);
+  if (!(user_id > 0)) {
+    res.send({});
+    return;
+  }
+  models.messages_news.count({where: {user_id: user_id}}).then(function (news) {
     res.send({count: news});
   });
 });
@@ -452,6 +483,30 @@ router.post('/dialogs/message/send', function (req, res, next) {
           });
         }
   })
+});
+
+router.get('/field/buildings', function (req, res, next) {
+  var field_id = parseInt(req.query.field_id);
+  var mode = parseInt(req.query.mode);
+  var page = parseInt(req.query.page) || 0;
+  var limit = 10;
+  var offset = page * limit;
+  var where = {field_id: field_id};
+  if (mode > 0) {
+    where.mode = mode;
+  }
+  models.buildings.count({where: where}).then(function (count) {
+    models.buildings.findAll({attributes: ['id', 'name', 'mode', 'out_type', 'type'], where: where, offset: offset, limit: limit, include: {model: models.profiles, attributes: ['name'], include: {model: models.users, attributes: ['id', 'username']}}})
+        .then(function (buildings) {
+          var data = {
+            page: page,
+            pages: Math.floor(count / limit) + 1,
+            buildings: buildings
+          };
+          res.send(data);
+        });
+  });
+
 });
 
 function check(model, id, user_id, res, cb, ecb) {
