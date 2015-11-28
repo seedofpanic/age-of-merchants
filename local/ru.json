@@ -37,7 +37,7 @@
     "create_btn": "Создать",
     "new_profile_name": "Имя нового профиля",
     "create_first_profile": "Создайте свой первый профиль",
-    "header": "\"Офис профиля \" + office.profile_name",
+    "header": "\"Офис профиля \" + office.profile.name",
     "stats": "Статистика",
     "buildings": "Предприятия",
     "construct_building": "Создать предприятие",
@@ -141,6 +141,7 @@
     }
   },
   "map": {
+    "avg_salary": "Средняя зарплата",
     "resource_type": "Тип ресурса",
     "count": "Количество",
     "quality": "Качество",

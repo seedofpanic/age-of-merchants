@@ -7,40 +7,6 @@ include inc/header
                .ui.inverted.relaxed.divided.list
                   a.item(ng-click='mc.open(region)' ng-repeat='region in mc.regions') {{region.name}}
          .twelve.wide.column
-            .ui.dimmer(ng-class='{active: mc.loading}')
-               .ui.text.loader {{loc.site.loading}}
             h1 {{mc.selected.name}}
-            .ui.segment(ng-show='mc.selected.id > 0')
-               form.ui.form
-                  .fields.inline
-                     .field
-                        div(dropdown ng-model='mc.map_type')
-                           .item(dd-item ng-selected='true' data='0') {{loc.site.choose_one}}
-                           .item(dd-item ng-repeat='(id,type) in loc.map.types' data='{{id}}') {{type}}
-                     label(ng-show='mc.map_type==1') {{loc.map.resource_type}}:
-                     .field(ng-show='mc.map_type==1')
-                        div(dropdown ng-model='mc.res_type')
-                           .item(dd-item ng-selected='true' data='-1') {{loc.site.choose_one}}
-                           .item(dd-item ng-repeat='(id,type) in loc.resources.types' data='{{id}}') {{type}}
-                     label(ng-show='mc.map_type==2') {{loc.map.buildings_type}}:
-                     .field(ng-show='mc.map_type==2')
-                        div(dropdown ng-model='mc.build_type')
-                           .item(dd-item ng-selected='true' data='-1') {{loc.site.choose_one}}
-                           .item(dd-item data='-2') {{loc.site.all}}
-                           .item(dd-item ng-repeat='(id,type) in loc.buildings.modes' data='{{id}}') {{type}}
-            div(ng-show='mc.map')
-               div(ng-show='mc.map_type==1 && mc.res_type != -1')
-                  h2 {{loc.map.count}}
-                  table.map
-                     tr(ng-repeat='fields in mc.map')
-                        td.popup(ng-repeat='field in fields' data-html="{{field.x}}x{{field.y}}<br/>{{loc.map.count}}: {{field.res.c}}<br/>{{loc.map.quality}}: {{field.res.q}}<br/>{{loc.map.growth}}: {{field.res.a}}" data-variation="inverted" style='background: rgb({{mc.getR(field.res.c)}},{{mc.getG(field.res.c)}}, 0)')
-                  h2 {{loc.map.quality}}
-                  table.map
-                     tr(ng-repeat='fields in mc.map')
-                        td.popup(ng-repeat='field in fields' data-html="{{field.x}}x{{field.y}}<br/>{{loc.map.count}}: {{field.res.c}}<br/>{{loc.map.quality}}: {{field.res.q}}<br/>{{loc.map.growth}}: {{field.res.a}}" data-variation="inverted" style='background: rgb({{mc.getRQ(field.res.q)}},{{mc.getGQ(field.res.q)}}, 0)')
-               div(ng-show='mc.map_type==2 && mc.build_type != -1')
-                  h2 {{loc.map.count}}
-                  table.map
-                     tr(ng-repeat='fields in mc.map')
-                        td.popup.clickable(ng-click='mc.openFieldBuildings(field)' ng-repeat='field in fields' data-html="{{field.x}}x{{field.y}}<br/>{{loc.map.count}}: {{field.c}}<br/>{{loc.map.avg_salary}}: {{field.avg_salary || 'n/a'}}" data-variation="inverted" style='background: rgb({{mc.getR(field.c)}},{{mc.getG(field.c)}}, 0)')
+            include inc/tile_map
 

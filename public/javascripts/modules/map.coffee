@@ -98,7 +98,10 @@ angular.module('Map', [])
   that.openFieldBuildings = (field) ->
     SelectedField.f = field
     SelectedField.f.filter_mode = that.build_type
-    Modals.show('field_buildings', $scope)
+    Modals.show('field_buildings', $scope, null, () ->
+      console.log('ok');
+      $('body').addClass('scrolling')
+    )
   return
 .controller 'FieldBuildingsCtrl', ($scope, $http, SelectedField, $element) ->
   that = @

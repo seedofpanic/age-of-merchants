@@ -16,10 +16,12 @@
                   input(type='radio' name='out' ng-model='nbc.out_id' value='{{key}}')
                   label {{loc.products.types[outs.type]}} <span><= </span>
                      span(class='commed' ng-repeat='res in outs.need') {{loc.products.types[res.type]}}
-         .field(ng-scope)
-            label {{loc.office.region}}
-            div(dropdown ng-model='nbc.region')
-               div.item(dd-item ng-repeat='region in nbc.regions' ng-selected="region.id==keys(nbc.regions)[0]" data='{{region.id}}') {{region.name}}
+         div.ui.segment(ng-controller="MapCtrl as mc")
+            .field(ng-scope)
+               label {{loc.office.region}}
+               div(dropdown ng-model='nbc.region' ng-change="mc.open(nbc.regions[nbc.region])")
+                  div.item(dd-item ng-repeat='region in nbc.regions' ng-selected="region.id==keys(nbc.regions)[0]" data='{{region.id}}') {{region.name}}
+            include ../inc/tile_map
          .fields.two
             .field(ng-class='{error: NewBuildingForm.x.$dirty && !NewBuildingForm.x.$valid}')
                label X

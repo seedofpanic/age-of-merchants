@@ -27,7 +27,7 @@
     "create_btn": "Create",
     "new_profile_name": "New profile name",
     "create_first_profile": "Create your first profile to get your own office",
-    "header": "office.profile_name + \"'s office\"",
+    "header": "office.profile.name + \"'s office\"",
     "stats": "Stats",
     "buildings": "Buildings",
     "construct_building": "Construct building",
@@ -131,6 +131,7 @@
     }
   },
   "map": {
+    "avg_salary": "Average salary",
     "resource_type": "Resource type",
     "count": "Count",
     "quality": "Quality",
