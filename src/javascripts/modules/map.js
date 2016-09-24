@@ -1,7 +1,7 @@
 angular.module('Map', [])
-.factory('SelectedField', SelectedField)
-.controller('MapCtrl', MapCtrl)
-.controller('FieldBuildingsCtrl', FieldBuildingsCtrl);
+  .factory('SelectedField', SelectedField)
+  .controller('MapCtrl', MapCtrl)
+  .controller('FieldBuildingsCtrl', FieldBuildingsCtrl);
 
 function SelectedField() {
   return {f: null};
