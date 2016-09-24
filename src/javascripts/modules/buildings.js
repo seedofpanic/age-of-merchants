@@ -1,14 +1,14 @@
 angular.module('Buildings', ['Tools', 'DB', 'Building'])
-.factory('BuildingTypes', BuildingTypes)
-.controller('NewBuildingCtrl', NewBuildingCtrl)
-.factory('SelectedBuilding', SelectedBuilding)
-.controller('BuildingsCtrl', BuildingsCtrl)
-.controller('BuildingCtrl', BuildingCtrl)
-.factory('ExportData', ExportData)
-.controller('ImportCtrl', ImportCtrl)
-.controller('ExportCtrl', ExportCtrl)
-.factory('OrderData', OrderData)
-.controller('ProductOrderCtrl', ProductOrderCtrl);
+  .factory('BuildingTypes', BuildingTypes)
+  .controller('NewBuildingCtrl', NewBuildingCtrl)
+  .factory('SelectedBuilding', SelectedBuilding)
+  .controller('BuildingsCtrl', BuildingsCtrl)
+  .controller('BuildingCtrl', BuildingCtrl)
+  .factory('ExportData', ExportData)
+  .controller('ImportCtrl', ImportCtrl)
+  .controller('ExportCtrl', ExportCtrl)
+  .factory('OrderData', OrderData)
+  .controller('ProductOrderCtrl', ProductOrderCtrl);
 
 BuildingTypes.$inject = ['$http'];
 

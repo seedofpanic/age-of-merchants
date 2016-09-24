@@ -1,7 +1,7 @@
 angular.module('DB', [])
-.factory('Regions', Regions)
-.factory('ProfileBuildings', ProfileBuildings)
-.factory('Profile', Profile);
+  .factory('Regions', Regions)
+  .factory('ProfileBuildings', ProfileBuildings)
+  .factory('Profile', Profile);
 
 Regions.$inject = ['$http'];
 
