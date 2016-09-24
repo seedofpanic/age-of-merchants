@@ -1,6 +1,6 @@
 angular.module('User', ['ngRoute'])
-.controller('UserCtrl', UserCtrl)
-.controller('DialogsCtrl', DialogsCtrl);
+  .controller('UserCtrl', UserCtrl)
+  .controller('DialogsCtrl', DialogsCtrl);
 
 UserCtrl.$inject = ['$route', '$http'];
 
