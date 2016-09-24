@@ -4,7 +4,7 @@ angular.module('App', ['ngRoute', 'Auth', 'Office', 'Tools', 'Buildings', 'ngCoo
 
 run.$inject = ['$location', '$rootScope'];
 
-function run($location, $rootScope ) {
+function run($location, $rootScope) {
   $rootScope.$on('$routeChangeStart', function (next, current) {
     if (($location.path() != '') && ($location.path() != '/') && !$rootScope.user.id) {
       $location.path('auth');
