@@ -72,8 +72,8 @@ function SelectedBuilding() {
   return {b: undefined};
 }
 
-BuildingsCtrl.$inject('$scope', '$http', '$compile', '$route',
-    'Modals', 'Regions', 'ProfileBuildings', 'SelectedBuilding');
+BuildingsCtrl.$inject = ['$scope', '$http', '$compile', '$route',
+    'Modals', 'Regions', 'ProfileBuildings', 'SelectedBuilding'];
 
 function BuildingsCtrl($scope, $http, $compile, $route, Modals, Regions, ProfileBuildings, SelectedBuilding) {
   that = this;

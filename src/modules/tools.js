@@ -27,7 +27,7 @@ function run(Loc, $cookies, $rootScope, $http) {
   $rootScope.c = function (str) {
     return $rootScope.$eval(str);
   };
-  $rootScope.keys = Object.keys();
+  $rootScope.keys = Object.keys;
   Loc.set($cookies.get('lang') || 'en');
   $rootScope.getNewMsgs = function () {
     $http.get('/api/dialogs/new')

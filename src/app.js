@@ -1,3 +1,20 @@
+window.$ = window.jQuery = require('./../bower_components/jquery/dist/jquery');
+require('./../bower_components/angular/angular.min');
+require('./../bower_components/angular-route/angular-route.min');
+require('./../bower_components/angular-cookies/angular-cookies.min');
+require('./semantic.min');
+
+require('./modules/auth');
+require('./modules/building');
+require('./modules/buildings');
+require('./modules/db');
+require('./modules/dropdown');
+require('./modules/map');
+require('./modules/office');
+require('./modules/tools');
+require('./modules/user');
+require('./modules/users');
+
 angular.module('App', ['ngRoute', 'Auth', 'Office', 'Tools', 'Buildings', 'ngCookies', 'Map', 'Users', 'User'])
   .run(run)
   .config(config);

@@ -7,6 +7,8 @@
     "test": "node tests/battle.js"
   },
   "dependencies": {
+    "angular": "^1.5.8",
+    "awesome-typescript-loader": "^2.2.4",
     "body-parser": "^1.13.3",
     "client-sessions": "^0.7.0",
     "coffee-script": "^1.10.0",
@@ -15,6 +17,7 @@
     "debug": "~2.2.0",
     "escape-html": "^1.0.3",
     "express": "~4.13.1",
+    "extract-text-webpack-plugin": "^1.0.1",
     "file-stream-rotator": "0.0.6",
     "jade": "~1.11.0",
     "jsesc": "^0.5.0",
@@ -27,6 +30,9 @@
     "sequelize": "^3.12.2",
     "sequelize-cli": "^2.0.0",
     "serve-favicon": "~2.3.0",
-    "test": "^0.6.0"
+    "strict-loader": "^1.1.0",
+    "test": "^0.6.0",
+    "typescript": "^2.0.3",
+    "webpack": "^1.13.2"
   }
 }
