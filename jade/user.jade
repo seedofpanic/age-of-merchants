@@ -8,4 +8,4 @@ include inc/header
                a.item(ng-href='#profile/dialogs') {{loc.site.user.dialogs}}
                   .ui.blue.label(ng-show='new_messages.count > 0') {{new_messages.count}}
                a.item(href='/logout') {{loc.site.signout}}
-         .twelve.wide.column(ng-include='uc.getTemplate()')
+         .twelve.wide.column(user-tab-contents)

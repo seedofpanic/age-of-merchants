@@ -1,4 +1,4 @@
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
     entry: './src/app.js',
@@ -14,7 +14,7 @@ module.exports = {
                 loader: 'strict!awesome-typescript-loader'
             }, {
                 test: /\.jade$/,
-                loader: 'jade'
+                loader: 'jade-loader?name=./../partials'
             },
             {
                 test: /\.less$/,
@@ -25,13 +25,16 @@ module.exports = {
                 loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
             },
             {
-                test: /\.png$/,
-                loader: 'file-loader'
+                test: /\.(png|svg|ttf|woff|woff2|eot)$/,
+                loader: 'file-loader?name=./../assets/[hash].[ext]'
             },
             {
                 test: /\.tsx?$/,
                 loader: 'awesome-typescript-loader'
             }
         ]
-    }
+    },
+    plugins: [
+        new ExtractTextPlugin("./../css/styles.css")
+    ]
 }

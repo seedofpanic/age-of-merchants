@@ -32,9 +32,8 @@ function ProfileBuildings($http, $route) {
       buildings.arr[building.id] = building;
       buildings.length++;
     };
-
-    return buildings;
-  }
+  };
+  return buildings;
 }
 
 Profile.$inject = ['$http', '$route', '$rootScope'];

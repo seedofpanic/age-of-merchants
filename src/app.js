@@ -1,3 +1,14 @@
+const indexTemplate = require('./../jade/index.jade');
+const authTemplate = require('./../jade/auth.jade');
+const officeTemplate = require('./../jade/office.jade');
+const mapTemplate = require('./../jade/map.jade');
+const usersTemplate = require('./../jade/users.jade');
+const userTemplate = require('./../jade/user.jade');
+
+// styles
+require('./../css/semantic.min.css');
+require('./../css/style.css');
+
 window.$ = window.jQuery = require('./../bower_components/jquery/dist/jquery');
 require('./../bower_components/angular/angular.min');
 require('./../bower_components/angular-route/angular-route.min');
@@ -36,27 +47,27 @@ config.$inject = ['$routeProvider'];
 
 function config($routeProvider) {
   $routeProvider.when('/', {
-    templateUrl: 'partials/index.html'
+    template: indexTemplate
   });
   $routeProvider.when('/auth', {
-    templateUrl: 'partials/auth.html',
+    template: authTemplate,
     controller: 'AuthCtrl'
   });
   $routeProvider.when('/office/:profile_id?/:tab?', {
-    templateUrl: 'partials/office.html',
+    template: officeTemplate,
     controller: 'OfficeCtrl as office',
     reloadOnSearch: false
   });
   $routeProvider.when('/map', {
-    templateUrl: 'partials/map.html',
+    template: mapTemplate,
     controller: 'MapCtrl as mc'
   });
   $routeProvider.when('/users', {
-    templateUrl: 'partials/users.html',
+    template: usersTemplate,
     controller: 'UsersCtrl as uc'
   });
   $routeProvider.when('/profile/:tab?', {
-    templateUrl: 'partials/user.html',
+    template: userTemplate,
     controller: 'UserCtrl as uc',
     reloadOnSearch: false
   });

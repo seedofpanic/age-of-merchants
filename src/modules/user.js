@@ -1,18 +1,32 @@
+const tabsTemplates = {
+    'dialogs': require('./../../jade/user/dialogs.jade'),
+    'personalData': require('./../../jade/user/personal_data.jade')
+};
+
 angular.module('User', ['ngRoute'])
   .controller('UserCtrl', UserCtrl)
+  .directive('userTabContents', userTabContents)
   .controller('DialogsCtrl', DialogsCtrl);
 
-UserCtrl.$inject = ['$route', '$http'];
+UserCtrl.$inject = ['$http'];
 
-function UserCtrl($route, $http) {
+function UserCtrl($http) {
   var that = this;
-  that.getTemplate = function () {
-    return 'partials/user/' + ($route.current.params['tab'] || 'personal_data') + '.html';
-  };
   $http.get('/api/user/profile')
       .then(function (res) {
         that.user = res.data;
       });
+}
+
+userTabContents.$inject = ['$route'];
+
+function userTabContents($route){
+    return {
+        restrict: 'A',
+        template: function () {
+            return tabsTemplates[$route.current.params['tab']] || tabsTemplates.personalData;
+        }
+    }
 }
 
 DialogsCtrl.$inject = ['$route', '$http', '$scope'];

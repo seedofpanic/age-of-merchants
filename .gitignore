@@ -8,3 +8,4 @@ public/javascripts/**/*.map
 config/config.json
 config/game.json
 config/app.json
+public

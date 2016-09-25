@@ -1,3 +1,5 @@
+const dropdownTemplate = require('./../../jade/tools/dropdown.jade');
+
 module = angular.module('DropdownModule', [])
   .directive('dropdown', dropdown)
   .filter("sanitize", sanitize)
@@ -26,7 +28,7 @@ function dropdown() {
     scope: true,
     transclude: true,
     replace: true,
-    templateUrl: '/partials/tools/dropdown.html',
+    template: dropdownTemplate,
     link: link}
 
   function link(scope, element, attrs, model) {

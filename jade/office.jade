@@ -22,4 +22,4 @@ include inc/header
             a.item(ng-class='{active: !tab || tab == "stats"}' ng-click='openTab("stats")') {{loc.office.stats}}
             a.item(ng-class='{active: tab == "buildings"}' ng-click='openTab("buildings")') {{loc.office.buildings}}
             a.item(ng-class='{active: tab == "troops"}' ng-click='openTab("troops")') {{loc.office.troops}}
-         .ui.bottom.attached.active.tab.segment(ng-include="'/partials/office/' + (tab || 'stats') + '.html'")
+         .ui.bottom.attached.active.tab.segment(office-tab-contents)
