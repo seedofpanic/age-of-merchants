@@ -1,3 +1,16 @@
+const modalsTemplates = {
+  'field_buildings': require('./../../jade/modals/field_buildings.jade'),
+  'import': require('./../../jade/modals/import.jade'),
+  'move_troop': require('./../../jade/modals/move_troop.jade'),
+  'new_building': require('./../../jade/modals/new_building.jade'),
+  'new_dialog': require('./../../jade/modals/new_dialog.jade'),
+  'order_product': require('./../../jade/modals/order_product.jade'),
+  'start_export': require('./../../jade/modals/start_export.jade'),
+  'stop_export': require('./../../jade/modals/stop_export.jade'),
+  'troops_neighbors': require('./../../jade/modals/troops_neighbors.jade')
+};
+const pagingTemplate = require('./../../jade/tools/paging.jade');
+
 angular.module('Tools', ['ngRoute', 'DropdownModule'])
   .factory('Loc', Loc)
   .run(run)
@@ -45,10 +58,10 @@ function tabs($route) {
   return {
     restrict: 'C',
     link: function (scope, element, attrs) {
-      param_id = attrs.param || 'tab';
+      var param_id = attrs.param || 'tab';
       scope.tab = $route.current.params[param_id]
       scope.openTab = function (tab) {
-        param = {};
+        var param = {};
         param[param_id] = tab;
         $route.updateParams(param);
         scope.tab = tab;
@@ -83,19 +96,17 @@ function Modals($http, $compile) {
       if (modals[id]) {
         modals[id].remove();
       }
-      $http.get('/partials/modals/' + id + '.html').then(function (res) {
-        modals[id] = $(res.data).appendTo('body');
-        modals[id].modal({
-          onApprove: onApprove,
-          onHidden: onHidden,
-          selector: {
-            close: '.close',
-            approve: '.approve'
-          },
-          allowMultiple: true
-        }).modal('show');
-        $compile(modals[id])(scope);
-      });
+      modals[id] = $(modalsTemplates[id]).appendTo('body');
+      modals[id].modal({
+        onApprove: onApprove,
+        onHidden: onHidden,
+        selector: {
+          close: '.close',
+          approve: '.approve'
+        },
+        allowMultiple: true
+      }).modal('show');
+      $compile(modals[id])(scope)
     }
   }
 }
@@ -104,7 +115,7 @@ function paging() {
   return {
     restrict: 'A',
     replace: true,
-    templateUrl: '/partials/tools/paging.html',
+    template: pagingTemplate,
     link: function (scope) {
       scope.getPages = function (pages) {
         new Array(pages);

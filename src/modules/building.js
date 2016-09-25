@@ -1,7 +1,14 @@
+const buildingTabsTemplates = {
+  army: require('./../../jade/office/building/army.jade'),
+  products: require('./../../jade/office/building/products.jade'),
+  shop: require('./../../jade/office/building/shop.jade')
+};
+
 angular.module('Building', [])
-  .controller('SoldiersCtrl', SoldiersCtrl)
-  .controller('ProductsCtrl', ProductCtrl)
-  .controller('ShopCtrl', ShopCtrl);
+    .controller('SoldiersCtrl', SoldiersCtrl)
+    .controller('ProductsCtrl', ProductCtrl)
+    .controller('ShopCtrl', ShopCtrl)
+    .directive('buildingTabContents', buildingTabContents);
 
 function SoldiersCtrl($http, $route) {
   var that = this;
@@ -80,4 +87,15 @@ ShopCtrl.$inject = ['$http'];
 
 function ShopCtrl($http) {
   var that = this;
+}
+
+buildingTabContents.$inject = ['$route'];
+
+function buildingTabContents($route){
+  return {
+    restrict: 'A',
+    template: function () {
+      return buildingTabsTemplates[$route.current.params.tab] || buildingTabsTemplates.products;
+    }
+  }
 }

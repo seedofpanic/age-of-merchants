@@ -17,7 +17,7 @@ Today Age of Merchants is a fast-growing project that became much better every d
 5. Rename all .json.default to .json in config/ folder
 6. Configure database connection in config/config.json
 7. node_modules/.bin/sequelize db:migrate
-8. $ node compile
+8. $ webpack --watch
 9. (optional)  $ gen region "Region name" "X" "Y"
 ```
     Example:   $ gen region MyRegion 0 0

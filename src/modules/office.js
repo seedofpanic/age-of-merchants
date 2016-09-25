@@ -1,10 +1,18 @@
+const officeTabsTemplates = {
+  building: require('./../../jade/office/building.jade'),
+  buildings: require('./../../jade/office/buildings.jade'),
+  troops: require('./../../jade/office/troops.jade'),
+  stats: require('./../../jade/office/stats.jade')
+};
+
 angular.module('Office', ['ngRoute'])
-.controller('OfficeCtrl', OfficeCtrl)
-.factory('OrderTroop', OrderTroop)
-.factory('NeighborTroop', NeighborTroop)
-.controller('TroopsCtrl', TroopsCtrl)
-.controller('MoveTroopCtrl', MoveTroopCtrl)
-.controller('NeighTroopsCtrl', NeighTroopsCtrl);
+    .controller('OfficeCtrl', OfficeCtrl)
+    .factory('OrderTroop', OrderTroop)
+    .factory('NeighborTroop', NeighborTroop)
+    .controller('TroopsCtrl', TroopsCtrl)
+    .controller('MoveTroopCtrl', MoveTroopCtrl)
+    .controller('NeighTroopsCtrl', NeighTroopsCtrl)
+    .directive('officeTabContents', officeTabContents);
 
 OfficeCtrl.$inject = ['$http', '$route', '$location', 'Profile'];
 
@@ -117,6 +125,17 @@ function NeighTroopsCtrl(NeighborTroop, $http) {
       $http.post('api/troops/stop_attack', {target_id: troop.id, troop_id: that.id}).catch(function () {
         troop.attack = true;
       });
+    }
+  }
+}
+
+officeTabContents.$inject = ['$route'];
+
+function officeTabContents($route){
+  return {
+    restrict: 'A',
+    template: function () {
+      return officeTabsTemplates[$route.current.params.tab] || officeTabsTemplates.stats;
     }
   }
 }

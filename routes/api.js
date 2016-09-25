@@ -406,6 +406,9 @@ router.post('/buildings/employ', function (req, res, next) {
 });
 
 router.get('/dialogs/new', function (req, res, next) {
+  if (!req.user) {
+    return;
+  }
   var user_id = parseInt(req.user.id);
   if (!(user_id > 0)) {
     res.send({});

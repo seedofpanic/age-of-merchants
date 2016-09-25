@@ -76,7 +76,7 @@ BuildingsCtrl.$inject = ['$scope', '$http', '$compile', '$route',
     'Modals', 'Regions', 'ProfileBuildings', 'SelectedBuilding'];
 
 function BuildingsCtrl($scope, $http, $compile, $route, Modals, Regions, ProfileBuildings, SelectedBuilding) {
-  that = this;
+  var that = this;
   that.regions = Regions;
   that.selected = SelectedBuilding;
   ProfileBuildings.get();
