@@ -1,10 +1,23 @@
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackShellPlugin = require('webpack-shell-plugin');
 
 module.exports = {
     entry: './src/app.js',
     output: {
         path: './public/js/',
         filename: 'app.bundle.js',
+    },
+    devServer: {
+        inline: true,
+        proxy: {
+            '/api': {
+                target: 'http://localhost:3001'
+            },
+            '/locales': {
+                target: 'http://localhost:3001'
+            }
+        }
     },
     module: {
         loaders: [
@@ -35,6 +48,12 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin("./../css/styles.css")
+        new ExtractTextPlugin("./../css/styles.css"),
+        new HtmlWebpackPlugin({
+            template: './views/index.jade'
+        }),
+        new WebpackShellPlugin({
+            onBuildStart: ['node server']
+        })
     ]
 }

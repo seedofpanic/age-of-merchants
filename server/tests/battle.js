@@ -1,6 +1,6 @@
 require('./init');
-var models = require('../models/index');
-var battle = require('../lib/battle');
+var models = require('./index');
+var battle = require('./battle');
 exports['test the battle must go on'] = function (assert, done) {
 
     models.troops_attacks.findAll({
