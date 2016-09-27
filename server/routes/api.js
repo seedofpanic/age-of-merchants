@@ -10,6 +10,14 @@ router.get('/profile', function(req, res, next) {
   });
 });
 
+router.get('/user', function (req, res, next) {
+  if (req.user) {
+    res.send({id: req.user.id});
+  } else {
+    res.send({});
+  }
+});
+
 router.get('/user/profile', function (req, res, next) {
   models.users.find({attributes: ['id', 'username', 'email', 'createdAt'],where: {id: req.user.id}}).then(function (data) {
     res.send(data);

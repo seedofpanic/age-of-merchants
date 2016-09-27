@@ -30,9 +30,10 @@ angular.module('App', ['ngRoute', 'Auth', 'Office', 'Tools', 'Buildings', 'ngCoo
   .run(run)
   .config(config);
 
-run.$inject = ['$location', '$rootScope'];
+run.$inject = ['$location', '$rootScope', '$http'];
 
-function run($location, $rootScope) {
+function run($location, $rootScope, $http) {
+  $http.get('/api/user').then((res) => $rootScope.user = res.data);
   $rootScope.$on('$routeChangeStart', function (next, current) {
     if (($location.path() != '') && ($location.path() != '/') && !$rootScope.user.id) {
       $location.path('auth');

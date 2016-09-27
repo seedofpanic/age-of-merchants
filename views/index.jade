@@ -3,7 +3,7 @@ html
   head
     title= title
     link(rel='stylesheet', href='/css/styles.css')
-  body.pushable(ng-app='App' ng-init='user=#{JSON.stringify(user)}')
+  body.pushable(ng-app='App')
     .ui.large.top.fixed.menu.transition.hidden
       .ui.container
         a.item(ng-href='/') {{loc.site.home}}
