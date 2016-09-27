@@ -9,10 +9,10 @@ const userTemplate = require('./../jade/user.jade');
 require('./../css/semantic.min.css');
 require('./../css/style.css');
 
-window.$ = window.jQuery = require('./../bower_components/jquery/dist/jquery');
-require('./../bower_components/angular/angular.min');
-require('./../bower_components/angular-route/angular-route.min');
-require('./../bower_components/angular-cookies/angular-cookies.min');
+window.$ = window.jQuery = require('jquery');
+require('angular');
+require('angular-route');
+require('angular-cookies');
 require('./semantic.min');
 
 require('./modules/auth');
