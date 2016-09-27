@@ -16,7 +16,16 @@ module.exports = {
             },
             '/locales': {
                 target: 'http://localhost:3001'
-            }
+            },
+            '/login': {
+                target: 'http://localhost:3001'
+            },
+            '/logout': {
+                target: 'http://localhost:3001'
+            },
+            '/registration': {
+                target: 'http://localhost:3001'
+            },
         }
     },
     module: {
