@@ -14,8 +14,8 @@ var Game = {
         // For debug (I have some problems with async here... Will fix it later)
         if (config.update_on_start) {
             setTimeout(function () {
-             Game.update();
-             }, 1000);
+                Game.update();
+            }, 1000);
         }
     },
     update: function () {

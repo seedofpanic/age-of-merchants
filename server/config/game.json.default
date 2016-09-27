@@ -1,0 +1,14 @@
+{
+ "development": {
+    "schedule_job": "0 * * * *",
+    "update_on_start": false
+  },
+  "test": {
+    "schedule_job": "0 * * * *",
+    "update_on_start": false
+  },
+  "production": {
+    "schedule_job": "0 0,12 * * *",
+    "update_on_start": false
+  }
+}
