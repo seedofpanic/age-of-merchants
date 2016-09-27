@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "angular": "^1.5.8",
+    "angular-cookies": "^1.5.8",
+    "angular-route": "^1.5.8",
     "awesome-typescript-loader": "^2.2.4",
     "body-parser": "^1.13.3",
     "client-sessions": "^0.7.0",
@@ -24,6 +26,7 @@
     "html-webpack-plugin": "^2.22.0",
     "jade": "~1.11.0",
     "jade-loader": "^0.8.0",
+    "jquery": "^3.1.1",
     "jsesc": "^0.5.0",
     "morgan": "~1.6.1",
     "mysql": "^2.9.0",
