@@ -13,14 +13,13 @@ Today Age of Merchants is a fast-growing project that became much better every d
 1. $ git clone https://github.com/seedofpanic/age-of-merchants.git aom
 2. $ cd aom
 3. $ npm install
-4. $ bower install
-5. Rename all .json.default to .json in config/ folder
-6. Configure database connection in config/config.json
-7. node_modules/.bin/sequelize db:migrate
-9. (optional)  $ gen region "Region name" "X" "Y"
+4. Rename all .json.default to .json in config/ folder
+5. Configure database connection in config/config.json
+6. node_modules/.bin/sequelize db:migrate
+7. (optional)  $ gen region "Region name" "X" "Y"
 ```
     Example:   $ gen region MyRegion 0 0
 ```
-10. $ npm start
+8. $ npm start
 
 That's it! I hope I didn't forget something, if I did, plz let me know in issues!
