@@ -26,13 +26,13 @@ module.exports = function (db, DataTypes) {
             }
         },
         instanceMethods: {
-            add: function (count, quality, cb) {
+            add: function (count, quality) {
                 var product = this;
                 var old_count = product.count || 0;
                 var old_quality = product.quality || 0;
                 product.quality = (old_quality * old_count + quality * count) / (old_count + count) || 0;
                 product.count = (old_count + count);
-                product.save().then(cb);
+                return product.save();
             },
             take: function(count, cb) {
                 var taken = {};
@@ -40,12 +40,11 @@ module.exports = function (db, DataTypes) {
                 if (this.count >= count) {
                     this.count -= count;
                     taken.count = count;
-                    this.save()
+                    return this.save();
                 } else {
                     taken.count = this.count;
-                    this.remove()
+                    return this.remove();
                 }
-                if (cb) {cb(taken)}
             }
         }
     });

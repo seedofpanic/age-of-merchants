@@ -44,7 +44,7 @@ module.exports = function (db, DataTypes) {
                     cb('not_enoth_gold');
                     return;
                 }
-                db.models.fields.find({where: {region_id: data.region_id, x: data.x, y: data.y}}).then(function (field) {
+                return db.models.fields.find({where: {region_id: data.region_id, x: data.x, y: data.y}}).then(function (field) {
                     var new_building = {
                         profile_id: data.profile.id,
                         type: data.type,
@@ -55,10 +55,11 @@ module.exports = function (db, DataTypes) {
                         out_type: data.out_type,
                         mode: params.resources_out[data.out_type].mode
                     };
-                    db.models.buildings.create(new_building).then(function (building) {
+                    return db.models.buildings.create(new_building).then(function (building) {
                         data.profile.gold -= params.price;
-                        data.profile.save();
-                        cb(null, building);
+                        const deferred = Promise.defer();
+                        data.profile.save().then(() => deferred.promise.resolve(building))
+                        return deferred.promise;
                     });
                 });
             },
@@ -171,11 +172,11 @@ module.exports = function (db, DataTypes) {
             }
         },
         instanceMethods: {
-            addProducts: function (product_type, count, quality, cb) {
+            addProducts: function (product_type, count, quality) {
                 var building = this;
-                db.models.products.find({where: {building_id: building.id , product_type : product_type}}).then(function (product) {
+                return db.models.products.find({where: {building_id: building.id , product_type : product_type}}).then(function (product) {
                     if (product) {
-                        product.add(count, quality);
+                        return product.add(count, quality);
                     } else {
                         new_product = {
                             building_id: building.id,
@@ -183,11 +184,10 @@ module.exports = function (db, DataTypes) {
                             is_army: db.models.buildings.is_army[product_type] || false
                         };
                         db.models.products.create(new_product).then(function (product) {
-                            product.add(count, quality, cb);
+                            return product.add(count, quality);
                         });
-                        return;
+                        return Promise.resolve();
                     }
-                    if (cb) {cb()}
                 });
             }
         }

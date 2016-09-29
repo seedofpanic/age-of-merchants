@@ -18,7 +18,7 @@ module.exports = function (db, DataTypes) {
             },
             setPassword: function (password) {
                 this.password = passwordHash.generate(password);
-                this.save();
+                return this.save();
             }
         }
     });
