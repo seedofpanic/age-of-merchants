@@ -1,8 +1,8 @@
 const officeTabsTemplates = {
-  building: require('./../../jade/office/building.jade'),
-  buildings: require('./../../jade/office/buildings.jade'),
-  troops: require('./../../jade/office/troops.jade'),
-  stats: require('./../../jade/office/stats.jade')
+  building: require('./../../jade/office/building.jade')(),
+  buildings: require('./../../jade/office/buildings.jade')(),
+  troops: require('./../../jade/office/troops.jade')(),
+  stats: require('./../../jade/office/stats.jade')()
 };
 
 angular.module('Office', ['ngRoute'])
