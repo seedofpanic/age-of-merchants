@@ -9,11 +9,9 @@ const userTemplate = require('./../jade/user.jade');
 require('./../css/semantic.min.css');
 require('./../css/style.css');
 
-window.$ = window.jQuery = require('jquery');
 require('angular');
 require('angular-route');
 require('angular-cookies');
-require('./semantic.min');
 
 require('./modules/auth');
 require('./modules/building');
@@ -35,9 +33,6 @@ run.$inject = ['$location', '$rootScope', '$http'];
 function run($location, $rootScope, $http) {
   $http.get('/api/user').then((res) => $rootScope.user = res.data);
   $rootScope.$on('$routeChangeStart', function (next, current) {
-    if (($location.path() != '') && ($location.path() != '/') && !$rootScope.user.id) {
-      $location.path('auth');
-    }
     if ($location.path() == '') {
       $location.path('/');
     }

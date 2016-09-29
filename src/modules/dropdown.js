@@ -1,35 +1,42 @@
 const dropdownTemplate = require('./../../jade/tools/dropdown.jade');
 
 module = angular.module('DropdownModule', [])
-  .directive('dropdown', dropdown)
-  .filter("sanitize", sanitize)
-  .directive('ddItem', ddItem);
+    .directive('dropdown', dropdown)
+    .filter("sanitize", sanitize)
+    .directive('ddItem', ddItem)
+    .run(run);
 
 var dds = [];
 
-$(window).click(function () {
-      dds.forEach(function (dd) {
-        if (!dd.stopClick && dd.scope.droped) {
-          dd.scope.search = '';
-          dd.scope.droped = false;
-          dd.scope.$apply();
-        }
-        dd.stopClick = false;
-      })
-    }
-);
+run.$inject = ['$window'];
+
+function run($window) {
+  angular.element($window).bind('click', function () {
+        dds.forEach(function (dd) {
+          if (!dd.stopClick && dd.scope.droped) {
+            dd.scope.search = '';
+            dd.scope.droped = false;
+            dd.scope.$apply();
+          }
+          dd.stopClick = false;
+        })
+      }
+  );
+}
 
 function dropdown() {
 
   link.$inject = ['scope', 'element', 'attrs', 'model'];
 
-  return {restrict: 'A',
+  return {
+    restrict: 'A',
     require: '?ngModel',
     scope: true,
     transclude: true,
     replace: true,
     template: dropdownTemplate,
-    link: link}
+    link: link
+  };
 
   function link(scope, element, attrs, model) {
     var firstChange = true;
@@ -114,12 +121,12 @@ function ddItem() {
         ddscope.select(attrs.data, element, event);
       };
       element.click(scope.click);
-      updateSelection = function (newVal) {
+      scope.$watch(attrs.ngSelected, updateSelection);
+      function updateSelection(newVal) {
         if (newVal) {
           ddscope.select(attrs.data, element, null);
         }
-      };
-      scope.$watch(attrs.ngSelected, updateSelection);
+      }
     }
   };
 }

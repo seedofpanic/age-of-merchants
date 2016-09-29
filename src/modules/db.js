@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 angular.module('DB', [])
   .factory('Regions', Regions)
   .factory('ProfileBuildings', ProfileBuildings)
@@ -8,8 +10,8 @@ Regions.$inject = ['$http'];
 function Regions($http) {
   var regions = {}
   $http.get('/api/regions').then(function (res) {
-    $.each(res.data, function () {
-      regions[this.id] = this;
+    _.each(res.data, function (region) {
+      regions[region.id] = region;
     });
   });
   return regions;
@@ -23,8 +25,8 @@ function ProfileBuildings($http, $route) {
     var profile_id = $route.current.params.profile_id;
     buildings.arr = {};
     $http.get('/api/buildings?profile_id=' + profile_id).then(function (res) {
-      $.each(res.data, function () {
-        buildings.arr[this.id] = this;
+      _.each(res.data, function (building) {
+        buildings.arr[building.id] = building;
       });
       buildings.length = res.data.length;
     });

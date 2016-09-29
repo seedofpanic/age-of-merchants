@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 const tabsTemplates = {
     'dialogs': require('./../../jade/user/dialogs.jade'),
     'personalData': require('./../../jade/user/personal_data.jade')
@@ -73,15 +75,15 @@ function DialogsCtrl($route, $http, $scope) {
     $http.get('/api/dialogs')
         .then(function (res) {
           that.dialogs = {};
-          $.each(res.data, function () {
-            if (!that.dialogs[this.dialog_id]) {
-              that.dialogs[this.dialog_id] = {users: [], new: 0};
+          _.each(res.data, function (dialog) {
+            if (!that.dialogs[dialog.dialog_id]) {
+              that.dialogs[dialog.dialog_id] = {users: [], new: 0};
             }
-            this.user.new = this.new;
-            that.dialogs[this.dialog_id].users.push(this.user);
-            that.dialogs[this.dialog_id].new += this.new;
-            that.dialogs[this.dialog_id].last = this.last;
-            that.dialogs[this.dialog_id].id = this.dialog_id;
+            dialog.user.new = dialog.new;
+            that.dialogs[dialog.dialog_id].users.push(dialog.user);
+            that.dialogs[dialog.dialog_id].new += dialog.new;
+            that.dialogs[dialog.dialog_id].last = dialog.last;
+            that.dialogs[dialog.dialog_id].id = dialog.dialog_id;
           });
         });
   };
