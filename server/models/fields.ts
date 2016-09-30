@@ -1,4 +1,14 @@
-module.exports = function (db, DataTypes) {
+import {RegionModel} from "./regions";
+
+export interface FieldModel {
+    id: number;
+    region: RegionModel;
+    x: number;
+    y: number;
+    avg_salary: number;
+}
+
+export default function (db, DataTypes) {
 
     return db.define('fields', {
         region_id: {

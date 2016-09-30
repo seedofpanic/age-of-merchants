@@ -1,4 +1,10 @@
-module.exports = function (db, DataTypes) {
+export interface ProfileModel {
+    id: number;
+    gold: number;
+    save: () => Promise<ProfileModel>;
+}
+
+export default function (db, DataTypes) {
     return db.define("profiles", {
         user_id: {
             type: DataTypes.BIGINT,

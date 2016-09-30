@@ -1,5 +1,4 @@
 var models = require('./../models');
-import clearInterval from 'async';
 
 var competitors = {};
 var final_cb:() => void = function () {};
