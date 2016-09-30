@@ -5,9 +5,10 @@ var sequelize = require('sequelize');
 var jsesc = require('escape-html');
 
 router.get('/profile', function(req, res, next) {
-  check(models.profiles, parseInt(req.query.id), parseInt(req.user.id), res).then(function (profile) {
-    res.send(profile);
-  });
+  check(models.profiles, parseInt(req.query.id), parseInt(req.user.id), res)
+      .then(function (profile) {
+        res.send(profile);
+      });
 });
 
 router.get('/user', function (req, res, next) {
@@ -42,7 +43,7 @@ router.get('/users', function(req, res, next) {
   var offset = ((page > -1) ? page : 0) * limit;
   models.users.find({attributes: [[sequelize.fn('COUNT', sequelize.col('id')), 'count']]}).then(function (result){
     models.users.findAll({offset: offset, limit: limit, attributes: ['id', 'username', [sequelize.literal('(SELECT sum(gold) FROM profiles WHERE user_id=users.id)'), 'gold']], order: 'gold desc,id'}).then(function (users){
-      data = {
+      const data = {
         page: page,
         users: users,
         pages: Math.floor(result.get('count') / limit) + 1
@@ -520,7 +521,7 @@ router.get('/field/buildings', function (req, res, next) {
   var page = parseInt(req.query.page) || 0;
   var limit = 10;
   var offset = page * limit;
-  var where = {field_id: field_id};
+  var where = {field_id: field_id, mode: {}};
   if (mode > 0) {
     where.mode = mode;
   }

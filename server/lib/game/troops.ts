@@ -1,4 +1,4 @@
-var models = require('./../../models/index.js');
+var models = require('./../../models');
 var battle = require('./../battle');
 var FIELDS_MAX = 50;
 var final_cb;
@@ -13,7 +13,7 @@ function troopsUpdate(cb) {
             final_cb();
             return;
         }
-        field_ids = [];
+        const field_ids = [];
         attacks.forEach(function (attack){
             if (field_ids.indexOf(attack.troop.field_id) == -1) {
                 field_ids.push(attack.troop.field_id);
@@ -65,7 +65,7 @@ function troopsIter() {
         final_cb();
         return;
     }
-    troop = troops[It];
+    const troop = troops[It];
     It--;
     if (troop.move && !atDestenation(troop)) {
         var move_from = troop.field;
@@ -82,7 +82,7 @@ function troopsIter() {
             models.regions.find({where: {y: troop.field.region.y, x: troop.field.region.x + 1, $or: {y: troop.field.region.y, x: 0}}})
                 .then(function (region) {
                     switchField(troop, region.id, 0, new_y, function (){
-                        atDestenation(troop, function () {
+                        atDestenation(troop).then(function () {
                             troopsIter();
                         });
                     });
@@ -93,7 +93,7 @@ function troopsIter() {
             models.regions.find({where: {y: troop.field.region.y, x: troop.field.region.x - 1}})
                 .then(function (region) {
                     switchField(troop, region.id, FIELDS_MAX - 1, new_y, function (){
-                        atDestenation(troop, function () {
+                        atDestenation(troop).then(function () {
                             troopsIter();
                         });
                     });
@@ -104,7 +104,7 @@ function troopsIter() {
             models.regions({where: {y: troop.field.region.y + 1, x: troop.field.region.x, $or: {y: 0, x: troop.field.region.x}}})
                 .then(function (region) {
                     switchField(troop, region.id, new_x, 0, function (){
-                        atDestenation(troop, function () {
+                        atDestenation(troop).then(function () {
                             troopsIter();
                         });
                     });
@@ -115,7 +115,7 @@ function troopsIter() {
             models.regions({where: {y: troop.field.region.y - 1, x: troop.field.region.x}})
                 .then(function (region) {
                     switchField(troop, region.id, new_x, 49, function (){
-                        atDestenation(troop, function () {
+                        atDestenation(troop).then(function () {
                             troopsIter();
                         });
                     });
@@ -123,7 +123,7 @@ function troopsIter() {
             return;
         }
         switchField(troop, troop.field.region.id, new_x, new_y, function (){
-            atDestenation(troop, function () {
+            atDestenation(troop).then(function () {
                 troopsIter();
             });
         });
@@ -131,18 +131,16 @@ function troopsIter() {
 }
 
 
-function atDestenation(troop, cb) {
+function atDestenation(troop): Promise<any> {
     if (troop.move) {
         if (
             troop.field.region_id == troop.move.field.region_id &&
             troop.field.x == troop.move.field.x &&
             troop.field.y == troop.move.field.y
         ) {
-            troop.move.destroy().then(cb);
-            return true;
+            return troop.move.destroy();
         }
-        if (cb) cb();
-        return false
+        return Promise.resolve();
     }
 }
 function getDirection(x1, y1, x2, y2) {

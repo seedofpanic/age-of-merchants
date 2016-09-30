@@ -1,5 +1,5 @@
 var sequelize = require('sequelize');
-var models = require('./../../models/index.js');
+var models = require('./../../models');
 
 var products = null;
 var final_cb = function () {};
@@ -9,7 +9,7 @@ function final() {
     setTimeout(final_cb, 0);
 }
 
-function buildingsUpdate(cb) {
+export default function buildingsUpdate(cb) {
     final_cb = cb;
     building_props = models.buildings.params;
     models.buildings.findAll({include: [{model: models.fields}, {model: models.profiles}]})
@@ -225,7 +225,8 @@ function updateBuildingMode() {
                         product.save().then(function () {
                             pendings--;
                             if (pendings == 0) {
-                                building.addProducts(out.type, have_min, (res.q + workers_q_mod) / 2, function () {
+                                // TODO: product.q is not quiet right...
+                                building.addProducts(out.type, have_min, (product.q + workers_q_mod) / 2, function () {
                                     building.save().then(function () {
                                         setTimeout(buildingsIter, 0);
                                     });
@@ -267,5 +268,3 @@ function updateBuildingMode() {
         }
     });
 }
-
-module.exports = buildingsUpdate;

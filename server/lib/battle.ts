@@ -1,10 +1,11 @@
-var models = require('./../models/index.js');
+var models = require('./../models');
+import clearInterval from 'async';
 
 var competitors = {};
-var final_cb = function () {};
+var final_cb:() => void = function () {};
 var pendings = 0;
 
-function evalBattle(troops, cb) {
+function evalBattle(troops, cb: () => void) {
     final_cb = cb;
     console.log('init battle with ' + troops.length + ' troops');
     getSoldiers(troops);
@@ -92,7 +93,7 @@ function calcResults() {
                 var target = competitors[
                         competitors[id].targets[
                             Object.keys(competitors[id].targets)[
-                                    parseInt((Object.keys(competitors[id].targets).length - 1) * Math.random())
+                                    (Object.keys(competitors[id].targets).length - 1) * Math.random()
                                 ]
                         ]
                     ];
@@ -101,7 +102,7 @@ function calcResults() {
                     delete competitors[target.id];
                     continue;
                 }
-                var t_soldiers = target.soldiers[parseInt((target.soldiers.length - 1) * Math.random())];
+                var t_soldiers = target.soldiers[(target.soldiers.length - 1) * Math.random()];
                 console.log(soldiers.id + '(' + soldiers.count + ')' + ' hits ' + t_soldiers.id + '(' + t_soldiers.count + ')' + ' for ' + soldiers.power)
                 if (t_soldiers.life > soldiers.power) {
                     t_soldiers.life -= soldiers.power;

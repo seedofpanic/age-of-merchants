@@ -57,9 +57,10 @@ module.exports = function (db, DataTypes) {
                     };
                     return db.models.buildings.create(new_building).then(function (building) {
                         data.profile.gold -= params.price;
-                        const deferred = Promise.defer();
-                        data.profile.save().then(() => deferred.promise.resolve(building))
-                        return deferred.promise;
+                        const promise = new Promise(function (resolve, reject) {
+                            data.profile.save().then(() => resolve(building))
+                        });
+                        return promise;
                     });
                 });
             },
@@ -178,7 +179,7 @@ module.exports = function (db, DataTypes) {
                     if (product) {
                         return product.add(count, quality);
                     } else {
-                        new_product = {
+                        const new_product = {
                             building_id: building.id,
                             product_type: product_type,
                             is_army: db.models.buildings.is_army[product_type] || false

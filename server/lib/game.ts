@@ -1,4 +1,4 @@
-var models = require('./../models/index.js');
+var models = require('./../models');
 var schedule = require('node-schedule');
 var buildingsUpdate = require('./game/buildings');
 var contractsUpdate = require('./game/contracts');
@@ -7,6 +7,7 @@ var env = process.env.NODE_ENV || 'development';
 var config = require('./../config/game.json')[env];
 
 var Game = {
+    updating: false,
     init: function () {
         schedule.scheduleJob(config.schedule_job, function(){
             Game.update();

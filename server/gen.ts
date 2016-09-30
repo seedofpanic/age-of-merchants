@@ -4,7 +4,7 @@ var COUNT_FIELDS_MAX = LENGTH * LENGTH;
 var models = require('./models/index');
 gen();
 
-function randomArray(length, range, min) {
+function randomArray(length, range, min?) {
     if (!min) {
         min = 0;
     }
