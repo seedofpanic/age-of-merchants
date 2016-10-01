@@ -10,6 +10,9 @@ var sequelize = require('sequelize');
 var jsesc = require('escape-html');
 
 router.get('/profile', function(req, res, next) {
+  if (!req.user) {
+    return;
+  }
   check(ProfileModel, req.query.id, req.user._id, res)
       .then(function (profile) {
         res.send(profile);
@@ -25,7 +28,7 @@ router.get('/user', function (req, res, next) {
 });
 
 router.get('/user/profile', function (req, res, next) {
-  UserModel.find({id: req.user.id}, 'id username email createdAt').exec().then((profiles: Profile[]) => {
+  UserModel.find({id: req.user.id}, '_id username email createdAt').exec().then((profiles: Profile[]) => {
     res.send(profiles);
   })
 });
@@ -46,12 +49,13 @@ router.get('/users', function(req, res, next) {
   var limit = 10;
   var page = parseInt(req.query.page);
   var offset = ((page > -1) ? page : 0) * limit;
-  models.users.find({attributes: [[sequelize.fn('COUNT', sequelize.col('id')), 'count']]}).then(function (result){
-    models.users.findAll({offset: offset, limit: limit, attributes: ['id', 'username', [sequelize.literal('(SELECT sum(gold) FROM profiles WHERE user_id=users.id)'), 'gold']], order: 'gold desc,id'}).then(function (users){
+  UserModel.count({}).then(function (result: number){
+    console.log(result);
+    UserModel.find({}, {id: true, username: true}, {offset: offset, limit: limit}).then(function (users){
       const data = {
         page: page,
         users: users,
-        pages: Math.floor(result.get('count') / limit) + 1
+        pages: Math.floor(result / limit) + 1
       };
       res.send(data);
     });

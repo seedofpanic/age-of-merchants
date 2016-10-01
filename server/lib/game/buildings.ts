@@ -1,3 +1,4 @@
+import {BUILDINGS_STATUSES} from "../../models/buildings";
 var sequelize = require('sequelize');
 var models = require('./../../models');
 
@@ -96,7 +97,7 @@ function updateBuildingMode() {
     building.workers_q = building.workers_q || 0;
     var to_pay = building.worker_s * building.workers_c;
     if (building.profile.gold < to_pay) {
-        building.status = models.buildings.statuses.CANT_PAY;
+        building.status = BUILDINGS_STATUSES.CANT_PAY;
         building.save().then(function () {
             setTimeout(buildingsIter, 0);
         });
