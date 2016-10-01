@@ -44,7 +44,7 @@ function OfficeCtrl($http, $route, $location, Profile) {
   };
 
   that.selectProfile = function (profile) {
-    $route.updateParams({profile_id: profile.id});
+    $route.updateParams({profile_id: profile._id});
   };
 }
 

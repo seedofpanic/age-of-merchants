@@ -1,4 +1,8 @@
-import {BUILDING_PARAMS} from "../models/buildings";
+import {BUILDING_PARAMS, BuildingModel} from "../models/buildings";
+import {UserModel} from "../models/users";
+import {Profile, ProfileModel} from "../models/profiles";
+import {RegionModel} from "../models/regions";
+import {ProductModel} from "../models/products";
 var express = require('express');
 var router = express.Router();
 var models = require('../models/index');
@@ -6,7 +10,7 @@ var sequelize = require('sequelize');
 var jsesc = require('escape-html');
 
 router.get('/profile', function(req, res, next) {
-  check(models.profiles, parseInt(req.query.id), parseInt(req.user.id), res)
+  check(ProfileModel, req.query.id, req.user._id, res)
       .then(function (profile) {
         res.send(profile);
       });
@@ -21,8 +25,8 @@ router.get('/user', function (req, res, next) {
 });
 
 router.get('/user/profile', function (req, res, next) {
-  models.users.find({attributes: ['id', 'username', 'email', 'createdAt'],where: {id: req.user.id}}).then(function (data) {
-    res.send(data);
+  UserModel.find({id: req.user.id}, 'id username email createdAt').exec().then((profiles: Profile[]) => {
+    res.send(profiles);
   })
 });
 
@@ -31,8 +35,8 @@ router.get('/buildings/types', function(req, res, next) {
 });
 
 router.get('/buildings', function(req, res, next) {
-  models.profiles.find({where: {id: parseInt(req.query.profile_id)}}).then(function (profile) {
-    models.buildings.findAll({where: {profile_id: profile.id}, include: [models.fields]}).then(function (buildings){
+  ProfileModel.findById({id: req.query.profile_id}).then(function (profile: Profile) {
+    BuildingModel.find({'profile._id': profile._id}).populate('fields').then(function (buildings){
       res.send(buildings);
     })
   });
@@ -174,20 +178,20 @@ router.post('/buildings/new', function(req, res, next){
 });
 
 router.get('/profiles', function(req, res, next){
-  models.profiles.findAll({where: {user_id: parseInt(req.user.id)}}).then(function (profile) {
-    res.send(profile);
+  ProfileModel.find({'user._id': req.user._id}).exec().then(function (profiles: Profile[]) {
+    res.send(profiles);
   });
 });
 
 router.post('/profile/new', function(req, res, next){
   var new_profile = {
-    user_id: parseInt(req.user.id),
+    user: req.user,
     name: jsesc(req.body.name),
     gold: 1000
   };
-  models.profiles.find({where: {name: new_profile.name}}).then(function (profile) {
-    if (!profile) {
-      models.profiles.create(new_profile).then(function (profile) {
+  ProfileModel.find({name: new_profile.name}).exec().then(function (profile) {
+    if (!profile.length) {
+      ProfileModel.create(new_profile).then(function (profile) {
         res.send(profile);
       });
     } else {
@@ -197,19 +201,18 @@ router.post('/profile/new', function(req, res, next){
 });
 
 router.get('/regions', function(req, res, next){
-  models.regions.findAll({}).then(function (regions) {
+  RegionModel.find().exec().then(function (regions) {
     res.send(regions);
   });
 });
 
 router.get('/products/humans', function(req, res, next){
   var building_id = parseInt(req.query.building_id);
-  check(models.buildings, building_id, parseInt(req.user.id), res)
+  check(BuildingModel, building_id, parseInt(req.user.id), res)
     .then(function () {
-      models.products.find({
-        attributes: ['id', 'count', 'quality'],
-        where: {building_id: parseInt(req.query.building_id), product_type: 3}
-      }).then(function (result) {
+      ProductModel.find({
+        'building._id': req.query.building_id, product_type: 3
+      }, 'id count quality').then(function (result) {
         res.send(result);
       });
     });
@@ -436,12 +439,12 @@ router.get('/dialogs/new', function (req, res, next) {
   if (!req.user) {
     return;
   }
-  var user_id = parseInt(req.user.id);
+  var user_id = req.user.id;
   if (!(user_id > 0)) {
     res.send({});
     return;
   }
-  models.messages_news.count({where: {user_id: user_id}}).then(function (news) {
+  models.messages_news.count().then(function (news) {
     res.send({count: news});
   });
 });
