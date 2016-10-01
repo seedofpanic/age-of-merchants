@@ -3,12 +3,12 @@
       .ui.container
          .ui.large.secondary.inverted.menu
             a.active.item(ng-href='#') {{loc.site.home}}
-            a.active.item(ng-href='#map' ng-show='user.id>0') {{loc.site.world}}
-            a.active.item(ng-href='#office' ng-show='user.id>0') {{loc.site.office}}
-            a.active.item(ng-href='#profile/personal_data' ng-show='user.id>0') {{loc.site.profile}}
+            a.active.item(ng-href='#map' ng-show='user.id') {{loc.site.world}}
+            a.active.item(ng-href='#office' ng-show='user.id') {{loc.site.office}}
+            a.active.item(ng-href='#profile/personal_data' ng-show='user.id') {{loc.site.profile}}
                .floating.ui.blue.label(ng-show='new_messages.count > 0') {{new_messages.count}}
-            a.active.item(ng-href='#users' ng-show='user.id>0') {{loc.site.users_list}}
-            .right.item(ng-hide='user.id > 0')
+            a.active.item(ng-href='#users' ng-show='user.id') {{loc.site.users_list}}
+            .right.item(ng-hide='user.id')
                div.ui.form
                   .field
                      select.language(ng-model='lang')
@@ -16,7 +16,7 @@
                         option(value='ru') Русский
                a.ui.inverted.button(ng-href='#auth') {{loc.site.signin}}
                a.ui.inverted.button(ng-href='#auth') {{loc.site.signup}}
-            .right.item(ng-show='user.id > 0')
+            .right.item(ng-show='user.id')
                div.ui.form
                   .field
                      select.language(ng-model='lang')
@@ -29,8 +29,8 @@
          h2 {{loc.site.welcome}}
          h3 pre Alpha 0.0.9.4
          p
-            a.ui.huge.primary.button(ng-href='#office' ng-show='user.id > 0') {{loc.site.to_your_office}}
+            a.ui.huge.primary.button(ng-href='#office' ng-show='user.id') {{loc.site.to_your_office}}
                i.right.arrow.icon
-            a.ui.huge.primary.button(ng-href='#auth' ng-hide='user.id > 0') {{loc.site.signin}}
+            a.ui.huge.primary.button(ng-href='#auth' ng-hide='user.id') {{loc.site.signin}}
          p
             a.ui.button.purple.large(href='https://github.com/seedofpanic/age-of-merchants') Github

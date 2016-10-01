@@ -63,7 +63,7 @@ module.exports = {
             template: './views/index.jade'
         }),
         new WebpackShellPlugin({
-            onBuildStart: ['ts-node server']
+            //onBuildStart: ['ts-node server']
         })
     ]
 }

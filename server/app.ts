@@ -109,6 +109,7 @@ if (env === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.json({err: err});
+    next(err);
   });
 } else {
 // production error handler

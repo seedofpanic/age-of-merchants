@@ -14,7 +14,7 @@ router.get('/profile', function(req, res, next) {
 
 router.get('/user', function (req, res, next) {
   if (req.user) {
-    res.send({id: req.user.id});
+    res.send({id: req.user._id});
   } else {
     res.send({});
   }

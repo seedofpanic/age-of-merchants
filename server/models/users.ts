@@ -10,14 +10,14 @@ export interface User extends mongoose.Document {
     last_login: Date;
     profiles: Profile[];
     validPassword(password): boolean;
-    etPassword(password): Promise<User>;
+    setPassword(password): Promise<User>;
 }
 
 
 var passwordHash = require('password-hash');
 
 export const UserSchema = new Schema({
-    id: {type: Schema.Types.ObjectId, required: true},
+    id: {type: Schema.Types.ObjectId, required: false},
     email: {type: String, required: true},
     username: {type: String, required: false},
     password: {type: String, required: false},

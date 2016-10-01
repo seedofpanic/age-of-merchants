@@ -1,3 +1,4 @@
+import {UserModel, User} from "../models/users";
 var models = require('../models/index');
 var passport = require('passport')
     , LocalStrategy = require('passport-local').Strategy;
@@ -12,7 +13,7 @@ passport.deserializeUser(function(user, done) {
 
 passport.use(new LocalStrategy(
     function(username, password, done) {
-        models.users.find({ where: {username: username} }).then(function (user) {
+        UserModel.findOne({username: username}).then((user: User) => {
             if (!user) {
                 return done(null, false, { message: 'Incorrect username.' });
             }
@@ -20,7 +21,8 @@ passport.use(new LocalStrategy(
                 return done(null, false, { message: 'Incorrect password.' });
             }
             return done(null, user);
-        });
+        })
+            .catch((err) => console.log(err));
     }
 ));
 
