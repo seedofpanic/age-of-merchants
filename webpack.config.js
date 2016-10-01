@@ -53,7 +53,7 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
-                loader: 'awesome-typescript-loader?tsconfig=tsconfig-f.json'
+                loader: 'awesome-typescript-loader?tsconfig=tsconfig-f.json!babel-loader'
             }
         ]
     },
@@ -63,7 +63,7 @@ module.exports = {
             template: './views/index.jade'
         }),
         new WebpackShellPlugin({
-            //onBuildStart: ['ts-node server']
+            onBuildStart: ['ts-node server']
         })
     ]
 }
