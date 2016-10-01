@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackShellPlugin = require('webpack-shell-plugin');
 
 module.exports = {
-    entry: './src/app.js',
+    entry: './src/app.ts',
     output: {
         path: './public/js/',
         filename: 'app.bundle.js',
@@ -33,7 +33,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'strict!awesome-typescript-loader'
+                loader: 'babel-loader'
             }, {
                 test: /\.jade$/,
                 loader: 'jade-loader?name=./../partials'
@@ -52,7 +52,8 @@ module.exports = {
             },
             {
                 test: /\.tsx?$/,
-                loader: 'awesome-typescript-loader'
+                exclude: /node_modules/,
+                loader: 'awesome-typescript-loader?tsconfig=tsconfig-f.json'
             }
         ]
     },
@@ -62,7 +63,7 @@ module.exports = {
             template: './views/index.jade'
         }),
         new WebpackShellPlugin({
-            onBuildStart: ['node server']
+            onBuildStart: ['ts-node server']
         })
     ]
 }

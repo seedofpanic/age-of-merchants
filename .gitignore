@@ -9,3 +9,4 @@ config/config.json
 config/game.json
 config/app.json
 public
+server/config/*.json

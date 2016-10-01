@@ -4,14 +4,16 @@
     "password": "root",
     "database": "aom",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "mongodb": "mongodb://localhost/aom"
   },
   "test": {
     "username": "root",
     "password": "root",
     "database": "aom_test",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "mongodb": "mongodb://localhost/aom"
   },
   "production": {
     "username": "root",
@@ -19,6 +21,7 @@
     "database": "database_production",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "logging": false
+    "logging": false,
+    "mongodb": "mongodb://localhost/aom"
   }
 }
