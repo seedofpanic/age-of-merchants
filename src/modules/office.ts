@@ -94,7 +94,7 @@ function TroopsCtrl($http, $route, Regions, $scope, OrderTroop, Modals, Neighbor
 MoveTroopCtrl.$inject = ['OrderTroop', 'Regions'];
 
 function MoveTroopCtrl(OrderTroop, Regions) {
-  that = this;
+  const that = this;
   that.regions = Regions;
   that.troop = OrderTroop.troop;
 }
@@ -102,7 +102,7 @@ function MoveTroopCtrl(OrderTroop, Regions) {
 NeighTroopsCtrl.$inject = ['NeighborTroop', '$http'];
 
 function NeighTroopsCtrl(NeighborTroop, $http) {
-  var that = this;
+  const that = this;
   that.id = NeighborTroop.troop.id;
   that.troops = [];
   $http.get('api/troops/field', {

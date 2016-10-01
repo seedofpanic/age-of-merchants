@@ -15,37 +15,37 @@ function MapCtrl($http, $scope, Regions, Modals, SelectedField) {
   that.sub_type = -1;
 
   that.getR = function (int) {
-    range = that.max_c - that.min_c;
-    hrange = (range >> 1);
+    const range = that.max_c - that.min_c;
+    const hrange = (range >> 1);
     int -= that.min_c;
     if (hrange == 0) {
       return (int < 1) ? 255 : 0;
     } else {
-      return (int < (range >> 1)) ? 255 : parseInt(255 * ((range - int) / hrange));
+      return (int < (range >> 1)) ? 255 : 255 * ((range - int) / hrange);
     }
   };
 
   that.getG = function (int) {
-    range = that.max_c - that.min_c;
+    const range = that.max_c - that.min_c;
     int -= that.min_c;
-    hrange = (range >> 1);
+    const hrange = (range >> 1);
     if (hrange == 0) {
-      return (int > hrange) ? 255 : parseInt(255 * (int));
+      return (int > hrange) ? 255 : 255 * (int);
     } else {
-      return (int > hrange) ? 255 : parseInt(255 * (int / hrange));
+      return (int > hrange) ? 255 : 255 * (int / hrange);
     }
   };
 
   that.getRQ = function (int) {
-    range = (that.max_q - that.min_q) * 100
-    int = (int - that.min_q) * 100
-    return (int < (range >> 1)) ? 255 : parseInt(255 * ((range - int) / (range >> 1)));
+    const range = (that.max_q - that.min_q) * 100;
+    int = (int - that.min_q) * 100;
+    return (int < (range >> 1)) ? 255 : 255 * ((range - int) / (range >> 1));
   };
 
   that.getGQ = function (int) {
-    range = (that.max_q - that.min_q) * 100;
+    const range = (that.max_q - that.min_q) * 100;
     int = (int - that.min_q) * 100;
-    return (int > (range >> 1)) ? 255 : parseInt(255 * (int / (range >> 1)));
+    return (int > (range >> 1)) ? 255 : 255 * (int / (range >> 1));
   };
 
   that.load_map = function () {
@@ -67,8 +67,8 @@ function MapCtrl($http, $scope, Regions, Modals, SelectedField) {
           that.min_c = that.map[0][0].res.c;
           that.max_q = that.map[0][0].res.q;
           that.min_q = that.map[0][0].res.q;
-          for (x in [0..that.map.length - 1]) {
-            for (y in [0..that.map[x].length - 1]) {
+          for (let x = that.map.length - 1; x > -1; x--) {
+            for (let y = that.map[x].length - 1; y > -1; y--) {
               var tile = that.map[x][y].res;
               if (that.max_c < tile.c) {
                 that.max_c = tile.c;
@@ -88,8 +88,8 @@ function MapCtrl($http, $scope, Regions, Modals, SelectedField) {
         else if (parseInt(that.map_type) == 2) {
           that.max_c = that.map[0][0].c;
           that.min_c = that.map[0][0].c;
-          for (x in [0..that.map.length - 1]) {
-            for (y in [0..that.map[x].length - 1]) {
+          for (let x = that.map.length - 1; x > -1; x--) {
+            for (let y = that.map[x].length - 1; y > -1; y--) {
               var tile = that.map[x][y];
               if (that.max_c < tile.c) {
                 that.max_c = tile.c;
@@ -102,7 +102,7 @@ function MapCtrl($http, $scope, Regions, Modals, SelectedField) {
         }
         that.loading = false;
         setTimeout(function () {
-          $('.popup').popup();
+          // TODO: $('.popup').popup();
         }, 0);
       });
   };
@@ -147,7 +147,7 @@ function FieldBuildingsCtrl($scope, $http, SelectedField, $element) {
   var that = this;
   that.field = SelectedField.f;
   that.buildings = [];
-  get = function (page) {
+  const get = function (page) {
     $http.get('/api/field/buildings',
       {
         params: {

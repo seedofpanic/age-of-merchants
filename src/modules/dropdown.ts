@@ -1,6 +1,6 @@
 const dropdownTemplate = require('./../../jade/tools/dropdown.jade');
 
-module = angular.module('DropdownModule', [])
+export default angular.module('DropdownModule', [])
     .directive('dropdown', dropdown)
     .filter("sanitize", sanitize)
     .directive('ddItem', ddItem)
@@ -111,7 +111,7 @@ function ddItem() {
     template: '',
     link: function (scope, element, attrs) {
       var that = this;
-      var ddscope = angular.element(element.parents('[dropdown="dropdown"]').first()).scope();
+      var ddscope: any = angular.element(element.parents('[dropdown="dropdown"]').first()).scope();
 
       that.data = attrs.data;
       if (!attrs.data) {

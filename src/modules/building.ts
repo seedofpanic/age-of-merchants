@@ -16,7 +16,7 @@ function SoldiersCtrl($http, $route) {
   var that = this;
   var building_id = $route.current.params.building_id;
   var profile_id = $route.current.params.profile_id;
-  update = function () {
+  const update = function () {
     $http.get('/api/army?building_id=' + building_id)
       .then(function (res) {
         that.soldiers = res.data;

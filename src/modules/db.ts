@@ -20,7 +20,7 @@ function Regions($http) {
 ProfileBuildings.$inject = ['$http', '$route'];
 
 function ProfileBuildings($http, $route) {
-  var buildings = {arr: {}};
+  var buildings: any = {arr: {}};
   buildings.get = function () {
     var profile_id = $route.current.params.profile_id;
     buildings.arr = {};
@@ -41,7 +41,7 @@ function ProfileBuildings($http, $route) {
 Profile.$inject = ['$http', '$route', '$rootScope'];
 
 function Profile($http, $route, $rootScope) {
-  var profile = {}
+  var profile: any = {}
   var get = function (profile_id) {
     if (profile_id) {
       $http.get('/api/profile?id=' + profile_id)

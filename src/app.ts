@@ -13,30 +13,27 @@ require('angular');
 require('angular-route');
 require('angular-cookies');
 
-require('./modules/auth');
-require('./modules/building');
-require('./modules/buildings');
-require('./modules/db');
-require('./modules/dropdown');
-require('./modules/map');
-require('./modules/office');
-require('./modules/tools');
-require('./modules/user');
-require('./modules/users');
+import './modules/auth.ts';
+import './modules/building.ts';
+import './modules/buildings.ts';
+import './modules/db.ts';
+import './modules/dropdown.ts';
+import './modules/map.ts';
+import './modules/office.ts';
+import './modules/tools.ts';
+import './modules/user.ts';
+import './modules/users.ts';
 
-angular.module('App', ['ngRoute', 'Auth', 'Office', 'Tools', 'Buildings', 'ngCookies', 'Map', 'Users', 'User'])
-  .run(run)
-  .config(config);
-
-run.$inject = ['$location', '$rootScope', '$http'];
-
-function run($location, $rootScope, $http) {
-  $http.get('/api/user').then((res) => $rootScope.user = res.data);
-  $rootScope.$on('$routeChangeStart', function (next, current) {
-    if ($location.path() == '') {
-      $location.path('/');
-    }
-  });
+class _run {
+  public $inject = ['$location', '$rootScope', '$http'];
+  constructor($location, $rootScope, $http) {
+    $http.get('/api/user').then((res) => $rootScope.user = res.data);
+    $rootScope.$on('$routeChangeStart', function (next, current) {
+      if ($location.path() == '') {
+        $location.path('/');
+      }
+    });
+  }
 }
 
 config.$inject = ['$routeProvider'];
@@ -68,3 +65,7 @@ function config($routeProvider) {
     reloadOnSearch: false
   });
 }
+
+angular.module('App', ['ngRoute', 'Auth', 'Office', 'Tools', 'Buildings', 'ngCookies', 'Map', 'Users', 'User'])
+    .run(_run)
+    .config(config);

@@ -18,7 +18,7 @@ function UsersCtrl($http, $scope, Modals, SendTo) {
     Modals.show('new_dialog', $scope);
   };
 
-  get = function (page, old_page) {
+  const get = function (page, old_page?) {
     if (page == old_page) {
       return;
     }
@@ -36,7 +36,7 @@ function UsersCtrl($http, $scope, Modals, SendTo) {
   $scope.current_page = 0;
   $scope.$watch('current_page', get);
 
-  get(0)
+  get(0);
 }
 
 NewDialogCtrl.$inject = ['SendTo', '$element', '$http'];

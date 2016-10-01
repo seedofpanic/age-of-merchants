@@ -1,7 +1,7 @@
 var models = require('./../../models');
 var battle = require('./../battle');
 var FIELDS_MAX = 50;
-var final_cb;
+var final_cb: any;
 
 function troopsUpdate(cb) {
     final_cb = cb;

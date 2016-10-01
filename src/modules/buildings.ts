@@ -41,7 +41,7 @@ function NewBuildingCtrl($element, $http, $route, Regions, ProfileBuildings, Pro
   that.changeType = function (type) {
     that.setName(type.name);
     if (that.types[type.value] && that.types[type.value].resources_out) {
-      keys = Object.keys(that.types[type.value].resources_out);
+      const keys = Object.keys(that.types[type.value].resources_out);
       that.out_id = (keys.length > 0) ? keys[0] : '';
     }
   };
@@ -122,7 +122,7 @@ function BuildingCtrl($http, SelectedBuilding, $scope, BuildingTypes) {
       return that.types[that.selected.b.type].max_workers;
   };
   that.employ = function () {
-    building = that.selected.b
+    const building = that.selected.building;
     $http.post('/api/buildings/employ', {
       id: that.humans.id,
       count: that.hire,

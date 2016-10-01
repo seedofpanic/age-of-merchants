@@ -1,7 +1,7 @@
 var models = require('./../models');
 
 var competitors = {};
-var final_cb:() => void = function () {};
+var final_cb: any = function () {};
 var pendings = 0;
 
 function evalBattle(troops, cb: () => void) {
