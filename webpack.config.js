@@ -58,12 +58,12 @@ module.exports = {
         ]
     },
     plugins: [
-        new EncodingPlugin({
-            encoding: 'utf-8'
-        }),
         new ExtractTextPlugin("./../css/styles.css"),
         new HtmlWebpackPlugin({
             template: './views/index.jade'
+        }),
+        new WebpackShellPlugin({
+            //onBuildStart: ['ts-node server']
         })
     ]
 }
