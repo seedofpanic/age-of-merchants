@@ -12,16 +12,14 @@
                div.ui.form
                   .field
                      select.language(ng-model='lang')
-                        option(value='en') English
-                        option(value='ru') Русский
+                        option(value='{{loc_key.id}}' ng-repeat='loc_key in locales') {{loc_key.name}}
                a.ui.inverted.button(ng-href='#auth') {{loc.site.signin}}
                a.ui.inverted.button(ng-href='#auth') {{loc.site.signup}}
             .right.item(ng-show='user.id')
                div.ui.form
                   .field
                      select.language(ng-model='lang')
-                        option(value='en') English
-                        option(value='ru') Русский
+                        option(value='{{loc_key.id}}' ng-repeat='loc_key in locales') {{loc_key.name}}
                span {{loc.site.welcome}} {{user.username}}
                a.ui.inverted.button(href='/logout') {{loc.site.signout}}
       .ui.text.container

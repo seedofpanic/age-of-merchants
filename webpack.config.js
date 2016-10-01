@@ -1,6 +1,7 @@
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackShellPlugin = require('webpack-shell-plugin');
+const EncodingPlugin = require('webpack-encoding-plugin');
 
 module.exports = {
     entry: './src/app.ts',
@@ -58,6 +59,9 @@ module.exports = {
         ]
     },
     plugins: [
+        new EncodingPlugin({
+            encoding: 'utf-8'
+        }),
         new ExtractTextPlugin("./../css/styles.css"),
         new HtmlWebpackPlugin({
             template: './views/index.jade'
