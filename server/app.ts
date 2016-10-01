@@ -16,7 +16,7 @@ var game = require('./lib/game');
 var auth = require('./lib/auth');
 
 // config
-var env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'development';
 var config = require('./config/app.json')[env];
 
 var logger;
