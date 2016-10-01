@@ -1,44 +1,30 @@
-module.exports = function (db, DataTypes) {
-    return db.define("soldiers", {
-        troop_id: {
-            type: DataTypes.BIGINT,
-            unsigned: true,
-            references: {
-                model: "troops",
-                key: "id"
-            }
-        },
-        product_type: {
-            type: DataTypes.INTEGER,
-            unsigned: true
-        },
-        count: {
-            type: DataTypes.BIGINT,
-            unsigned: true
-        },
-        quality: {
-            type: DataTypes.DECIMAL(10,2),
-            unsigned: true
-        }
-    }, {
-        classMethods: {
-            stats: {
-                6: {
-                    power: [1,3],
-                    life: 5
-                }
-            },
-            associate: function () {
-                this.belongsTo(db.models.troops, {foreignKey: 'troop_id'});
-            },
-            check: function (id, user_id) {
-                return this.find({where: {id: id}, include: {model: db.models.troops, required: true, include: {model: db.models.profiles, required: true, where: {user_id: user_id}}}});
-            }
-        },
-        instanceMethods: {
-            power: 0,
-            life: 0
-        }
-    });
+import * as mongoose from 'mongoose';
+import {Schema} from "./index";
+import {TroopSchema, Troop} from "./troops";
+import {ProfileSchema} from "./profiles";
 
+export interface Soldier extends mongoose.Document {
+    troop: Troop;
+    count: number;
+    quality: number;
+    power: number;
+    life: number;
+    check(id, user_id): Promise<boolean>
+}
+
+export const SoldierSchema = new Schema({
+    id: Schema.Types.ObjectId,
+    troop: TroopSchema,
+    count: Number,
+    quality: Number,
+    power: Number,
+    life: Number
+});
+
+SoldierSchema.methods = {
+    check(id, user_id) {
+        return this.find({id: id, troop: {profile: {user: {id: user_id}}}});
+    }
 };
+
+export const SoldierModel = mongoose.model('Soldier', SoldierSchema);

@@ -1,31 +1,23 @@
-module.exports = function (db, DataTypes) {
+import * as mongoose from 'mongoose';
+import {Schema} from "./index";
+import {UserSchema, User} from "./users";
+import {DialogSchema, Dialog} from "./dialogs";
 
-    return db.define('messages', {
-        'dialog_id': {
-            type: DataTypes.BIGINT,
-            references: {
-                model: "dialogs",
-                key: "id"
-            }
-        },
-        'user_id': {
-            type: DataTypes.BIGINT,
-            references: {
-                model: "users",
-                key: "id"
-            }
-        },
-        'msg': {
-            type: DataTypes.TEXT
-        }
-    }, {
-        classMethods: {
-            associate: function () {
-                this.belongsTo(db.models.dialogs, {foreignKey: 'dialog_id'});
-                this.belongsTo(db.models.users, {foreignKey: 'user_id'});
-                this.hasOne(db.models.messages_news, {foreignKey: 'message_id', as: 'new'});
-            }
-        }
-    });
+export interface Message extends mongoose.Document {
+    msg: string,
+    user: User,
+    dialog: Dialog,
+    read: {
+        [name: string]: boolean
+    },
+}
 
-};
+export const MessageSchema = new Schema({
+    id: Schema.Types.ObjectId,
+    msg: String,
+    user: UserSchema,
+    dialog: DialogSchema,
+    read: Schema.Types.Mixed
+});
+
+export const MessageModel = mongoose.model('Message', MessageSchema);

@@ -1,31 +1,24 @@
-module.exports = function (db, DataTypes) {
-    return db.define("troops_moves", {
-        field_id: {
-            type: DataTypes.BIGINT,
-            unsigned: true,
-            references: {
-                model: "fields",
-                key: "id"
-            }
-        },
-        troop_id: {
-            type: DataTypes.BIGINT,
-            unsigned: true,
-            references: {
-                model: "troops",
-                key: "id"
-            }
-        }
-    }, {
-        classMethods: {
-            associate: function () {
-                this.belongsTo(db.models.troops, {foreignKey: 'troop_id'});
-                this.belongsTo(db.models.fields, {foreignKey: 'field_id'});
-            },
-            check: function (id, user_id) {
-                return this.find({where: {id: id}, include: {model: db.models.troops, required: true, include: {model: db.models.profiles, required: true, where: {user_id: user_id}}}});
-            }
-        }
-    });
+import * as mongoose from 'mongoose';
+import {Schema} from "./index";
+import {TroopSchema, Troop} from "./troops";
+import {FieldSchema, Field} from "./fields";
 
-};
+export interface TroopMoves extends mongoose.Document {
+    field: Field;
+    troop: Troop;
+    check(id, user_id): boolean;
+}
+
+export const TroopMovesSchema = new Schema({
+    id: Schema.Types.ObjectId,
+    field: FieldSchema,
+    troop: TroopSchema
+});
+
+TroopMovesSchema.methods = {
+    check(id, user_id) {
+        return this.find({id: id, troop: {profile: {user: {id: user_id}}}});
+    }
+}
+
+export const TroopMovesModel = mongoose.model('TroopMoves', TroopMovesSchema);

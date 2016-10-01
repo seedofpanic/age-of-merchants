@@ -1,16 +1,24 @@
-module.exports = function (db, DataTypes) {
+import * as mongoose from 'mongoose';
+import {Schema} from "./index";
+import {User, UserSchema} from "./users";
 
-    return db.define('dialogs', {
-    }, {
-        classMethods: {
-            associate: function () {
-                //this.hasMany(db.models.users, {foreignKey: 'dialog_id'});
-                this.hasMany(db.models.messages, {foreignKey: 'dialog_id'});
-            },
-            check: function (id, user_id) {
-                return db.models.dialogs_users.find({where: {dialog_id: id, user_id: user_id}});
-            }
-        }
-    });
+export interface Dialog extends mongoose.Document {
+    users: User[];
+    read: {
+        [name: string]: boolean;
+    };
+}
 
-};
+export const DialogSchema = new Schema({
+    id: Schema.Types.ObjectId,
+    users: [UserSchema],
+    read: Schema.Types.Mixed
+});
+
+DialogSchema.methods = {
+    check: function (id, user_id) {
+        return this.find({id: id, users: {id: user_id}});
+    }
+}
+
+export const DialogModel = mongoose.model('Dialog', DialogSchema);

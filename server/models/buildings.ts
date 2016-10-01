@@ -1,27 +1,8 @@
-import {ProfileModel} from "./profiles";
-import {FieldModel} from "./fields";
-import {DataTypes} from "sequelize";
-import {Sequelize} from "sequelize";
+import * as mongoose from 'mongoose';
+import {Schema} from "./index";
+import {ProfileSchema, Profile} from "./profiles";
+import {FieldSchema, Field} from "./fields";
 
-export interface BuildingAttribute{
-    id?: number;
-    name: string;
-    profile?: ProfileModel;
-    field?: FieldModel;
-    buildtime: number;
-    status: number;
-    type: number;
-    workers_c?: number;
-    workers_q?: number;
-    worker_s?: number;
-    out_type: number;
-    mode: BUILDINGS_MODES;
-}
-
-export interface BuildingInstance extends Sequelize.Instance<BuildingAttribute>, BuildingAttribute {
-}
-
-export interface BuildingModel extends Sequelize.Model<BuildingInstance, BuildingAttribute> { }
 
 export enum BUILDINGS_MODES {
     GOLDMINE,
@@ -43,9 +24,15 @@ export enum BUILDINGS_TYPES {
     SCHOOL
 }
 
+export enum BUILDINGS_STATUSES {
+    CONSTRUCTING,
+    ACTIVE,
+    CANT_PAY
+}
+
 export const BUILDING_PARAMS: {
     [name: string]: any;
-};
+} = {};
 
 BUILDING_PARAMS[BUILDINGS_TYPES.SAWMILL] = {
     'build_time': 1,
@@ -141,115 +128,68 @@ BUILDING_PARAMS[BUILDINGS_TYPES.GOLD_MINE] = {//gold mine
     price: 300
 };
 
-module.exports = function (db: Sequelize, DataTypes: DataTypes) {
+export interface Building extends mongoose.Document {
+    name: string;
+    profile: Profile;
+    field: Field;
+    buildtime: number;
+    status: number;
+    type: number;
+    workers_c: number;
+    workers_q: number;
+    worker_s: number;
+    out_type: number;
+    mode: BUILDINGS_MODES;
+    statuses: BUILDINGS_STATUSES;
+    check(id: number, user_id: number): boolean;
+}
 
-    return db.define<BuildingInstance, BuildingAttribute>('buildings', {
-        name: DataTypes.STRING,
-        field_id: {
-            type: DataTypes.BIGINT,
-            references: {
-                model: "fields",
-                key: "id"
-            }
-        },
-        profile_id: {
-            type: DataTypes.BIGINT,
-            references: {
-                model: "profiles",
-                key: "id"
-            }
-        },
-        buildtime: DataTypes.INTEGER,
-        status: DataTypes.INTEGER,
-        type: DataTypes.INTEGER,
-        workers_c: DataTypes.INTEGER,
-        workers_q: DataTypes.DECIMAL(10,2),
-        worker_s: DataTypes.DECIMAL(10,2),
-        out_type: DataTypes.INTEGER,
-        mode: DataTypes.INTEGER
-    }, buildingParams());
+import {ProductModel, ProductTypes, PRODUCT_TYPES, Product} from "./products";
 
-    function buildingParams(): BuildingAttribute {
-        const self: any = this;
-        return {
-            classMethods: {
-                associate(): void {
-                    self.belongsTo(db.models.fields, {foreignKey: 'field_id'});
-                    self.belongsTo(db.models.profiles, {foreignKey: 'profile_id'});
-                },
-                new(name: string, type: number, out_type: number, region_id: number,
-                    field_x: number, field_y: number, profile: ProfileModel): Promise<BuildingModel> {
-                    const params = db.models.buildings.params[type];
-                    if (profile.gold < params.price) {
-                        return Promise.reject('not_enoth_gold');
-                    }
-                    return db.models.fields.find({where: {region_id: region_id, x: field_x, y: field_y}})
-                        .then(function (field: FieldModel): Promise<BuildingModel> {
-                            var new_building: BuildingModel = {
-                                profile: profile,
-                                type: type,
-                                name: name,
-                                field: field,
-                                buildtime: params.build_time,
-                                status: 0,
-                                out_type: out_type,
-                                mode: <BUILDINGS_MODES>params.resources_out[out_type].mode
-                            };
-                            return db.models.buildings.create(new_building).then(function (building: BuildingModel): Promise<BuildingModel> {
-                                profile.gold -= params.price;
-                                const promise: Promise<BuildingModel> =
-                                    new Promise<BuildingModel>((resolve) => {
-                                            profile.save().then((profile) => {
-                                                resolve(building);
-                                            })
-                                        }
-                                    );
-                                return promise;
-                            });
-                        });
-                },
-                check: function (id: number, user_id: number): Promise<BuildingModel> {
-                    return self.find({
-                        where: {id: id},
-                        include: {model: db.models.profiles, required: true, where: {user_id: user_id}}
-                    });
-                },
-                statuses: {
-                    CONSTRUCTING: 0,
-                    ACTIVE: 1,
-                    CANT_PAY: 2
-                },
-                is_army: {
-                    4: true
-                },
-                params: {}
-            },
-            instanceMethods: {
-                addProducts: function (product_type, count, quality) {
-                    var building = this;
-                    return db.models.products.find({
-                        where: {
-                            building_id: building.id,
-                            product_type: product_type
-                        }
-                    }).then(function (product) {
-                        if (product) {
-                            return product.add(count, quality);
-                        } else {
-                            const new_product = {
-                                building_id: building.id,
-                                product_type: product_type,
-                                is_army: db.models.buildings.is_army[product_type] || false
-                            };
-                            db.models.products.create(new_product).then(function (product) {
-                                return product.add(count, quality);
-                            });
-                            return Promise.resolve();
-                        }
-                    });
-                }
+export const BuildingSchema = new Schema({
+    id: Schema.Types.ObjectId,
+    name: String,
+    profile: ProfileSchema,
+    products: [ProfileSchema],
+    field: FieldSchema,
+    buildtime: Number,
+    status: Number,
+    type: Number,
+    workers_c: Number,
+    workers_q: Number,
+    worker_s: Number,
+    out_type: Number,
+    mode: String,
+    statuses: String
+});
+
+BuildingSchema.statics = {
+    addProducts: function (product_type, count, quality) {
+        var building = this;
+        return ProductModel.findOne({
+            building: {id: building.id},
+            product_type: product_type
+        }, function (product) {
+            if (product) {
+                return product.add(count, quality);
+            } else {
+                const new_product = {
+                    building: building,
+                    product_type: product_type,
+                    is_army: ProductTypes[PRODUCT_TYPES.MEAT].is_army
+                };
+                ProductModel.create(new_product).then(function (product: Product) {
+                    return product.add(count, quality).then(() => {});
+                });
+                return Promise.resolve();
             }
-        };
+        });
+    },
+}
+BuildingSchema.methods = {
+    check: function (id: number, user_id: number): Promise<boolean> {
+        return BuildingModel.findById(id).then();
     }
+}
 
-};
+export const BuildingModel = mongoose.model('Building', BuildingSchema);

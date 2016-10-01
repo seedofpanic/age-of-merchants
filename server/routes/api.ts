@@ -1,3 +1,4 @@
+import {BUILDING_PARAMS} from "../models/buildings";
 var express = require('express');
 var router = express.Router();
 var models = require('../models/index');
@@ -26,7 +27,7 @@ router.get('/user/profile', function (req, res, next) {
 });
 
 router.get('/buildings/types', function(req, res, next) {
-  res.send(models.buildings.params);
+  res.send(BUILDING_PARAMS);
 });
 
 router.get('/buildings', function(req, res, next) {

@@ -1,37 +1,33 @@
-module.exports = function (db, DataTypes) {
-    return db.define("troops", {
-        field_id: {
-            type: DataTypes.BIGINT,
-            unsigned: true,
-            references: {
-                model: "fields",
-                key: "id"
-            }
-        },
-        profile_id: {
-            type: DataTypes.BIGINT,
-            unsigned: true,
-            references: {
-                model: "profiles",
-                key: "id"
-            }
-        }
-    }, {
-        classMethods: {
-            associate: function () {
-                this.belongsTo(db.models.profiles, {foreignKey: 'profile_id'});
-                this.belongsTo(db.models.fields, {foreignKey: 'field_id'});
-                this.hasOne(db.models.troops_moves, {foreignKey: 'troop_id', as: 'move'});
-                this.hasMany(db.models.troops_attacks, {foreignKey: 'troop_id', as: 'attacks'});
-                this.hasMany(db.models.troops_attacks, {foreignKey: 'target_id', as: 'assaults'});
-            },
-            check: function (id, user_id) {
-                return this.find({where: {id: id}, include: {model: db.models.profiles, required: true, where: {user_id: user_id}}});
-            }
-        },
-        instanceMethods: {
-            dead: false
-        }
-    });
+import * as mongoose from 'mongoose';
+import {Schema} from "./index";
+import {TroopMovesSchema, TroopMoves} from "./troops_moves";
+import {TroopAttacksSchema, TroopAttacks} from "./troops_attacks";
+import {FieldSchema, Field} from "./fields";
+import {ProfileSchema, Profile} from "./profiles";
 
-};
+export interface Troop extends mongoose.Document {
+    field: Field;
+    profile: Profile;
+    move: TroopMoves;
+    attack: TroopAttacks[],
+    assault: TroopAttacks[],
+    dead: boolean,
+}
+
+export const TroopSchema = new Schema({
+    id: Schema.Types.ObjectId,
+    field: FieldSchema,
+    profile: ProfileSchema,
+    move: TroopMovesSchema,
+    attack: [TroopAttacksSchema],
+    assault: [TroopAttacksSchema],
+    dead: {type: Boolean, default: false}
+});
+
+TroopSchema.methods = {
+    check(id, user_id) {
+        return this.find({id: id, profile: {user: {id: user_id}}});
+    }
+}
+
+export const TroopModel = mongoose.model('Troop', TroopSchema);

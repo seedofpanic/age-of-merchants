@@ -1,29 +1,27 @@
-export interface ProfileModel {
-    id: number;
+import * as mongoose from 'mongoose';
+import {Schema} from "./index";
+import {User} from "./users";
+
+export interface Profile extends mongoose.Document {
+    user: 'User';
+    name: string;
     gold: number;
-    save: () => Promise<ProfileModel>;
+    check(id, user_id): boolean;
 }
 
-export default function (db, DataTypes) {
-    return db.define("profiles", {
-        user_id: {
-            type: DataTypes.BIGINT,
-            references: {
-                model: "users",
-                key: "id"
-            }
-        },
-        name: DataTypes.STRING,
-        gold: DataTypes.DECIMAL(10, 2)
-    }, {
-        classMethods: {
-            associate: function () {
-                this.belongsTo(db.models.users, {foreignKey: 'user_id'});
-            },
-            check: function (id, user_id) {
-                return this.find({where: {id: id, user_id: user_id}});
-            }
-        }
-    });
+import {UserSchema} from "./users";
 
-};
+export const ProfileSchema = new Schema({
+    id: Schema.Types.ObjectId,
+    user: UserSchema,
+    name: String,
+    gold: Number
+});
+
+ProfileSchema.methods = {
+    check(id, user_id) {
+        return this.find({where: {id: id, user_id: user_id}});
+    }
+}
+
+export const ProfileModel = mongoose.model('Profile', ProfileSchema);

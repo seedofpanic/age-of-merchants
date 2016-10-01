@@ -1,14 +1,17 @@
-export interface RegionModel {
-    id: number;
+import * as mongoose from 'mongoose';
+import {Schema} from "./index";
+
+export interface Region extends mongoose.Document {
+    name: string;
     x: number;
     y: number;
 }
 
-export default function (db, DataTypes) {
-    return db.define('regions', {
-        name: DataTypes.STRING,
-        x: DataTypes.INTEGER,
-        y: DataTypes.INTEGER
-    });
+export const RegionSchema = new Schema({
+    id: Schema.Types.ObjectId,
+    name: String,
+    x: Number,
+    y: Number
+});
 
-};
+export const RegionModel = mongoose.model('Region', RegionSchema);

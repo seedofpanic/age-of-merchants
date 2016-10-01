@@ -1,31 +1,23 @@
-module.exports = function (db, DataTypes) {
-    return db.define("troops_attacks", {
-        target_id: {
-            type: DataTypes.BIGINT,
-            unsigned: true,
-            references: {
-                model: "troops",
-                key: "id"
-            }
-        },
-        troop_id: {
-            type: DataTypes.BIGINT,
-            unsigned: true,
-            references: {
-                model: "troops",
-                key: "id"
-            }
-        }
-    }, {
-        classMethods: {
-            associate: function () {
-                this.belongsTo(db.models.troops, {foreignKey: 'troop_id'});
-                this.belongsTo(db.models.troops, {foreignKey: 'target_id', as: 'target'});
-            },
-            check: function (id, user_id) {
-                return this.find({where: {id: id}, include: {model: db.models.troops, required: true, include: {model: db.models.profiles, required: true, where: {user_id: user_id}}}});
-            }
-        }
-    });
+import * as mongoose from 'mongoose';
+import {Schema} from "./index";
+import {TroopSchema, Troop} from "./troops";
 
-};
+export interface TroopAttacks extends mongoose.Document {
+    target: Troop;
+    troop: Troop;
+    check(id, user_id): boolean;
+}
+
+export const TroopAttacksSchema = new Schema({
+    id: Schema.Types.ObjectId,
+    target: TroopSchema,
+    troop: TroopSchema
+});
+
+TroopAttacksSchema.methods = {
+    check(id, user_id) {
+        return this.find({id: id, troop: {profile: {user: {id: user_id}}}});
+    }
+}
+
+export const TroopAttacksModel = mongoose.model('TroopAttacks', TroopAttacksSchema);

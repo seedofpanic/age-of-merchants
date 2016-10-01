@@ -1,33 +1,22 @@
-import {RegionModel} from "./regions";
+import * as mongoose from 'mongoose';
+import {Schema} from "./index";
+import {RegionSchema, Region} from "./regions";
 
-export interface FieldModel {
-    id: number;
-    region: RegionModel;
+export interface Field extends mongoose.Document {
+    region: Region;
     x: number;
     y: number;
     avg_salary: number;
 }
 
-export default function (db, DataTypes) {
+export const FieldSchema = new Schema({
+    id: Schema.Types.ObjectId,
+    region: RegionSchema,
+    x: Number,
+    y: Number,
+    avg_salary: Number,
+    methods: {
+    }
+});
 
-    return db.define('fields', {
-        region_id: {
-            type: DataTypes.BIGINT,
-            references: {
-                model: "regions",
-                key: "id"
-            }
-        },
-        x: DataTypes.INTEGER,
-        y: DataTypes.INTEGER,
-        avg_salary: DataTypes.DECIMAL
-    }, {
-        classMethods: {
-            associate: function () {
-                this.belongsTo(db.models.regions, {foreignKey: 'region_id'});
-                this.hasOne(db.models.fields_resources, {foreignKey: 'field_id', as: 'res'});
-            }
-        }
-    });
-
-};
+export const FieldModel = mongoose.model('Field', FieldSchema);
