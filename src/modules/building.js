@@ -1,7 +1,9 @@
+import * as _ from 'lodash';
+
 const buildingTabsTemplates = {
-  army: require('./../../jade/office/building/army.jade'),
-  products: require('./../../jade/office/building/products.jade'),
-  shop: require('./../../jade/office/building/shop.jade')
+  army: require('./../../jade/office/building/army.jade')(),
+  products: require('./../../jade/office/building/products.jade')(),
+  shop: require('./../../jade/office/building/shop.jade')()
 };
 
 angular.module('Building', [])
@@ -26,8 +28,7 @@ function SoldiersCtrl($http, $route) {
   update();
   that.formTroop = function () {
     var troop = [];
-    $.each(that.soldiers, function () {
-      var soldier = this;
+    _.each(that.soldiers, function (soldier) {
       if (soldier.recruit > 0) {
         troop.push(soldier);
       }

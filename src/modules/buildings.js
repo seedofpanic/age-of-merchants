@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 angular.module('Buildings', ['Tools', 'DB', 'Building'])
   .factory('BuildingTypes', BuildingTypes)
   .controller('NewBuildingCtrl', NewBuildingCtrl)
@@ -15,8 +17,8 @@ BuildingTypes.$inject = ['$http'];
 function BuildingTypes($http) {
   var types = {};
   $http.get('api/buildings/types').then(function (res) {
-    $.each(res.data, function (key) {
-      types[key] = this;
+    _.each(res.data, function (type, key) {
+      types[key] = type;
     });
   });
   return types;
