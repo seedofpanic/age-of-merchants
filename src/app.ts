@@ -10,8 +10,12 @@ require('./../css/semantic.min.css');
 require('./../css/style.css');
 
 require('angular');
+require('angular-animate');
 require('angular-route');
 require('angular-cookies');
+
+// components
+import modals from './components/modals/component.ts';
 
 import './modules/auth.ts';
 import './modules/building.ts';
@@ -66,6 +70,8 @@ function config($routeProvider) {
   });
 }
 
-angular.module('App', ['ngRoute', 'Auth', 'Office', 'Tools', 'Buildings', 'ngCookies', 'Map', 'Users', 'User'])
+angular.module('App', [
+    modals.name,
+    'ngRoute', 'Auth', 'Office', 'Tools', 'Buildings', 'ngCookies', 'Map', 'Users', 'User', 'ngAnimate'])
     .run(_run)
     .config(config);

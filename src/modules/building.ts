@@ -46,9 +46,9 @@ function SoldiersCtrl($http, $route) {
   };
 }
 
-ProductCtrl.$inject = ['$http', '$route', 'Modals', '$scope', 'ExportData'];
+ProductCtrl.$inject = ['$http', '$route', 'ModalsService', '$scope', 'ExportData'];
 
-function ProductCtrl($http, $route, Modals, $scope, ExportData) {
+function ProductCtrl($http, $route, ModalsService, $scope, ExportData) {
   var that = this;
   $scope.exportData = ExportData;
   var building_id = $route.current.params.building_id;
@@ -62,11 +62,11 @@ function ProductCtrl($http, $route, Modals, $scope, ExportData) {
       that.loading = false;
     });
   that.openImport = function () {
-    Modals.show('import', $scope);
+    ModalsService.show('import', $scope);
   };
   that.export = function (product) {
     if (product.export) {
-      Modals.show('stop_export', $scope, function () {
+      ModalsService.show('stop_export', $scope, function () {
         $http.post('api/product/stop_export', product).then(function (res) {
           angular.copy(res.data, product);
         });
@@ -75,7 +75,7 @@ function ProductCtrl($http, $route, Modals, $scope, ExportData) {
       angular.copy(product, ExportData.product);
       ExportData.product.export = 1;
       ExportData.product.export_count = 100;
-      Modals.show('start_export', $scope, function () {
+      ModalsService.show('start_export', $scope, function () {
         $http.post('api/product/start_export', ExportData.product).then(function (res) {
           angular.copy(res.data, product);
         });

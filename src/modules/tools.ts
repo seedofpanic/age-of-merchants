@@ -2,7 +2,6 @@ const modalsTemplates = {
   'field_buildings': require('./../../jade/modals/field_buildings.jade')(),
   'import': require('./../../jade/modals/import.jade')(),
   'move_troop': require('./../../jade/modals/move_troop.jade')(),
-  'new_building': require('./../../jade/modals/new_building.jade')(),
   'new_dialog': require('./../../jade/modals/new_dialog.jade')(),
   'order_product': require('./../../jade/modals/order_product.jade')(),
   'start_export': require('./../../jade/modals/start_export.jade')(),
@@ -17,7 +16,6 @@ angular.module('Tools', ['ngRoute', 'DropdownModule'])
   .run(run)
   .directive('tabs', tabs)
   .directive('language', language)
-  .factory('Modals', Modals)
   .directive('paging', paging);
 
 Loc.$inject = ['$rootScope', '$http', '$cookies'];
@@ -88,30 +86,6 @@ function language(Loc) {
       ngModel.$viewChangeListeners.push(function () {
         Loc.set(ngModel.$viewValue);
       })
-    }
-  }
-}
-
-Modals.$inject = ['$http', '$compile'];
-
-function Modals($http, $compile) {
-  var modals = {};
-  return {
-    show: function (id, scope, onApprove, onHidden) {
-      if (modals[id]) {
-        modals[id].remove();
-      }
-      modals[id] = modalsTemplates[id];
-      modals[id].modal({
-        onApprove: onApprove,
-        onHidden: onHidden,
-        selector: {
-          close: '.close',
-          approve: '.approve'
-        },
-        allowMultiple: true
-      }).modal('show');
-      $compile(modals[id])(scope).appendTo('body');
     }
   }
 }
