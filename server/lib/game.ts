@@ -1,6 +1,6 @@
 var models = require('./../models');
 var schedule = require('node-schedule');
-var buildingsUpdate = require('./game/buildings');
+import buildingsUpdate from './game/buildings';
 var contractsUpdate = require('./game/contracts');
 var troopsUpdate = require('./game/troops');
 var env = process.env.NODE_ENV || 'development';

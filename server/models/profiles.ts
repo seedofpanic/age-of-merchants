@@ -6,22 +6,25 @@ export interface Profile extends mongoose.Document {
     user: 'User';
     name: string;
     gold: number;
-    check(id, user_id): boolean;
+    buildings: Building[];
+    check(id, user_id): Promise<Profile>;
 }
 
 import {UserSchema} from "./users";
+import {BuildingSchema, Building} from "./buildings";
 
 export const ProfileSchema = new Schema({
-    id: Schema.Types.ObjectId,
+    id: {type: Schema.Types.ObjectId, required: false},
     user: UserSchema,
     name: String,
-    gold: Number
+    gold: Number,
+    buildings: [{type: Schema.Types.ObjectId, ref: 'BuildingSchema'}]
 });
 
-ProfileSchema.methods = {
+ProfileSchema.statics = {
     check(id, user_id) {
-        return this.find({where: {id: id, user_id: user_id}});
+        return this.findOne({_id: id, 'user._id': user_id}).exec();
     }
-}
+};
 
 export const ProfileModel = mongoose.model('Profile', ProfileSchema);

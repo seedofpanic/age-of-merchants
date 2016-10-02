@@ -53,7 +53,7 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
-                loader: 'awesome-typescript-loader?tsconfig=tsconfig-f.json'
+                loader: 'babel-loader!awesome-typescript-loader?tsconfig=tsconfig-f.json'
             }
         ]
     },

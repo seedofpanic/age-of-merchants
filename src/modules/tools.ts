@@ -27,6 +27,10 @@ function Loc($rootScope, $http, $cookies) {
     set: function (lang) {
       $http.get('/locales/' + lang)
         .then(function (res) {
+          $rootScope.locales = [
+            {id: 'en', name: 'English'},
+            {id: 'ru', name: 'Русский'}
+          ];
           $rootScope.lang = lang;
           $rootScope.loc = res.data;
           $cookies.put('lang', lang);

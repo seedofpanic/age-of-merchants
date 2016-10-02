@@ -1,9 +1,10 @@
+import {BUILDINGS_STATUSES, BUILDING_PARAMS} from "../../models/buildings";
+
 var sequelize = require('sequelize');
 var models = require('./../../models');
 
 var products = null;
 var final_cb = function () {};
-var building_props;
 
 function final() {
     setTimeout(final_cb, 0);
@@ -11,7 +12,6 @@ function final() {
 
 export default function buildingsUpdate(cb) {
     final_cb = cb;
-    building_props = models.buildings.params;
     models.buildings.findAll({include: [{model: models.fields}, {model: models.profiles}]})
         .then(buildingsWrapper);
 }
@@ -52,13 +52,13 @@ function buildingsIter() {
             break;
         case 1:
         case 2:
-            if (building_props[building.type].upkeep > 0) {
+            if (BUILDING_PARAMS[building.type].upkeep > 0) {
                 building.getProfile().then(function (profile){
-                    if (profile.gold < building_props[building.type].upkeep) {
+                    if (profile.gold < BUILDING_PARAMS[building.type].upkeep) {
                         buildingsIter();
                         return;
                     } else {
-                        profile.gold -= building_props[building.type].upkeep;
+                        profile.gold -= BUILDING_PARAMS[building.type].upkeep;
                         profile.save().then(function () {
                             updateBuildingModeWrap();
                         });
@@ -86,7 +86,7 @@ var workers_q_mod;
 var workers_c_mod;
 
 function updateBuildingMode() {
-    var out = building_props[building.type]['resources_out'][building.out_type || 0];
+    var out = BUILDING_PARAMS[building.type]['resources_out'][building.out_type || 0];
     if (!out) {
         setTimeout(buildingsIter, 0);
         return;
@@ -96,7 +96,7 @@ function updateBuildingMode() {
     building.workers_q = building.workers_q || 0;
     var to_pay = building.worker_s * building.workers_c;
     if (building.profile.gold < to_pay) {
-        building.status = models.buildings.statuses.CANT_PAY;
+        building.status = BUILDINGS_STATUSES.CANT_PAY;
         building.save().then(function () {
             setTimeout(buildingsIter, 0);
         });
@@ -108,7 +108,7 @@ function updateBuildingMode() {
 
         var salary_mod = building.worker_s / building.field.avg_salary;
         workers_q_mod = building.workers_q * salary_mod;
-        workers_c_mod = building.workers_c / building_props[building.type].max_workers;
+        workers_c_mod = building.workers_c / BUILDING_PARAMS[building.type].max_workers;
 
         var count = 0;
         var out_count = workers_c_mod * out.count;

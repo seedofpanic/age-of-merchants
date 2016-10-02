@@ -30,7 +30,7 @@ export interface Product extends mongoose.Document {
     is_army: boolean;
     add(count, quality): Promise<Product>;
     take(count): Promise<Product>;
-    check(id, user_id): Promise<boolean>;
+    check(id, user_id): Promise<Product>;
 }
 
 export const ProductSchema = new Schema({

@@ -25,7 +25,7 @@ import './modules/user.ts';
 import './modules/users.ts';
 
 class _run {
-  public $inject = ['$location', '$rootScope', '$http'];
+  static $inject = ['$location', '$rootScope', '$http'];
   constructor($location, $rootScope, $http) {
     $http.get('/api/user').then((res) => $rootScope.user = res.data);
     $rootScope.$on('$routeChangeStart', function (next, current) {

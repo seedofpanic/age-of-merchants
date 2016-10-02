@@ -1,3 +1,4 @@
+import {UserModel, User} from "../models/users";
 var express = require('express');
 var router = express.Router();
 var models = require('../models/index');
@@ -9,12 +10,19 @@ router.post('/', function(req, res, next) {
     username: jsesc(req.body.reg_username),
     password: ''
   };
-  models.users.find({where: {$or: [{email: new_user.email}, {username: new_user.username}]}}).then(function (user) {
-    models.users.create(new_user).then(function (user) {
+  console.log('will search');
+  UserModel.find({$or: [{email: new_user.email}, {username: new_user.username}]}).then(function (users) {
+    if (users.length) {
+      return res.send({result: false});
+    }
+    UserModel.create(new_user).then(function (user: User) {
       user.setPassword(req.body.reg_password);
       res.redirect('/');
     });
-  });
+  })
+      .catch(function (err) {
+        console.log(err);
+      });
 });
 
 module.exports = router;

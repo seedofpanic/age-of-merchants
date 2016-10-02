@@ -1,6 +1,7 @@
 doctype html
 html
   head
+    meta(charset="utf-8")
     title= title
     link(rel='stylesheet', href='/css/styles.css')
   body.pushable(ng-app='App')
@@ -17,9 +18,9 @@ html
 
     .ui.vertical.inverted.sidebar.menu.left
       a.item(ng-href='#') {{loc.site.home}}
-      a.item(ng-href='#map' ng-show='user.id>0') {{loc.site.world}}
-      a.item(ng-href='#office' ng-show='user.id>0') {{loc.site.office}}
-      a.item(ng-href='#profile' ng-show='user.id>0') {{loc.site.profile}}
-      a.item(ng-href='#auth' ng-hide='user.id > 0') {{loc.site.signin}}
-      a.item(ng-href='#auth' ng-hide='user.id > 0') {{loc.site.signup}}
+      a.item(ng-href='#map' ng-show='user.id') {{loc.site.world}}
+      a.item(ng-href='#office' ng-show='user.id') {{loc.site.office}}
+      a.item(ng-href='#profile' ng-show='user.id') {{loc.site.profile}}
+      a.item(ng-href='#auth' ng-hide='user.id') {{loc.site.signin}}
+      a.item(ng-href='#auth' ng-hide='user.id') {{loc.site.signup}}
   div.view(ng-view)
