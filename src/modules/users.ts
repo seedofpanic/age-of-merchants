@@ -7,15 +7,15 @@ function SendTo() {
   return {user: null};
 }
 
-UsersCtrl.$inject = ['$http', '$scope', 'Modals', 'SendTo'];
+UsersCtrl.$inject = ['$http', '$scope', 'ModalsService', 'SendTo'];
 
-function UsersCtrl($http, $scope, Modals, SendTo) {
+function UsersCtrl($http, $scope, ModalsService, SendTo) {
   var that = this;
   $scope.pages = 0;
 
   that.showNewDialog = function (user) {
     SendTo.user = user;
-    Modals.show('new_dialog', $scope);
+    ModalsService.show('new_dialog', $scope);
   };
 
   const get = function (page, old_page?) {

@@ -1,5 +1,7 @@
 import * as _ from 'lodash';
 
+const newBuildingTemplate = require('./../../jade/modals/new_building.jade');
+
 angular.module('Buildings', ['Tools', 'DB', 'Building'])
   .factory('BuildingTypes', BuildingTypes)
   .controller('NewBuildingCtrl', NewBuildingCtrl)
@@ -75,9 +77,9 @@ function SelectedBuilding() {
 }
 
 BuildingsCtrl.$inject = ['$scope', '$http', '$compile', '$route',
-    'Modals', 'Regions', 'ProfileBuildings', 'SelectedBuilding'];
+    'ModalsService', 'Regions', 'ProfileBuildings', 'SelectedBuilding'];
 
-function BuildingsCtrl($scope, $http, $compile, $route, Modals, Regions, ProfileBuildings, SelectedBuilding) {
+function BuildingsCtrl($scope, $http, $compile, $route, ModalsService, Regions, ProfileBuildings, SelectedBuilding) {
   var that = this;
   that.regions = Regions;
   that.selected = SelectedBuilding;
@@ -102,7 +104,7 @@ function BuildingsCtrl($scope, $http, $compile, $route, Modals, Regions, Profile
     $route.updateParams({'building_id': undefined, building_tab: undefined})
   };
   that.openNewBuilding = function () {
-    Modals.show('new_building', $scope);
+    ModalsService.show(newBuildingTemplate());
   };
 }
 
@@ -154,9 +156,9 @@ function ExportData() {
   return {product: {}};
 }
 
-ImportCtrl.$inject = ['$http', 'Modals', '$scope', 'OrderData', '$route'];
+ImportCtrl.$inject = ['$http', 'ModalsService', '$scope', 'OrderData', '$route'];
 
-function ImportCtrl($http, Modals, $scope, OrderData, $route) {
+function ImportCtrl($http, ModalsService, $scope, OrderData, $route) {
   var that = this;
   that.products = [];
   that.get = function (prop) {
@@ -169,7 +171,7 @@ function ImportCtrl($http, Modals, $scope, OrderData, $route) {
   that.get('');
   that.order = function (product) {
     angular.copy(product, OrderData.product);
-    Modals.show('order_product', $scope, function () {
+    ModalsService.show('order_product', $scope, function () {
       OrderData.building_id = $route.current.params.building_id;
       $http.post('api/contracts/new', OrderData);
     });

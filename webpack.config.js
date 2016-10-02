@@ -34,9 +34,14 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 loader: 'babel-loader'
-            }, {
+            },
+            {
                 test: /\.jade$/,
                 loader: 'jade-loader?name=./../partials'
+            },
+            {
+                test: /\.html$/,
+                loader: 'text-loader'
             },
             {
                 test: /\.less$/,

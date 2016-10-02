@@ -7,9 +7,9 @@ function SelectedField() {
   return {f: null};
 }
 
-MapCtrl.$inject = ['$http', '$scope', 'Regions', 'Modals', 'SelectedField'];
+MapCtrl.$inject = ['$http', '$scope', 'Regions', 'ModalsService', 'SelectedField'];
 
-function MapCtrl($http, $scope, Regions, Modals, SelectedField) {
+function MapCtrl($http, $scope, Regions, ModalsService, SelectedField) {
   var that = this;
   that.regions = Regions;
   that.sub_type = -1;
@@ -135,7 +135,7 @@ function MapCtrl($http, $scope, Regions, Modals, SelectedField) {
   that.openFieldBuildings = function (field) {
     SelectedField.f = field;
     SelectedField.f.filter_mode = that.build_type;
-    Modals.show('field_buildings', $scope, null, function () {
+    ModalsService.show('field_buildings', $scope, null, function () {
       $('body').addClass('scrolling');
     });
   };

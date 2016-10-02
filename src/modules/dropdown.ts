@@ -65,11 +65,11 @@ function dropdown() {
     };
 
     if (attrs.action == 'show') {
-      element.click(function () {
+      element.bind('click', function () {
         scope.show()
       });
     } else {
-      element.click(function () {
+      element.bind('click', function () {
         scope.toggle();
       });
     }

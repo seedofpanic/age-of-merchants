@@ -56,9 +56,9 @@ function NeighborTroop() {
   return {troop: {}};
 }
 
-TroopsCtrl.$inject = ['$http', '$route', 'Regions', '$scope', 'OrderTroop', 'Modals', 'NeighborTroop'];
+TroopsCtrl.$inject = ['$http', '$route', 'Regions', '$scope', 'OrderTroop', 'ModalsService', 'NeighborTroop'];
 
-function TroopsCtrl($http, $route, Regions, $scope, OrderTroop, Modals, NeighborTroop) {
+function TroopsCtrl($http, $route, Regions, $scope, OrderTroop, ModalsService, NeighborTroop) {
   var that = this;
   that.regions = Regions;
   that.profile_id = $route.current.params.profile_id;
@@ -77,7 +77,7 @@ function TroopsCtrl($http, $route, Regions, $scope, OrderTroop, Modals, Neighbor
     OrderTroop.troop.move = {};
     OrderTroop.troop.move.field = {};
     angular.copy(troop.field, OrderTroop.troop.move.field);
-    Modals.show('move_troop', $scope, function () {
+    ModalsService.show('move_troop', $scope, function () {
       $http.post('api/troop/move', OrderTroop.troop)
           .then(function (res) {
             troop.move = res.data
@@ -86,7 +86,7 @@ function TroopsCtrl($http, $route, Regions, $scope, OrderTroop, Modals, Neighbor
   };
   that.showNeighbors = function (troop) {
     NeighborTroop.troop = troop;
-    Modals.show('troops_neighbors', $scope, function () {
+    ModalsService.show('troops_neighbors', $scope, function () {
     });
   };
 }
