@@ -1,5 +1,5 @@
 .ui.modal.small.active(ng-controller='NewBuildingCtrl as nbc')
-   i.close.icon
+   i.close.icon(ng-click="$ctrl.onClose()")
    .header {{loc.office.new_b_modal_title}}
    .content
       form.ui.form(name='NewBuildingForm')

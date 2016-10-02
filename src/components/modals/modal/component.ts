@@ -7,7 +7,8 @@ const modalsComponent = {
     controller: ModalController,
     template: template,
     bindings: {
-        template: '<'
+        template: '<',
+        onClose: '&'
     }
 };
 

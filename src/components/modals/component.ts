@@ -8,7 +8,8 @@ const template = require('./template.html');
 const modalsComponent = {
     controller: ModalsController,
     template: template,
-    bindings: {}
+    bindings: {
+    }
 };
 
 export default angular.module('ModalsModule', [

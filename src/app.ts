@@ -10,6 +10,7 @@ require('./../css/semantic.min.css');
 require('./../css/style.css');
 
 require('angular');
+require('angular-animate');
 require('angular-route');
 require('angular-cookies');
 
@@ -71,6 +72,6 @@ function config($routeProvider) {
 
 angular.module('App', [
     modals.name,
-    'ngRoute', 'Auth', 'Office', 'Tools', 'Buildings', 'ngCookies', 'Map', 'Users', 'User'])
+    'ngRoute', 'Auth', 'Office', 'Tools', 'Buildings', 'ngCookies', 'Map', 'Users', 'User', 'ngAnimate'])
     .run(_run)
     .config(config);

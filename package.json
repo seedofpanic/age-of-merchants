@@ -9,6 +9,7 @@
   "dependencies": {
     "@types/lodash": "^4.14.36",
     "angular": "^1.5.8",
+    "angular-animate": "^1.5.8",
     "angular-cookies": "^1.5.8",
     "angular-route": "^1.5.8",
     "awesome-typescript-loader": "^2.2.4",
