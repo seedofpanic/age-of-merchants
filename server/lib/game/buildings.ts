@@ -1,6 +1,6 @@
 import {BUILDINGS_STATUSES, BUILDING_PARAMS} from "../../models/buildings";
 
-var sequelize = require('sequelize');
+var sequelize = null;
 var models = require('./../../models');
 
 var products = null;

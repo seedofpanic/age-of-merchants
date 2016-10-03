@@ -6,7 +6,7 @@ import {ProductModel} from "../models/products";
 var express = require('express');
 var router = express.Router();
 var models = require('../models/index');
-var sequelize = require('sequelize');
+var sequelize = null;
 var jsesc = require('escape-html');
 
 router.get('/profile', function(req, res, next) {
