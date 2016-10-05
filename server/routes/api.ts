@@ -1,13 +1,19 @@
-import {BUILDING_PARAMS, BuildingModel} from "../models/buildings";
+import {BUILDING_PARAMS, BuildingModel, Building} from "../models/buildings";
 import {UserModel} from "../models/users";
 import {Profile, ProfileModel} from "../models/profiles";
 import {RegionModel} from "../models/regions";
-import {ProductModel} from "../models/products";
-var express = require('express');
-var router = express.Router();
-var models = require('../models/index');
-var sequelize = require('sequelize');
-var jsesc = require('escape-html');
+import {ProductModel, Product} from "../models/products";
+import {TroopModel, Troop} from "../models/troops";
+import {Field, FieldModel} from "../models/fields";
+import {TroopMoveModel, TroopMove} from "../models/troops_moves";
+import {ContractModel} from "../models/contracts";
+import {SoldierModel} from "../models/soldiers";
+import {TroopAttackModel} from "../models/troops_attacks";
+import {MessageModel, Message} from "../models/messages";
+import {DialogModel} from "../models/dialogs";
+const express = require('express');
+const router = express.Router();
+const jsesc = require('escape-html');
 
 router.get('/profile', function(req, res, next) {
   if (!req.user) {
@@ -28,7 +34,7 @@ router.get('/user', function (req, res, next) {
 });
 
 router.get('/user/profile', function (req, res, next) {
-  UserModel.find({id: req.user.id}, '_id username email createdAt').exec().then((profiles: Profile[]) => {
+  ProfileModel.find({'user._id': req.user.id}, '_id username email createdAt').exec().then((profiles: Profile[]) => {
     res.send(profiles);
   })
 });
@@ -46,11 +52,10 @@ router.get('/buildings', function(req, res, next) {
 });
 
 router.get('/users', function(req, res, next) {
-  var limit = 10;
-  var page = parseInt(req.query.page);
-  var offset = ((page > -1) ? page : 0) * limit;
+  const limit = 10;
+  const page = parseInt(req.query.page);
+  const offset = ((page > -1) ? page : 0) * limit;
   UserModel.count({}).then(function (result: number){
-    console.log(result);
     UserModel.find({}, {id: true, username: true}, {offset: offset, limit: limit}).then(function (users){
       const data = {
         page: page,
@@ -63,18 +68,17 @@ router.get('/users', function(req, res, next) {
 });
 
 router.get('/troops', function(req, res, next) {
-  models.profiles.find({where: {id: parseInt(req.query.profile_id)}}).then(function (profile) {
+  ProfileModel.findOne({'_id': req.query.profile_id}).then(function (profile: Profile) {
     if (!profile) {
       res.status(500).send();
       return;
     }
-    check(models.profiles, profile.id, parseInt(req.user.id), res)
+    check(ProfileModel, profile._id, req.user._id, res)
       .then(function () {
-        return models.troops.findAll({
-          attributes: ['id', ['(SELECT count(*) FROM `troops` as t WHERE t.`field_id`=`troops`.`field_id` and t.id != `troops`.`id`)', 'neighbors']],
-          where: {profile_id: profile.id},
-          include: [models.fields, {model: models.troops_moves, as: 'move', include: [models.fields]}]
-        }).then(function (troops) {
+        // attributes: ['id', ['(SELECT count(*) FROM `troops` as t WHERE t.`field_id`=`troops`.`field_id` and t.id != `troops`.`id`)', 'neighbors']],
+        return TroopModel.find({
+          'profile._id': profile._id
+        }).populate({path: 'field', populate: {path: 'troop_moves'}}).exec().then(function (troops) {
           res.send(troops);
         })
       });
@@ -82,53 +86,37 @@ router.get('/troops', function(req, res, next) {
 });
 
 router.get('/troops/field', function(req, res, next) {
-  var troop_id = parseInt(req.query.troop_id);
-  var field_id = parseInt(req.query.field_id);
-  check(models.troops, troop_id, parseInt(req.user.id), res)
+  const troop_id: string = req.query.troop_id;
+  const field_id: string = req.query.field_id;
+  check(TroopModel, troop_id, req.user._id, res)
     .then(function (troop) {
-      models.troops.findAll({
-        where: {field_id: troop.field_id, $not: {id: troop.id}}, include: [{model: models.profiles}]
-      }).then(function (troops) {
-        var data = [];
-        var pendings = troops.length;
-        troops.forEach(function (troop) {
-          var row_troop = troop.get();
-          troop.getAssaults().then(function (assaults) {
-            row_troop.assaults = assaults;
-            data.push(row_troop);
-            pendings--;
-            if (pendings == 0) {
-              res.send(data);
-            }
-          });
-        });
+      TroopModel.find({
+        'field._id': troop.field_id, $not: {id: troop._id}
+      }).populate('assault').populate('profile').exec().then((troops: Troop[]) => {
+        res.send(troops);
       })
     });
 });
 
 router.post('/troop/move', function(req, res, next) {
-  var troop_id = parseInt(req.body.id);
-  check(models.troops, troop_id, parseInt(req.user.id), res)
+  check(TroopModel, req.body.id, req.user.id, res)
     .then(function (troop) {
-      models.fields.find({where: {region_id: troop.move.field.region_id, x: troop.move.field.x, y: troop.move.field.y}})
-      .then(function (field) {
-        var new_move = {
-          troop_id: troop.id,
-          field_id: field.id
+      FieldModel.findOne({'region._id': troop.move.field.region._id, x: troop.move.field.x, y: troop.move.field.y}).exec()
+      .then(function (field: Field) {
+        const new_move = {
+          troop_id: troop._id,
+          field_id: field._id
         };
-        models.troops_moves.create(new_move).then(function (move) {
-          var data = move.get();
-          data.field = field.get();
-          res.send(data);
+        TroopMoveModel.create(new_move).then(function (move: TroopMove) {
+          res.send(troop.move.field);
         });
       })
   });
 });
 router.post('/troop/stop', function(req, res, next) {
-  var troop_id = parseInt(req.body.troop_id);
-  check(models.troops, troop_id, parseInt(req.user.id), res)
+  check(TroopModel, req.body.troop_id, req.user.id, res)
     .then(function (troop) {
-      models.troops_moves.destroy({where: {troop_id: troop.id}}).then(function () {
+      TroopMoveModel.remove({'troop._id': troop._id}).then(function () {
         res.send({})
       });
     });
@@ -145,18 +133,18 @@ function checkFieldCoord(coord) {
 }
 
 router.post('/buildings/new', function(req, res, next){
-  var x = parseInt(req.body.x);
-  var y = parseInt(req.body.y);
-  var type = parseInt(req.body.type);
-  var out_type = parseInt(req.body.out_type);
-  var out_props = models.buildings.params[type].resources_out[out_type];
+  const x = parseInt(req.body.x);
+  const y = parseInt(req.body.y);
+  const type = parseInt(req.body.type);
+  const out_type = parseInt(req.body.out_type);
+  const out_props = BUILDING_PARAMS[type].resources_out[out_type];
   if (!out_props) {
     res.status(500).send();
     return;
   }
-  check(models.profiles, parseInt(req.body.profile_id), parseInt(req.user.id), res)
-    .then(function (profile) {
-      var new_building = {
+  check(ProfileModel, req.body.profile_id, req.user.id, res)
+    .then(function (profile: Profile) {
+      const new_building = {
         profile: profile,
         region_id: parseInt(req.body.region),
         x: checkFieldCoord(x),
@@ -166,18 +154,13 @@ router.post('/buildings/new', function(req, res, next){
         out_type: out_type,
         mode: out_props.mode
       };
-      models.buildings.new(new_building)
-        .then(function (err, building) {
-          if (err) {
-            res.status(500).send(err);
-            return;
-          }
-          building.getField().then(function (field) {
-            var data = building.get();
-            data.field = field.get();
-            res.send(data);
+      BuildingModel.create(new_building)
+        .then((building) => {
+          BuildingModel.populate(building, {path: 'field'}).then(function (building) {
+            res.send(building);
           });
-        });
+        })
+          .catch((err) => res.status(500).send(err));
     });
 });
 
@@ -188,7 +171,7 @@ router.get('/profiles', function(req, res, next){
 });
 
 router.post('/profile/new', function(req, res, next){
-  var new_profile = {
+  const new_profile = {
     user: req.user,
     name: jsesc(req.body.name),
     gold: 1000
@@ -211,8 +194,7 @@ router.get('/regions', function(req, res, next){
 });
 
 router.get('/products/humans', function(req, res, next){
-  var building_id = parseInt(req.query.building_id);
-  check(BuildingModel, building_id, parseInt(req.user.id), res)
+  check(BuildingModel, req.query.building_id, req.user.id, res)
     .then(function () {
       ProductModel.find({
         'building._id': req.query.building_id, product_type: 3
@@ -223,44 +205,45 @@ router.get('/products/humans', function(req, res, next){
 });
 
 router.get('/products', function(req, res, next){
-  var building_id = parseInt(req.query.building_id);
-  check(models.buildings, building_id, parseInt(req.user.id), res)
+  check(BuildingModel, req.query.building_id, req.user.id, res)
     .then(function () {
-      models.products.findAll({where: {building_id: building_id}}).then(function (products) {
+      ProductModel.find({'building._id': req.query.building_id}).then(function (products) {
         res.send(products);
       });
     });
 });
 
 router.get('/products/import', function(req, res, next){
-  models.products.findAll({where: {'export': true}}).then(function (products) {
+  ProductModel.find({'export': true}).then(function (products) {
     res.send(products);
   });
 });
 
 router.get('/products/import/my', function(req, res, next){
-  models.products.findAll({include:
-      {model: models.buildings, attributes: [], required: true, include: {model: models.profiles, attributes: [], required: true, include: {model: models.users, attributes: [], required: true, where: {id: req.user.id}}}}
-    }).then(function (products) {
-      res.send(products);
-  });
+  ProductModel.find({'buildings.profie.user._id': req.user.id})
+      .populate({path: 'buildings', populate: {path: 'profile', populate: {path: 'user'}}})
+      .exec()
+      .then(function (products) {
+        res.send(products);
+      });
 });
 
 router.get('/army', function(req, res, next){
-  var building_id = parseInt(req.query.building_id);
-  check(models.buildings, building_id, parseInt(req.user.id), res)
+  check(BuildingModel, req.query.building_id, req.user.id, res)
     .then(function () {
-      models.products.findAll({where: {building_id: building_id, is_army: true}}).then(function (products) {
-        res.send(products);
-      });
+      ProductModel.find({building_id: req.query.building_id, is_army: true})
+        .exec()
+        .then(function (products) {
+          res.send(products);
+        });
     });
 });
 
 router.post('/product/start_export', function(req, res, next){
-  var product_id = parseInt(req.body.id);
-  check(models.products, product_id, parseInt(req.user.id), res)
+  const product_id: string = req.body.id;
+  check(ProductModel, product_id, req.user.id, res)
     .then(function () {
-      models.products.findById(product_id).then(function (product) {
+      ProductModel.findOne(product_id).exec().then(function (product: Product) {
         product.export = req.body.export ? true : false;
         product.export_count = parseInt(req.body.export_count);
         product.price = parseFloat(req.body.price).toFixed(2);
@@ -271,11 +254,11 @@ router.post('/product/start_export', function(req, res, next){
 });
 
 router.post('/product/stop_export', function(req, res, next){
-  var product_id = parseInt(req.body.id);
-  check(models.products, product_id, req.user.id, res)
+  const product_id: string = req.body.id;
+  check(ProductModel, product_id, req.user.id, res)
     .then(function () {
-      models.products.findById(product_id).then(function (product) {
-        product.export = 0;
+      ProductModel.findById(product_id).exec().then(function (product: Product) {
+        product.export = false;
         product.save();
         res.send(product);
       });
@@ -283,18 +266,18 @@ router.post('/product/stop_export', function(req, res, next){
 });
 
 router.post('/contracts/new', function(req, res, next){
-  var new_contract = {
-    product_id: parseInt(req.body.product.id),
+  const new_contract = {
+    product_id: req.body.product.id,
     dest_id: parseInt(req.body.building_id),
     count: parseInt(req.body.count),
     type: parseInt(req.body.type)
   };
-  check(models.products, new_contract.product_id, parseInt(req.user.id), res)
+  check(ProductModel, new_contract.product_id, req.user.id, res)
     .then(function () {
       newContract(new_contract, res);
     })
     .catch(function () {
-      models.products.find({where: {id: new_contract.product_id, 'export': true}}).then(function (product) {
+      ProductModel.find({_id: new_contract.product_id, 'export': true}).then(function (product) {
         if (!product) {
           res.status(500).send();
           return;
@@ -305,38 +288,38 @@ router.post('/contracts/new', function(req, res, next){
 });
 
 function newContract(new_contract, res) {
-  models.contracts.create(new_contract).then(function (contract) {
+  ContractModel.create(new_contract).then(function (contract) {
     res.send(contract);
   });
 }
 
 router.post('/troops/new', function(req, res, next){
-  check(models.profiles, parseInt(req.body.profile_id), parseInt(req.user.id), res)
+  check(ProfileModel, req.body.profile_id, req.user.id, res)
     .then(function (profile) {
-      var building_id = parseInt(req.body.building_id);
-      models.buildings.find({where: {id: building_id, profile_id: profile.id}}).then(function (building) {
+      const building_id = parseInt(req.body.building_id);
+      BuildingModel.findOne({_id: building_id, 'profile._id': profile._id}).exec().then(function (building: Building) {
         if (!building) {
           res.status(500).send();
           return;
         }
-        var new_troop = {
+        const new_troop = {
           profile_id: profile.id,
-          field_id: building.field_id
+          field_id: building.field._id
         };
-        models.troops.create(new_troop).then(function (troop) {
-          var soldiers = req.body.soldiers;
+        TroopModel.create(new_troop).then(function (troop) {
+          const soldiers = req.body.soldiers;
           soldiers.forEach(function (soldier) {
-            models.products.find({where: {id: soldier.id}}).then(function (product) {
-              soldier.recruit = soldier.recruit > product.count ? product.count : soldier.recruit;
+            ProductModel.findById(soldier.id).exec().then(function (product: Product) {
+              soldier.recruit = (soldier.recruit > product.count) ? product.count : soldier.recruit;
               product.count -= soldier.recruit;
               product.save();
-              var new_soldier = {
-                troop_id: troop.id,
+              const new_soldier = {
+                troop_id: troop._id,
                 product_type: product.product_type,
                 count: soldier.recruit,
                 quality: product.quality
               };
-              models.soldiers.create(new_soldier);
+              SoldierModel.create(new_soldier);
             });
           });
           res.send(troop);
@@ -347,18 +330,19 @@ router.post('/troops/new', function(req, res, next){
 
 
 router.get('/map', function (req, res, next) {
-  var map = [];
-  var type = parseInt(req.query.type)
-  var sub_type = parseInt(req.query.sub_type);
+  const map = [];
+  const type = parseInt(req.query.type);
+  const sub_type = parseInt(req.query.sub_type);
   if (type == 0) {
     return;
   }
   if (type == 1) {
-    models.fields.findAll({
-      where: {region_id: parseInt(req.query.region_id)},
-      include: [{model: models.fields_resources, as: 'res', attributes: ['c', 'q', 'a'], where: {type: sub_type}}]
-    }).then(function (fields) {
-      for (var i = 0; i < fields.length; i++) {
+    FieldModel.find({
+      region_id: req.query.region_id,
+      'field_resource.type': sub_type
+    }).populate('field_resource').exec()
+        .then(function (fields: Field[]) {
+      for (let i = 0; i < fields.length; i++) {
         if (!map[fields[i].x]) {
           map[fields[i].x] = [];
         }
@@ -367,15 +351,15 @@ router.get('/map', function (req, res, next) {
       res.send(map);
     });
   } else if (type == 2) {
-    var and = '';
+    let and = '';
     if (sub_type != -2) {
       and = ' and mode=' + sub_type;
     }
-    models.fields.findAll({
-      where: {region_id: parseInt(req.query.region_id)},
-      attributes: ['x', 'y', 'id', 'avg_salary',['(SELECT COUNT(*) FROM buildings where field_id=fields.id' + and + ')', 'c']]
-    }).then(function (fields) {
-      for (var i = 0; i < fields.length; i++) {
+    // attributes: ['x', 'y', 'id', 'avg_salary',['(SELECT COUNT(*) FROM buildings where field_id=fields.id' + and + ')', 'c']]
+    FieldModel.find({
+      'region._id': req.query.region_id
+    }).exec().then(function (fields: Field[]) {
+      for (let i = 0; i < fields.length; i++) {
         if (!map[fields[i].x]) {
           map[fields[i].x] = [];
         }
@@ -388,40 +372,43 @@ router.get('/map', function (req, res, next) {
 module.exports = router;
 
 router.post('/troops/attack', function (req, res, next) {
-  var troop_id = parseInt(req.body.troop_id);
-  var target_id = parseInt(req.body.target_id);
-  check(models.troops, troop_id, parseInt(req.user.id), res)
-    .then(function (troop) {
-      models.troops_attacks.findOrCreate({
-        where: {troop_id: troop.id, target_id: target_id},
-        defaults: {troop_id: troop.id, target_id: target_id}
+  const troop_id: string = req.body.troop_id;
+  const target_id: string = req.body.target_id;
+  check(TroopModel, troop_id, req.user.id, res)
+    .then(function (troop: Troop) {
+      TroopAttackModel.find({
+        'troop._id': troop._id, 'target._id': target_id
       }).then(function () {
         res.send('ok');
+      }).catch(() => {
+        TroopModel.findById(target_id).exec().then((target: Troop) => {
+          TroopAttackModel.create({'troop': troop, 'target': target});
+        });
       });
-    })
+    });
 });
 
 router.post('/troops/stop_attack', function (req, res, next) {
-  var troop_id = parseInt(req.body.troop_id);
-  var target_id = parseInt(req.body.target_id);
-  check(models.troops, troop_id, parseInt(req.user.id), res)
+  const troop_id: string = req.body.troop_id;
+  const target_id: string = req.body.target_id;
+  check(TroopModel, troop_id, req.user.id, res)
     .then(function (troop) {
-      models.troops_attacks.destroy({where: {troop_id: troop.id, target_id: target_id}}).then(function () {
+      TroopAttackModel.remove({'troop._id': troop.id, 'target._id': target_id}).exec().then(() => {
         res.send('ok');
       });
     });
 });
 
 router.post('/buildings/employ', function (req, res, next) {
-  var id = parseInt(req.body.id);
-  var count = parseInt(req.body.count);
-  var salary = parseFloat(req.body.salary).toFixed(2);
-  var building_id = parseInt(req.body.building_id);
-  check(models.buildings, building_id, parseInt(req.user.id), res)
+  const id: string = req.body.id;
+  const count: number = parseInt(req.body.count);
+  const salary: string = parseFloat(req.body.salary).toFixed(2);
+  const building_id: string = req.body.building_id;
+  check(BuildingModel, building_id, req.user.id, res)
     .then(function (building) {
       if (id) {
-        models.products.find({where: {id: id, building_id: building_id}}).then(function (product) {
-          product.take(count, function (taken) {
+        ProductModel.findOne({_id: id, 'building._id': building_id}).exec().then(function (product: Product) {
+          product.take(count).then((taken) => {
             building.workers_q = (building.workers_q * building.workers_c + taken.count * taken.quality) / (building.workers_c + taken.count)
             building.workers_c = taken.count;
             building.worker_s = salary;
@@ -443,35 +430,31 @@ router.get('/dialogs/new', function (req, res, next) {
   if (!req.user) {
     return;
   }
-  var user_id = req.user.id;
+  const user_id = req.user._id;
   if (!(user_id > 0)) {
     res.send({});
     return;
   }
-  models.messages_news.count().then(function (news) {
-    res.send({count: news});
+  MessageModel.count({}).exec().then(function (count) {
+    res.send({count: count});
   });
 });
 
 router.get('/dialogs/messages', function (req, res, next) {
-  var dialog_id = parseInt(req.query.dialog_id);
-  var user_id = parseInt(req.user.id);
-  check(models.dialogs, dialog_id, user_id, res)
+  const dialog_id: string = req.query.dialog_id;
+  const user_id: string = req.user.id;
+  check(DialogModel, dialog_id, user_id, res)
     .then(function () {
-      models.messages.findAll({where: {dialog_id: dialog_id}, include: [{model: models.messages_news, as: 'new', required: false, where: {user_id: user_id}},{model: models.users, attributes: ['username', 'id']}]}).then(function (messages) {
-        models.messages_news.destroy({where: {user_id: user_id}, include: {model: models.messages, where: {dialog_id: dialog_id}}});
-        models.dialogs_users.update({new: 0}, {where: {dialog_id: dialog_id, $not: {user_id: user_id}}});
+      MessageModel.find({'dialog._id': dialog_id, 'user._id': user_id}).exec().then(function (messages: Message[]) {
         res.send(messages);
       });
     });
 });
 
 router.get('/dialogs', function (req, res, next) {
-  var user_id = parseInt(req.user.id);
-  models.dialogs_users.findAll({
-    attributes: [['(SELECT count(*) from messages_news mn where mn.dialog_id=dialogs_users.dialog_id and mn.user_id = ' + user_id + ')', 'new'], 'dialog_id', [sequelize.literal('(SELECT msg FROM messages where messages.dialog_id=dialogs_users.dialog_id order by updatedAt desc limit 1)'), 'last']],
-    where: {dialog_id: sequelize.literal("dialogs_users.dialog_id in (SELECT dialog_id FROM dialogs_users WHERE `user_id`='" + user_id + "' order by updatedAt)"), $not: {user_id: user_id}},
-    include: [{model: models.users, attributes: ['username', 'id']}]
+  const user_id = parseInt(req.user.id);
+  DialogModel.find({
+    'users._id': user_id
   })
       .then(function (dialogs) {
         res.send(dialogs);
@@ -479,64 +462,27 @@ router.get('/dialogs', function (req, res, next) {
 });
 
 router.post('/dialogs/message/send', function (req, res, next) {
-  var send_to = parseInt(req.body.send_to);
-  var message = jsesc(req.body.message);
-  var user_id = parseInt(req.user.id);
-  models.sequelize.query(
-      "SELECT fu.* FROM dialogs_users fu INNER JOIN dialogs_users su on fu.dialog_id=su.dialog_id and su.user_id = '" + send_to +
-          "' where fu.user_id='" + user_id + "' order by (SELECT COUNT(cu.id) FROM dialogs_users cu WHERE fu.dialog_id=cu.dialog_id) limit 1", { type: sequelize.QueryTypes.SELECT}
-  ).then(function (dialog_user) {
-        if (dialog_user.length > 0) {
-          var new_message = {
-            msg: message,
-            dialog_id: dialog_user[0].dialog_id,
-            user_id: user_id
-          };
-          models.messages.create(new_message, {attributes: ['id']}, {include: {model: models.users, attributes: ['username']}}).then(function (message) {
-            models.messages_news.bulkCreate([
-              {message_id: message.id, user_id: send_to, dialog_id: dialog_user[0].dialog_id}
-            ]).then(function () {
-              res.send(message)
-            });
-          });
-        } else {
-          models.dialogs.create({}).then(function (dialog) {
-            var new_message = {
-              msg: message,
-              dialog_id: dialog.id,
-              user_id: user_id
-            };
-            models.dialogs_users.bulkCreate([
-              {dialog_id: dialog.id, user_id: user_id, 'new': 0},
-              {dialog_id: dialog.id, user_id: send_to, 'new': 0}
-            ]).then(function () {
-              models.messages.create(new_message, {attributes: ['id']}, {include: {model: models.users, attributes: ['username']}}).then(function (message) {
-                models.messages_news.bulkCreate([
-                  {message_id: message.id, user_id: send_to, dialog_id: dialog.id}
-                ]).then(function () {
-                  res.send(message)
-                });
-              });
-            });
-          });
-        }
-  })
+  const send_to = parseInt(req.body.send_to);
+  const message = jsesc(req.body.message);
+  const user_id = parseInt(req.user.id);
+
+  // TODO: message sending code goes here =o)
 });
 
 router.get('/field/buildings', function (req, res, next) {
-  var field_id = parseInt(req.query.field_id);
-  var mode = parseInt(req.query.mode);
-  var page = parseInt(req.query.page) || 0;
-  var limit = 10;
-  var offset = page * limit;
-  var where = {field_id: field_id, mode: {}};
+  const field_id: string = req.query.field_id;
+  const mode: number = parseInt(req.query.mode);
+  const page: number = parseInt(req.query.page) || 0;
+  const limit: number = 10;
+  const offset: number = page * limit;
+  const where = {field_id: field_id, mode: {}};
   if (mode > 0) {
     where.mode = mode;
   }
-  models.buildings.count({where: where}).then(function (count) {
-    models.buildings.findAll({attributes: ['id', 'name', 'mode', 'out_type', 'type'], where: where, offset: offset, limit: limit, include: {model: models.profiles, attributes: ['name'], include: {model: models.users, attributes: ['id', 'username']}}})
+  BuildingModel.count(where).exec().then(function (count) {
+    BuildingModel.find(where, ['id', 'name', 'mode', 'out_type', 'type'], {offset: offset, limit: limit}).exec()
         .then(function (buildings) {
-          var data = {
+          const data = {
             page: page,
             pages: Math.floor(count / limit) + 1,
             buildings: buildings
@@ -547,7 +493,7 @@ router.get('/field/buildings', function (req, res, next) {
 
 });
 
-function check(model, id, user_id, res) {
+function check(model, id: string, user_id: string, res) {
   return model.check(id, user_id)
     .then(function (found) {
       if (found) {

@@ -14,4 +14,4 @@ export const RegionSchema = new Schema({
     y: Number
 });
 
-export const RegionModel = mongoose.model('Region', RegionSchema);
+export const RegionModel = mongoose.model<Region>('Region', RegionSchema);

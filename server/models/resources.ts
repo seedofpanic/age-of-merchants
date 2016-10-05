@@ -27,4 +27,4 @@ export const ResourceSchema = new Schema({
     a: Number
 });
 
-export const ResourceModel = mongoose.model('Resource', ResourceSchema);
+export const ResourceModel = mongoose.model<Resource>('Resource', ResourceSchema);

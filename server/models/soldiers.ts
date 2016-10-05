@@ -22,9 +22,9 @@ export const SoldierSchema = new Schema({
 });
 
 SoldierSchema.methods = {
-    check(id, user_id) {
-        return this.find({id: id, troop: {profile: {user: {id: user_id}}}});
+    check(id: string, user_id: string): Promise<Soldier> {
+        return this.find({id: id, 'troop.profile.user._id': user_id}).exec();
     }
 };
 
-export const SoldierModel = mongoose.model('Soldier', SoldierSchema);
+export const SoldierModel = mongoose.model<Soldier>('Soldier', SoldierSchema);
