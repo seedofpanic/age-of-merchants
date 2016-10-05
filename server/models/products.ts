@@ -24,7 +24,7 @@ export interface Product extends mongoose.Document {
     count: number;
     quality: number;
     reserved: number;
-    price: number;
+    price: string;
     export: boolean;
     export_count: number;
     is_army: boolean;
@@ -46,19 +46,22 @@ export const ProductSchema = new Schema({
     is_army: Boolean
 });
 
+ProductSchema.statics = {
+    check: function (id, user_id): Promise<Product> {
+        return this.find({id: id, 'building.profile.user._id': user_id}).exec();
+    }
+}
+
 ProductSchema.methods = {
-    check: function (id, user_id) {
-        return this.find({id: id, building: {profile: {user: user_id}}}).then();
-    },
-    add: function (count, quality) {
-        var product = this;
+    add: function (count: number, quality: number): Promise<Product> {
+        var product: Product = this;
         var old_count = product.count || 0;
         var old_quality = product.quality || 0;
         product.quality = (old_quality * old_count + quality * count) / (old_count + count) || 0;
         product.count = (old_count + count);
         return product.save();
     },
-    take: function(count) {
+    take: function(count: number): Promise<Product | void> {
         var taken: any = {};
         taken.quality = this.quality;
         if (this.count >= count) {
@@ -72,4 +75,4 @@ ProductSchema.methods = {
     }
 }
 
-export const ProductModel = mongoose.model('Product', ProductSchema);
+export const ProductModel = mongoose.model<Product>('Product', ProductSchema);

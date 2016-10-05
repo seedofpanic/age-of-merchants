@@ -19,4 +19,4 @@ export const FieldSchema = new Schema({
     }
 });
 
-export const FieldModel = mongoose.model('Field', FieldSchema);
+export const FieldModel = mongoose.model<Field>('Field', FieldSchema);

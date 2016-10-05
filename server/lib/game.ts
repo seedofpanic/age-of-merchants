@@ -10,12 +10,12 @@ var Game = {
     updating: false,
     init: function () {
         schedule.scheduleJob(config.schedule_job, function(){
-            Game.update();
+            // Game.update();
         });
         // For debug (I have some problems with async here... Will fix it later)
         if (config.update_on_start) {
             setTimeout(function () {
-                Game.update();
+                // Game.update();
             }, 1000);
         }
     },

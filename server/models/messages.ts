@@ -20,4 +20,4 @@ export const MessageSchema = new Schema({
     read: Schema.Types.Mixed
 });
 
-export const MessageModel = mongoose.model('Message', MessageSchema);
+export const MessageModel = mongoose.model<Message>('Message', MessageSchema);
