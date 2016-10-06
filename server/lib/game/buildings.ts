@@ -12,7 +12,7 @@ function final() {
 
 export default function buildingsUpdate(cb) {
     final_cb = cb;
-    models.buildings.findAll({include: [{model: models.fields}, {model: models.profiles}]})
+    models.buildings({include: [{model: models.fields}, {model: models.profiles}]})
         .then(buildingsWrapper);
 }
 
