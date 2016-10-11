@@ -21,9 +21,9 @@ export const ContractSchema = new Schema({
 });
 
 ContractSchema.methods = {
-    check: function (id, user_id) {
-        return this.find({id: id, product: {building: {profile: {user: {id: user_id}}}}});
+    check: function (id, user_id): Promise<Contract> {
+        return this.findOne({_id: id, 'product.building.profile.user._id': user_id}).exec();
     }
-}
+};
 
-export const ContractModel = mongoose.model('Contract', ContractSchema);
+export const ContractModel = mongoose.model<Contract>('Contract', ContractSchema);

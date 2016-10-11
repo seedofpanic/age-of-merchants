@@ -186,10 +186,11 @@ BuildingSchema.statics = {
         });
     },
 }
+
 BuildingSchema.methods = {
-    check: function (id: number, user_id: number): Promise<boolean> {
-        return BuildingModel.findById(id).then();
+    check: function (id: number, user_id: number): Promise<Building> {
+        return BuildingModel.findOne({_id: id, 'profile.user._id': user_id}).exec();
     }
 }
 
-export const BuildingModel = mongoose.model('Building', BuildingSchema);
+export const BuildingModel = mongoose.model<Building>('Building', BuildingSchema);

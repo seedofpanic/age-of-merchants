@@ -16,9 +16,9 @@ export const DialogSchema = new Schema({
 });
 
 DialogSchema.methods = {
-    check: function (id, user_id) {
-        return this.find({id: id, users: {id: user_id}});
+    check: function (id, user_id): Promise<Dialog> {
+        return this.find({id: id, 'users._id': user_id}).exec();
     }
-}
+};
 
-export const DialogModel = mongoose.model('Dialog', DialogSchema);
+export const DialogModel = mongoose.model<Dialog>('Dialog', DialogSchema);

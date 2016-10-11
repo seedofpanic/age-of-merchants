@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<div class="ui modal small active" ng-controller="NewBuildingCtrl as nbc">
+	<i class="close icon" ng-click="$ctrl.onClose()"></i>
+	<header>{{loc.office.new_b_modal_title}}</header>
+	<div class="content">
+		<form class="ui form" name="NewBuildingForm">
+			<div class="field" ng-class="{error: NewBuildingForm.name.$dirty && !NewBuildingForm.name.$valid}">
+				<label>{{loc.office.name}}
+					<input type="text" ng-model="nbc.name" name="name" required="required"></input>
+				</label>
+			</div>
+			<div class="field">
+				<label>{{loc.office.type}}</label>
+				<div class="dropdown" ng-model="nbc.type" ng-change="nbc.changeType(selected)">
+					<div class="item dd-item" ng-repeat="(id,type) in loc.buildings.types" data="{{id}}" ng-selected="keys(nbc.types)[0]==id">{{loc.buildings.types[id]}}</div>
+				</div>
+      <div class="ui segment" ng-show="nbc.types[nbc.type] && (keys(nbc.types[nbc.type].resources_out).length > 0)">
+        <div class="field" ng-repeat="(key,outs) in nbc.types[nbc.type].resources_out">
+					<div class="ui radio checkbox">
+            <input type="radio" name="out" ng-model="nbc.out_id" value="{{key}}"></input>
+            <label>{{loc.products.types[outs.type]}}<span><= </span>
+              <span class="commed" ng-repeat="res in outs.need">{{loc.products.types[res.type]}}</span>
+						</label>
+					</div>
+				</div>
+			</div>
+      <div class="ui segment" ng-controller="MapCtrl as mc">
+        <div class="field" ng-scope>
+          <label>{{loc.office.region}}</label>
+          <div class="dropdown" ng-model="nbc.region" ng-change="mc.open(nbc.regions[nbc.region])">
+            <div class="item dd-item" ng-repeat="region in nbc.regions" ng-selected="region.id==keys(nbc.regions)[0]" data="{{region.id}}">{{region.name}}</div>
+					</div>
+				</div>
+
+
+  <div class="ui dimmer" ng-class="{active: mc.loading}">
+    <div class="ui text loader">{{loc.site.loading}}</div>
+
+	<div class="ui segment" ng-show="mc.selected.id > 0">
+			<div class="ui form">
+				<div class="fields inline">
+					<div class="field">
+						<div class="dropdown" ng-model="mc.map_type">
+							<div class="item dd-item" ng-selected="true" data="0">{{loc.site.choose_one}}</div>
+							<div class="item dd-item" ng-repeat="(id,type) in loc.map.types" data="{{id}}">{{type}}</div>
+						</div>
+
+        <label ng-show="mc.map_type==1">{{loc.map.resource_type}}:
+        <div class="field" ng-show="mc.map_type==1">
+              <div class="dropdown" ng-model="mc.res_type">
+                <div class="item dd-item" ng-selected="true" data="-1">{{loc.site.choose_one}}</div>
+					 			<div class="item dd-item" ng-repeat="(id,type) in loc.resources.types" data="{{id}}">{{type}}</div>
+							</div>
+				</div>
+				</label>
+
+        <label ng-show="mc.map_type==2">{{loc.map.buildings_type}}:
+          <div class="field" ng-show="mc.map_type==2">
+            <div class="dropdown" ng-model="mc.build_type">
+              <div class="item dd-item" ng-selected="true" data="-1">{{loc.site.choose_one}}</div>
+              <div class="item dd-item" data="-2">{{loc.site.all}}</div>
+              <div class="item dd-item" ng-repeat="(id,type) in loc.buildings.modes" data="{{id}}">{{type}}</div>
+						</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+
+<div ng-show="mc.map">
+	<div ng-show="mc.map_type==1 && mc.res_type != -1">
+
+		<h2>{{loc.map.count}}</h2>
+		<table class="map">
+			<tr ng-repeat="fields in mc.map">
+				<td class="popup" ng-repeat="field in fields" data-html="{{field.x}}x{{field.y}}<br/>{{loc.map.count}}: {{field.res.c}}<br/>{{loc.map.quality}}: {{field.res.q}}<br/>{{loc.map.growth}}: {{field.res.a}}" data-variation="inverted" style="background: rgb({{mc.getR(field.res.c)}},{{mc.getG(field.res.c)}}, 0)"></td>
+			</tr>
+		</table>
+
+		<h2>{{loc.map.quality}}</h2>
+		<table class="map">
+			<tr ng-repeat="fields in mc.map">
+				<td class="popup" ng-repeat="field in fields" data-html="{{field.x}}x{{field.y}}<br/>{{loc.map.count}}: {{field.res.c}}<br/>{{loc.map.quality}}: {{field.res.q}}<br/>{{loc.map.growth}}: {{field.res.a}}" data-variation="inverted" style="background: rgb({{mc.getRQ(field.res.q)}},{{mc.getGQ(field.res.q)}}, 0)"></td>
+			</tr>
+		</table>
+
+	</div>
+	<div ng-show="mc.map_type==2 && mc.build_type != -1">
+		<h2>{{loc.map.count}}</h2>
+			<table class="map">
+				<tr ng-repeat="fields in mc.map">
+					<td class="popup clickable" ng-click="mc.openFieldBuildings(field)" ng-repeat="field in fields" data-html="{{field.x}}x{{field.y}}<br/>{{loc.map.count}}: {{field.c}}<br/>{{loc.map.avg_salary}}: {{field.avg_salary || "n/a"}}" data-variation="inverted" style="background: rgb({{mc.getR(field.c)}},{{mc.getG(field.c)}}, 0)"></td>
+				</tr>
+			</table>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+    <div class="fields two">
+      <div class="field" ng-class="{error: NewBuildingForm.x.$dirty && !NewBuildingForm.x.$valid}">
+        <label>X</label>
+          <input ng-model="nbc.x" required="required" type="number" min="0" max="49" name="x"></input>
+			</div>
+        <div class="field" ng-class="{error: NewBuildingForm.y.$dirty && !NewBuildingForm.y.$valid}">
+          <label>Y</label>
+          <input ng-model="nbc.y" required="required" type="number" min="0" max="49" name="y"></input>
+				</div>
+    </div>
+		 <div class="ui message" ng-class="{green: nbc.types[nbc.type].price <= nbc.profile.gold, red: nbc.types[nbc.type].price > nbc.profile.gold}">
+            <header>{{loc.office.price}}: {{nbc.types[nbc.type].price}}</header>
+		</div>
+	</form>
+</div>
+    <div class"actions">
+      <div class="ui black deny button">{{loc.office.cancel}}</div>
+      <div class="ui positive button" ng-click="nbc.create()" ng-class="{disabled: !NewBuildingForm.$valid}">{{loc.office.construct}}</div>
+	</div>
+</div>
+</div>
+</div>
+</html>

@@ -3,22 +3,22 @@ import {Schema} from "./index";
 import {TroopSchema, Troop} from "./troops";
 import {FieldSchema, Field} from "./fields";
 
-export interface TroopMoves extends mongoose.Document {
+export interface TroopMove extends mongoose.Document {
     field: Field;
     troop: Troop;
     check(id, user_id): boolean;
 }
 
-export const TroopMovesSchema = new Schema({
+export const TroopMoveSchema = new Schema({
     id: Schema.Types.ObjectId,
     field: FieldSchema,
-    troop: TroopSchema
+    troop: {type: Schema.Types.ObjectId, ref: 'TroopSchema'}
 });
 
-TroopMovesSchema.methods = {
+TroopMoveSchema.methods = {
     check(id, user_id) {
         return this.find({id: id, troop: {profile: {user: {id: user_id}}}});
     }
 }
 
-export const TroopMovesModel = mongoose.model('TroopMoves', TroopMovesSchema);
+export const TroopMoveModel = mongoose.model('TroopMoves', TroopMoveSchema);

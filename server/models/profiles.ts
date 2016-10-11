@@ -22,9 +22,9 @@ export const ProfileSchema = new Schema({
 });
 
 ProfileSchema.statics = {
-    check(id, user_id) {
+    check(id: string, user_id: string): Promise<Profile> {
         return this.findOne({_id: id, 'user._id': user_id}).exec();
     }
 };
 
-export const ProfileModel = mongoose.model('Profile', ProfileSchema);
+export const ProfileModel = mongoose.model<Profile>('Profile', ProfileSchema);

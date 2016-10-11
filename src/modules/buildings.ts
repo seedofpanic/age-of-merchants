@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-const newBuildingTemplate = require('./../../jade/modals/new_building.jade');
+const newBuildingTemplate = require('./../../jade/modals/new_building.html');
 
 angular.module('Buildings', ['Tools', 'DB', 'Building'])
   .factory('BuildingTypes', BuildingTypes)
